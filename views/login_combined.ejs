@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoginAminSales</title>
+    <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="assets/Bidvest-Protea-Coin-Logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Loader -->
+  <div class="loader" id="loader">
+    <div class="relative flex justify-center items-center h-screen">
+      <div class="absolute animate-spin rounded-full h-96 w-96 border-t-4 border-b-4 border-yellow-300"></div>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLl5RFBWd70u8xNBu3mBTfHBq-Y1TzCuXJ5w&s" alt="Logo" class="rounded-md h-28 w-72 animate-bounce">
+    </div>
+  </div>
+  <div id="main-content" class="hidden">
+    <form class="login-form" method="POST" action="/login">
+       <div style="display: flex; justify-content: center; align-items: center;">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLl5RFBWd70u8xNBu3mBTfHBq-Y1TzCuXJ5w&s" class="img-fluid mb-3" alt="Placeholder image" width="125" height="125">
+    </div>
+       <h2>Login As Amin or Sale's Person</h2> <br>
+      <div class="login-form-group">
+        <label for="email">Email:</label>
+        <input type="email" name="email" placeholder="Email" required><br>
+      </div><br>
+      <div class="login-form-group">
+        <label for="password">Password:</label> 
+        <input type="password" name="password" placeholder="Password" required><br>
+      </div> <br>
+      <label><input type="radio" name="role" value="admin" required> Admin</label>
+      <label><input type="radio" name="role" value="sales" required> Salesperson</label><br>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+  <script>
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("loader").classList.add("hidden");
+        document.getElementById("main-content").classList.remove("hidden");
+      }, 2500); 
+    });
+  </script>
+</body>
+</html>

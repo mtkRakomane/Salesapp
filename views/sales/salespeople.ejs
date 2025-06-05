@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Salespeople</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <h2>Sale's People List</h2>
+  <table border="1">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Cell</th>
+      <th>Role</th>
+      <th>Approved/NotApproved</th>
+    </tr>
+    <% salespeople.forEach(person => { %>
+      <tr>
+        <td><%= person.name %></td>
+        <td><%= person.email %></td>
+        <td><%= person.cell %></td>
+        <td><%= person.role %></td>
+        <td> #give access</td>
+      </tr>
+    <% }); %>
+  </table>
+  <br>
+  <a href="/admin/dashboard">Back to Admin Dashboard</a>
+</body>
+</html>

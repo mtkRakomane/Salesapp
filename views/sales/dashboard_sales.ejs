@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sales Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container-fluid">
+  <h2>Welcome, <%= sales.name %>!</h2>
+
+  <form class="login-form" method="GET" action="/customer-search">
+
+    <div class="login-form-group">
+        <input type="text" name="reference" placeholder="Reference" required />
+    </div>
+    <div class="login-form-group">   
+        <input type="email" name="email" placeholder="Customer Email" required />
+    </div>
+        <button type="submit">View Customer</button>
+       <p>Not yet Registered?<a href="/register-customer" class="btn btn-primary">Register New Customer Up_here</a></p>
+  </form>
+  <br>
+  <div>
+     <button>View all Quotes</button>    
+</div>
+    <br>
+  <a href="/logout">Logout</a>
+  </div>
+</body>
+</html>

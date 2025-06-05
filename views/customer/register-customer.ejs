@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register Customer</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Register New Customer</h1>
+    <form class="signup-form" action="/register-customer" method="POST">
+
+        <div class="signup-form-group">
+            <label for="reference">Reference:</label>
+            <input type="text" id="reference" name="reference" placeholder="Reference:" required>
+        </div>
+        <div class="signup-form-group">
+            <label for="customerName">Customer Name:</label>
+            <input type="text" id="customerName" name="customerName" placeholder="Customer Name:" required>
+        </div>
+        <div class="signup-form-group">
+            <label for="customerEmail">Customer Email:</label>
+            <input type="email" id="customerEmail" name="customerEmail" placeholder="Customer Email:" required>
+        </div>
+        <div class="signup-form-group">
+            <label for="customerCell">Customer Cell:</label>
+            <input type="tel" id="customerCell" name="customerCell" placeholder="Customer Cell:" required>
+        </div>
+        <div class="signup-form-group">
+            <label for="jobDescription">Job Description:</label>
+            <textarea id="jobDescription" name="jobDescription" placeholder="Job Description:" required></textarea>
+        </div>      
+      <button type="submit">Register Customer</button>
+    </form>
+    <br>
+    <a href="/sales/dashboard">Back to Dashboard</a>
+  </div>
+</body>
+</html>
