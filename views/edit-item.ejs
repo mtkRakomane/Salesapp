@@ -4,31 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h2>Edit Item</h2>
-<form action="/edit-item/<%= item.id_items %>?reference=<%= reference %>" method="POST">
+   
+<form id="edit-form" action="/edit-item/<%= item.id_items %>?reference=<%= reference %>" method="POST">
+   <h2>Edit Item</h2>
+  <div class="edit-form-group">
   <label>Stock Code:</label>
-  <input type="text" name="stock_code" value="<%= item.stock_code %>" required><br>
-
-  <label>Description:</label>
-  <input type="text" name="description" value="<%= item.description %>" required><br>
-
+  <input type="text" name="stock_code" value="<%= item.stock_code %>" required>
+  </div><br>
+  <div class="edit-form-group">
+ <label>Description:</label>
+  <input type="text" name="description" value="<%= item.description %>" required>
+  </div>
+ <br>
+ <div class="edit-form-group">
   <label>Quantity:</label>
-  <input type="number" name="qty" value="<%= item.qty %>" required><br>
-
+  <input type="number" name="qty" value="<%= item.qty %>" required>
+  </div> <br>
+  <div class="edit-form-group">
   <label>Unit Cost:</label>
-  <input type="number" step="0.01" name="unit_cost" value="<%= item.unit_cost %>" required><br>
- 
+  <input type="number" step="0.01" name="unit_cost" value="<%= item.unit_cost %>" required>
+  </div> <br>
+  <div class="edit-form-group">
   <label>Labour Margin %:</label>
-  <input type="number" step="0.01" name="labour_margin" value="<%= item.labour_margin %>" required><br>
-
+  <input type="number" step="0.01" name="labour_margin" value="<%= item.labour_margin %>" required>
+  </div> <br>
+  <div class="edit-form-group">
   <label>Equipment Margin %:</label>
-  <input type="number" step="0.01" name="equipment_margin" value="<%= item.equipment_margin %>" required><br>
-
+  <input type="number" step="0.01" name="equipment_margin" value="<%= item.equipment_margin %>" required>
+  </div> <br>
          <input type="hidden" id="labour_factor_hrs" name="labour_factor_hrs" value="<%= item.labour_factor_hrs %>">
 <input type="hidden" id="maint_lab_factor" name="maint_lab_factor" value="<%= item.maint_lab_factor %>">
-        <div class="form-group">
+        <div class="edit-form-group">
             <label for="product_type">Select Product Type:</label>
             <select id="product_type" name="product_type" required>
                 <option value="" disabled>Select a Product</option>
@@ -36,8 +45,8 @@
   <option value="<%= type.product_type %>" <%= item.product_type === type.product_type ? 'selected' : '' %>><%= type.product_type %></option>
 <% }); %>
             </select>
-        </div>
-          <div class="form-group">
+        </div> <br>
+          <div class="edit-form-group">
       <label for="install_diff">Installation Difficulty:</label>
       <select id="install_diff" name="install_diff" required>
         <option value="" disabled>Select an install difficulty</option>
@@ -45,9 +54,9 @@
   <option value="<%= diff.install_diff %>" <%= item.install_diff === diff.install_diff ? 'selected' : '' %>><%= diff.install_diff %></option>
 <% }); %>
       </select>
-    </div>
+    </div> <br>
 <input type="hidden" id="install_diff_factor" name="install_diff_factor" value="<%= item.install_diff_factor %>">
-     <div class="form-group">
+     <div class="edit-form-group">
             <label for="supply">Supplier:</label>
             <select id="supply" name="supply" required>
                <option value="" disabled>Select a supplier</option>
@@ -55,8 +64,7 @@
   <option value="<%= type.supply %>" <%= item.supply === type.supply ? 'selected' : '' %>><%= type.supply %></option>
 <% }); %>
             </select>
-        </div> 
-
+        </div> <br>
   <button type="submit">Update</button>
 </form>
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
