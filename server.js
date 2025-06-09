@@ -477,6 +477,6 @@ app.get('/overview', (req, res) => res.render('overview'));
 app.get('/print', (req, res) => res.render('print'));
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running`);
 });
 
