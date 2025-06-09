@@ -1,11 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overview</title>
+    <title>Overview!</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+        <style>
+            body{
+                font-size: 12px;
+            }
+            table {
+             width: 100%;
+              border-collapse: collapse; 
+            }
+            table, th, td {
+             border: 1px solid #ddd; 
+            }
+
+            th, td {
+            padding: 8px;
+            text-align: left;
+            }
+        </style>
 </head>
 <body>
-    <h1> Overviewing</h1>
+        <%
+    function formatAccounting(amount) {
+        let num = parseFloat(amount || 0);
+        const isNegative = num < 0;
+        const formatted = Math.abs(num).toLocaleString('en-ZA', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).replace(/,/g, ' ');
+        return isNegative ? `R (${formatted})` : `R ${formatted}`;
+    }
+%>
+ 
+<div class="container-fluid pt-5 mt-3">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card-sidebar">
+                <div class="card-body">
+                    <table calss="inner-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2" style="text-align: center;">Project information</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Job Description:</strong></td>
+                                 <td colspan="3"> <input type="text" name="job_description" value="<%= groupedItems.jobDescription %>"> </input></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Customer Name:</strong></td>
+                                <td><%= groupedItems.customerName %></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Customer Cell</strong></td>
+                                <td><%= groupedItems.customerCell %></td>
+                            </tr>
+                            <tr>
+                                <td><strong>E-mail Address</strong></td>
+                                <td><%= groupedItems.customerEmail %></td>
+                            </tr>
+                             <tr>
+                                    <td>Date:</td>
+                                    <td colspan="3"><%= new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) %></td>
+                                </tr>
+                        </tbody>
+                    </table>
+                        <hr>
+                        <table>
+                         <thead> 
+                            <tr>
+                                <th colspan="2" style="text-align: center;">Total</th>
+                            </tr>
+                        </thead>
+                           <tbody>
+                            <tr>
+                                <td>Total Cost</td>
+                                <td><strong>R <%= groupedItems.referenceTotals.totalCostProject %></strong></td>
+                            </tr>
+                            <tr>
+                                <td>Total Selling Price</td>
+                                <td><strong>R <%= groupedItems.referenceTotals.totalSellProject %></strong></td>
+                            </tr>
+                            <tr>
+                                <td>VAT (15%)</td>
+                                <td><strong>R <%= groupedItems.referenceTotals.totalTax %></strong></td>
+                            </tr>
+                            <tr>
+                                <td>Total Selling Price inc. VAT</td>
+                                <td><strong>  R <%= groupedItems.referenceTotals.totalVatSell %></strong></td>
+                            </tr>
+                            <tr>
+                            <td>Actual Gross Margin</td>
+                            <td> <% 
+                                    let marginColor = '';
+                                    if (groupedItems.referenceTotals.actualGrossMargin  < 15) {
+                                      marginColor = 'red';
+                                    } else if (groupedItems.referenceTotals.actualGrossMargin  >= 15 && groupedItems.referenceTotals.actualGrossMargin <= 20) {
+                                      marginColor = 'orange';
+                                    } else {
+                                      marginColor = 'green';
+                                    }
+                                  %> 
+                                  <div 
+                                     style="padding: 10px; color: white; background-color: <%= marginColor %>; border-radius: 5px;">
+                                    <span id="actualGrossMargin"> <%= groupedItems.referenceTotals.actualGrossMargin %>%</span>
+                                  </div>  </td> 
+                                    </tr>
+                                    </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card-main">
+                <div class="card-body">
+                    <table class="inner-table">
+                        <thead>
+                            <tr>
+                                <th colspan="9" style="text-align: center;">Sale's Breakdown</th>
+                            </tr>
+                            <tr>
+                                <th>Quoted Sections</th>
+                                <th>Cost</th>
+                                <th colspan="4">Sell</th>
+                                <th colspan="6">GM %</th>
+                                <th colspan="8">% Of Project</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Equipment Cost</td>
+                                <td> R <%= groupedItems.referenceTotals.bill_equipment_cost %></td>
+                                <td colspan="4">R <%= groupedItems.referenceTotals.bill_equipment_selling %></td>
+                       
+                                <td colspan="6">...</td>
+                                <td colspan="8">...</td>
+                            </tr>
+                            <tr>
+                                <td>Equipment Installation</td>
+                                <td> R <%= groupedItems.referenceTotals.bill_labourCost %></td>
+                                <td colspan="4">R <%= groupedItems.referenceTotals.bill_labourSell %></td>
+                                <td colspan="6">...</td>
+                                <td colspan="8">...</td>
+                            </tr>
+                            <tr>
+                                <td>Sundries and Consumables</td>
+                                <td>R <%= groupedItems.referenceTotals.sundries_cost %></td>
+                                <td colspan="4"> R <%= groupedItems.referenceTotals.sundries_selling %></td>
+                                <td colspan="6">...</td>
+                                <td colspan="8">...</td>
+                            </tr>
+                            <tr>
+                                <td>Project Management</td>
+                                <td>R <%= groupedItems.referenceTotals.pm_cost %></td>
+                                <td colspan="4">R <%= groupedItems.referenceTotals.pm_selling %></td>
+                                <td colspan="6">...</td>
+                                <td colspan="8">...</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td><strong>R <%= groupedItems.referenceTotals.totalCostProject %></strong></td>
+                                <td colspan="4"><strong> R <%= groupedItems.referenceTotals.totalSellProject %></strong></td>
+                               
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                     <table>
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align: center;">Hours</th>
+                                    <th colspan="2" style="text-align: center;">Project Days</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;">Project Management Hours</td>
+                                    <td><%= groupedItems.referenceTotals.totalLabourHours %> hrs</td>
+                                    <td>Project Days</td>
+                                    <td><%= groupedItems.referenceTotals.projectDays %> days</td>
+                                </tr>
+                                <tr>
+                                    <td>Installation Hours</td>
+                                    <td><%= groupedItems.referenceTotals.totalLabourHours %> hrs</td>
+                                    <td>Weeks</td>
+                                    <td><%= groupedItems.referenceTotals.projectWeeks %> week</td>
+                                </tr>
+                                   <tr>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" id="dropdownMenuButton">
+                                                Proposal Validity in days
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" data-days="30">30 Days</a></li>
+                                                <li><a class="dropdown-item" href="#" data-days="60">60 Days (2 Months) </a></li>
+                                                <li><a class="dropdown-item" href="#" data-days="90">90 Days (3 Months)</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td><p >Proposal Expiry Date: </p></td>
+                                    <td colspan="2" style= "color: rgb(148, 10, 10); "><span id="expiryDate">Select a validity period</span></td>
+                                </tr>
+                                </tbody>
+                                </table>
+                                </div>
+            </div>
+        </div>                 
+        <!-- containerDiv-->
+    </div>
+</div>
+<br>
+  <div class="footer">
+    <footer class="container justify-content-between align-items-center">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLl5RFBWd70u8xNBu3mBTfHBq-Y1TzCuXJ5w&s" class="img-fluid mb-3 ms-auto" alt="Placeholder image" width="100px" height="150px">                 
+    </footer>
+  </div>
+ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+<script>
+  document.querySelectorAll(".dropdown-item").forEach(item => {
+    item.addEventListener("click", function(event) {
+        event.preventDefault();  
+        let daysToAdd = parseInt(this.getAttribute("data-days"));
+        let today = new Date();  
+        today.setDate(today.getDate() + daysToAdd);
+        let options = { day: "2-digit", month: "long", year: "numeric" };
+        let formattedDate = today.toLocaleDateString("en-GB", options); 
+        localStorage.setItem("expiryDate", formattedDate);
+        document.getElementById("dropdownMenuButton").innerText = `${daysToAdd} Days Selected`;
+        document.getElementById("expiryDate").innerText = formattedDate;
+    });
+});
+
+</script>
 </body>
 </html>

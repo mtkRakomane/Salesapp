@@ -37,7 +37,7 @@ function calculateBillingData(items, extraCosts = {}, labourRate = 400, pmRate =
         total_labour: totalLabour.toFixed(2),
         unitLabRate: unitLabRate.toFixed(2),
         hwReplaceProv: hwReplaceProv.toFixed(2),
-        maint_lab_factor: maintLabFactor  // Make sure it's passed through
+        maint_lab_factor: maintLabFactor  
       };
     });
 
@@ -82,7 +82,7 @@ function calculateBillingData(items, extraCosts = {}, labourRate = 400, pmRate =
     const hwReplace = items.reduce((sum, item) => sum + parseFloat(item.hwReplaceProv || 0), 0);
 
     const totalMaintLabFactor = items.reduce((sum, item) =>
-      sum + ((parseFloat(item.maint_lab_factor) || 0) * (parseFloat(item.qty) || 0)), 0); // <-- NEW
+      sum + ((parseFloat(item.maint_lab_factor) || 0) * (parseFloat(item.qty) || 0)), 0); 
 
     return {
       bill: billName,
@@ -101,7 +101,7 @@ function calculateBillingData(items, extraCosts = {}, labourRate = 400, pmRate =
       bill_labourCost: bill_labourCost.toFixed(2),
       bill_labourSell: bill_labourSell.toFixed(2),
       hwReplace: hwReplace.toFixed(2),
-      totalMaintLabFactor: totalMaintLabFactor.toFixed(2) // <-- NEW FIELD RETURNED
+      totalMaintLabFactor: totalMaintLabFactor.toFixed(2)
     };
   });
 

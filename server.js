@@ -397,7 +397,6 @@ app.get('/billing', async (req, res) => {
   if (!req.session.sales) {
     return res.status(401).send('Unauthorized: Salesperson not logged in');
   }
-
   const reference = req.query.reference || req.session.reference;
   if (!reference) {
     return res.status(400).send('Missing reference in query or session.');
@@ -415,19 +414,15 @@ app.get('/billing', async (req, res) => {
        ORDER BY i.bill, i.reference`,
       [reference]
     );
-
     if (itemsResult.length === 0) {
       return res.status(404).send('No items found for this reference.');
     }
-
     const extraCosts = {
       Sundries_and_Consumables: 1529.47,
       Project_Management: 1058.82,
       Installation_Commissioning_Engineering: 3150.30
     };
-
     const billsData = calculateBillingData(itemsResult, extraCosts);
-
     const groupedItems = {
       reference,
       customer_name: itemsResult[0]?.customerName || '',
@@ -437,14 +432,12 @@ app.get('/billing', async (req, res) => {
       job_description: '',
       bills: billsData
     };
-
-    req.session.reference = reference;
+  req.session.reference = reference;
     req.session.calculatedBills = billsData.map(b => ({
       bill: b.bill,
       bill_tot_selling: b.bill_tot_selling,
       hwReplace: b.hwReplace
     }));
-
     res.render('billing', { groupedItems });
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -466,6 +459,63 @@ app.get('/billSummary', (req, res) => {
     formatAccounting
   });
 });
+const calculateOverviewData = require('./utils/calculateOverviewData'); 
+
+app.get('/overview', async (req, res) => {
+  if (!req.session.sales) {
+    return res.status(401).send('Unauthorized: Salesperson not logged in');
+  }
+
+  const reference = req.query.reference || req.session.reference;
+  if (!reference) {
+    return res.status(400).send('Missing reference in query or session.');
+  }
+
+   try {
+    const itemsResult = await executeQuery(
+      `SELECT i.bill, i.stock_code, i.description, i.qty, i.product_type, i.unit_cost, 
+              i.maint_lab_factor, i.labour_factor_hrs, i.install_diff_factor, 
+              i.labour_margin, i.equipment_margin,
+              c.customerName, c.customerEmail
+       FROM items i
+       JOIN customer c ON i.reference = c.reference
+       WHERE i.reference = ? 
+       ORDER BY i.bill, i.reference`,
+      [reference]
+    );
+
+    if (itemsResult.length === 0) {
+      return res.send('No Bill found for this reference. (Add a Bill first)');
+    }
+
+    const extraCosts = {
+      Sundries_and_Consumables: 1529.47,
+      Project_Management: 1058.82,
+      Installation_Commissioning_Engineering: 3150.30
+    };
+
+    const referenceTotals = calculateOverviewData(itemsResult, extraCosts);
+
+    const groupedItems = {
+      reference,
+      customer_name: itemsResult[0].customer_name,
+      customer_cell: itemsResult[0].customer_cell,
+      customer_email: itemsResult[0].customer_email,
+      sale_person: itemsResult[0].sale_person,
+      sale_cell: itemsResult[0].sale_cell,
+      job_description: itemsResult[0].job_description,
+      referenceTotals
+    };
+
+    req.session.reference = reference;
+    res.render('overview', { groupedItems });
+
+  } catch (error) {
+    console.error('Error fetching overview data:', error);
+    res.status(500).send('Error generating overview.');
+  }
+});
+
 
 // Logout
 app.get('/logout', (req, res) => {
@@ -473,7 +523,7 @@ app.get('/logout', (req, res) => {
   res.redirect('/login');
 });
 // Routes to render pages
-app.get('/overview', (req, res) => res.render('overview'));
+
 app.get('/print', (req, res) => res.render('print'));
 
 app.listen(port, () => {
