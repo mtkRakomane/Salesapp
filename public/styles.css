@@ -3,7 +3,6 @@ body {
     margin: 20px;
     background-color: rgba(12, 12, 9, 0.247);
   }
-  
   input, button {
     padding: 8px;
     margin: 5px;
@@ -13,12 +12,10 @@ body {
     display: block;
     width: 100%;
   }
-  
   .form-group label {
     display: block;
     margin-bottom: 5px;
   }
-  
   .form-group input {
     width: 75%;
     box-sizing: border-box;
@@ -32,10 +29,10 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
-
   .login-form button[type="submit"], 
   .admin-sale-form button[type="submit"],
-  .signup-form button[type="submit"] {
+  .signup-form button[type="submit"],
+  #additem-form button[type="submit"] {
   width: 100%;
   padding: 12px;
   background-color: #007bff;
@@ -46,7 +43,6 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .login-form button[type="submit"]:hover {
   background-color: #0056b3;
 }
@@ -69,7 +65,9 @@ body {
   border-color: #007bff;
   outline: none;
 }
-.signup-form{
+.signup-form,
+#additem-form,
+#edit-form{
    max-width: 600px;
   margin: 40px auto;
   padding: 30px;
@@ -78,10 +76,14 @@ body {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
-.signup-form-group {
+.signup-form-group,
+.additem-form-group,
+.edit-form-group {
   margin-bottom: 20px;
 }
-.signup-form-group label {
+.signup-form-group label,
+.additem-form-group,
+.edit-form-group{
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
@@ -91,13 +93,19 @@ body {
 .signup-form-group input[type="email"],
 .signup-form-group input[type="tel"],
 .signup-form-group select,
-#jobDescription {
+#jobDescription,
+.additem-form-group input[type="text"],
+.additem-form-group input[type="number"],
+.additem-form-group select,
+.edit-form-group input[type="text"],
+.edit-form-group input[type="number"],
+.edit-form-group select {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 10px;
   transition: border-color 0.3s ease;
   background-color: #f9f9f9;
 }
