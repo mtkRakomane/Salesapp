@@ -58,7 +58,6 @@ function calculateOverviewData(itemsResult, extraCosts) {
     ? 0
     : ((totalGrossMargin / totalSellProject) * 100).toFixed(2);
 
-  // Gross Margins
   const gmEquip = bill_equipment_selling === 0
     ? 0
     : ((bill_equipment_selling - bill_equipment_cost) / bill_equipment_selling * 100).toFixed(2);
@@ -86,7 +85,6 @@ function calculateOverviewData(itemsResult, extraCosts) {
     ? 0
     : ((sundries_selling / totalSellProject) * 100).toFixed(2);
 
-  // VAT
   const vat = 0.15;
   const totalTax = (totalSellProject * vat).toFixed(2);
   const totalVatSell = (totalSellProject + parseFloat(totalTax)).toFixed(2);

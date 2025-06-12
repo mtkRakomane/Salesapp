@@ -54,6 +54,10 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td><strong>Reference</strong></td>
+                                <td> <%= groupedItems.reference %></td>
+                            </tr>
+                            <tr>
                                 <td><strong>Job Description:</strong></td>
                                  <td colspan="3"> <input type="text" name="job_description" value="<%= groupedItems.jobDescription %>"> </input></td>
                             </tr>
@@ -143,29 +147,29 @@
                                 <td> R <%= groupedItems.referenceTotals.bill_equipment_cost %></td>
                                 <td colspan="4">R <%= groupedItems.referenceTotals.bill_equipment_selling %></td>
                        
-                                <td colspan="6">...</td>
-                                <td colspan="8">...</td>
+                                <td colspan="6"><%= groupedItems.referenceTotals.gmEquip %></td>
+                                <td colspan="8"><%= groupedItems.referenceTotals.pEquipment %></td>
                             </tr>
                             <tr>
                                 <td>Equipment Installation</td>
                                 <td> R <%= groupedItems.referenceTotals.bill_labourCost %></td>
                                 <td colspan="4">R <%= groupedItems.referenceTotals.bill_labourSell %></td>
-                                <td colspan="6">...</td>
-                                <td colspan="8">...</td>
+                                <td colspan="6"><%= groupedItems.referenceTotals.gmLabour %></td>
+                                <td colspan="8"><%= groupedItems.referenceTotals.pLabour %></td>
                             </tr>
                             <tr>
                                 <td>Sundries and Consumables</td>
                                 <td>R <%= groupedItems.referenceTotals.sundries_cost %></td>
                                 <td colspan="4"> R <%= groupedItems.referenceTotals.sundries_selling %></td>
-                                <td colspan="6">...</td>
-                                <td colspan="8">...</td>
+                                <td colspan="6"><%= groupedItems.referenceTotals.gmSundries %></td>
+                                <td colspan="8"><%= groupedItems.referenceTotals.pProjectM %></td>
                             </tr>
                             <tr>
                                 <td>Project Management</td>
                                 <td>R <%= groupedItems.referenceTotals.pm_cost %></td>
                                 <td colspan="4">R <%= groupedItems.referenceTotals.pm_selling %></td>
-                                <td colspan="6">...</td>
-                                <td colspan="8">...</td>
+                                <td colspan="6"><%= groupedItems.referenceTotals.gmPm %></td>
+                                <td colspan="8"><%= groupedItems.referenceTotals.pSundries %></td>
                             </tr>
                             <tr>
                                 <td>Total</td>

@@ -13,6 +13,7 @@
       <th>Cell</th>
       <th>Role</th>
       <th>Approved/NotApproved</th>
+     
     </tr>
     <% salespeople.forEach(person => { %>
       <tr>
@@ -21,9 +22,11 @@
         <td><%= person.cell %></td>
         <td><%= person.role %></td>
         <td> #give access</td>
+       
       </tr>
     <% }); %>
   </table>
+   <button type="submit" ><a href="/viewQuotes" class="btn btn-warning mb-2">view our sales Quotes</a> </button>
   <br>
   <a href="/admin/dashboard">Back to Admin Dashboard</a>
 </body>

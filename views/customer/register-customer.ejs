@@ -28,11 +28,40 @@
         <div class="signup-form-group">
             <label for="jobDescription">Job Description:</label>
             <textarea id="jobDescription" name="jobDescription" placeholder="Job Description:" required></textarea>
-        </div>      
+        </div>  
+            <div class="signup-form-group">
+      <label for="name">Sales Person:</label>
+      <select id="name" name="name" required>
+        <option value="" disabled selected>Select a Sale Person</option>
+        <% salesPeoples.forEach(type => { %>
+          <option 
+            value="<%= type.name %>" 
+            data-cell="<%= type.cell %>" 
+            data-email="<%= type.email %>" 
+            data-role="<%= type.role %>"
+          >
+            <%= type.name %>
+          </option>
+        <% }); %>
+      </select>
+    </div>   
+    <div class="signup-form-group">
+      <label for="cell">Sales Contact:</label>
+      <input type="text" id="cell" name="cell" readonly required />
+    </div>   
+    <div class="signup-form-group">
+      <label for="email">Sales Email:</label>
+      <input type="email" id="email" name="email" readonly required />
+    </div>   
+    <div class="signup-form-group">
+      <label for="role">Sales Role:</label>
+      <input type="text" id="role" name="role" readonly required />
+    </div> 
       <button type="submit">Register Customer</button>
     </form>
     <br>
     <a href="/sales/dashboard">Back to Dashboard</a>
   </div>
+  <script src="/js/form.js"></script>
 </body>
 </html>

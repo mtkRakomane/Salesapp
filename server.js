@@ -3,10 +3,8 @@ const mysql = require('mysql2');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-
 require('dotenv').config();
 const app = express();
-
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,9 +21,7 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME
 });
-
 const port = process.env.PORT || 3034;
-
 
 db.connect(err => {
   if (err) throw err;
@@ -63,7 +59,6 @@ app.get('/login', (req, res) => {
 });
 app.post('/login', (req, res) => {
   const { email, password, role } = req.body;
-
   if (role === 'admin') {
     db.query('SELECT * FROM Admins WHERE email = ?', [email], async (err, results) => {
       if (err) throw err;
@@ -102,11 +97,28 @@ app.post('/admin/add-salesperson', async (req, res) => {
       res.redirect('/login');
     });
 });
-app.get('/register-customer', (req, res) => {
-  res.render('customer/register-customer'); 
+app.get('/register-customer', async (req, res) => {
+  try {
+    const salesPeoples = await executeQuery('SELECT name, cell, email, role FROM salespeople');
+    res.render('customer/register-customer', { salesPeoples }); 
+  } catch (error) {
+    console.error('Error fetching signup data:', error);
+    res.status(500).send('Error fetching data for signup');
+  }
 });
 app.post('/register-customer', (req, res) => {
-  const { customerEmail, customerName, customerCell, jobDescription, reference } = req.body;
+  const {
+    customerEmail,
+    customerName,
+    customerCell,
+    jobDescription,
+    reference,
+    name,
+    cell,
+    email,
+    role
+  } = req.body;
+
   const checkSql = `
     SELECT * FROM Customer 
     WHERE reference = ? AND customerEmail = ? AND customerName = ?
@@ -120,12 +132,26 @@ app.post('/register-customer', (req, res) => {
     if (results.length > 0) {
       return res.status(409).send('Customer with the same reference, email, and name already exists.');
     }
-    // Insert if not found
+
     const insertSql = `
-      INSERT INTO Customer (customerEmail, customerName, customerCell, jobDescription, reference)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO Customer 
+      (customerEmail, customerName, customerCell, jobDescription, reference, name, cell, email, role)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    db.query(insertSql, [customerEmail, customerName, customerCell, jobDescription, reference], (err, result) => {
+
+    const values = [
+      customerEmail,
+      customerName,
+      customerCell,
+      jobDescription,
+      reference,
+      name,
+      cell,
+      email,
+      role
+    ];
+
+    db.query(insertSql, values, (err, result) => {
       if (err) {
         console.error('Error inserting customer:', err);
         return res.status(500).send('Failed to register customer.');
@@ -136,20 +162,27 @@ app.post('/register-customer', (req, res) => {
 });
 app.get('/customer-search', (req, res) => {
   const { reference, email } = req.query;
-  if (!req.session.sales) {
+  const salesperson = req.session.sales;
+  if (!salesperson) {
     return res.redirect('/login');
   }
   if (!reference || !email) {
-    return res.status(400).send('Both reference and email are required.');
+    return res.status(400).send('Reference and email are required.');
   }
-  const sql = 'SELECT * FROM Customer WHERE reference = ? AND customerEmail = ?';
-  db.query(sql, [reference, email], (err, results) => {
+  const salespersonName = salesperson.name; 
+  const sql = `
+    SELECT * FROM Customer 
+    WHERE reference = ? 
+      AND customerEmail = ? 
+      AND name = ?
+  `;
+  db.query(sql, [reference, email, salespersonName], (err, results) => {
     if (err) {
       console.error('Error fetching customer:', err);
       return res.status(500).send('Error retrieving customer details.');
     }
     if (results.length === 0) {
-      return res.status(404).send('Customer not found with that reference and email.');
+      return res.status(404).send('Customer not found for this salesperson.');
     }
     res.render('customer/customer-details', { customer: results[0] });
   });
@@ -289,7 +322,6 @@ app.get('/viewitems', async (req, res) => {
     res.status(500).send('Server error while retrieving items.');
   }
 });
-// DELETE item by ID and customer reference
 app.post('/delete-item/:id', async (req, res) => {
   const itemId = req.params.id;
   const reference = req.query.reference;
@@ -397,6 +429,7 @@ app.get('/billing', async (req, res) => {
   if (!req.session.sales) {
     return res.status(401).send('Unauthorized: Salesperson not logged in');
   }
+
   const reference = req.query.reference || req.session.reference;
   if (!reference) {
     return res.status(400).send('Missing reference in query or session.');
@@ -407,37 +440,51 @@ app.get('/billing', async (req, res) => {
       `SELECT i.bill, i.stock_code, i.description, i.qty, i.product_type, i.unit_cost, 
               i.maint_lab_factor, i.labour_factor_hrs, i.install_diff_factor, 
               i.labour_margin, i.equipment_margin,
-              c.customerName, c.customerEmail
+              c.customerName, c.customerEmail, c.name, c.cell, c.role, c.jobDescription
        FROM items i
        JOIN customer c ON i.reference = c.reference
        WHERE i.reference = ? 
        ORDER BY i.bill, i.reference`,
       [reference]
     );
+
     if (itemsResult.length === 0) {
       return res.status(404).send('No items found for this reference.');
     }
+
     const extraCosts = {
       Sundries_and_Consumables: 1529.47,
       Project_Management: 1058.82,
       Installation_Commissioning_Engineering: 3150.30
     };
+
     const billsData = calculateBillingData(itemsResult, extraCosts);
-    const groupedItems = {
-      reference,
-      customer_name: itemsResult[0]?.customerName || '',
-      customer_email: itemsResult[0]?.customerEmail || '',
-      sale_person: '',
-      sale_cell: '',
-      job_description: '',
-      bills: billsData
-    };
-  req.session.reference = reference;
+
+    req.session.reference = reference;
     req.session.calculatedBills = billsData.map(b => ({
       bill: b.bill,
       bill_tot_selling: b.bill_tot_selling,
       hwReplace: b.hwReplace
     }));
+
+    req.session.customerInfo = {
+      customerName: itemsResult[0]?.customerName || '',
+      customerEmail: itemsResult[0]?.customerEmail || '',
+      name: itemsResult[0]?.name || '',
+      jobDescription: itemsResult[0]?.jobDescription || '',
+      cell: itemsResult[0]?.cell || ''
+    };
+
+    const groupedItems = {
+      reference,
+      customerName: itemsResult[0]?.customerName || '',
+      customerEmail: itemsResult[0]?.customerEmail || '',
+      name: itemsResult[0]?.name || '',
+      jobDescription: itemsResult[0]?.jobDescription || '',
+      cell: itemsResult[0]?.cell || '',
+      bills: billsData
+    };
+
     res.render('billing', { groupedItems });
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -448,7 +495,9 @@ const calculateBillSummaryData = require('./utils/calculateBillSummaryData');
 app.get('/billSummary', (req, res) => {
   const reference = req.session.reference;
   const billsData = req.session.calculatedBills;
- if (!reference || !billsData) {
+  const customerInfo = req.session.customerInfo;
+
+  if (!reference || !billsData || !customerInfo) {
     return res.redirect('/login');
   }
 
@@ -456,27 +505,26 @@ app.get('/billSummary', (req, res) => {
 
   res.render('billSummary', {
     billSummaryData,
+    customerInfo,
     formatAccounting
   });
 });
 const calculateOverviewData = require('./utils/calculateOverviewData'); 
-
+const { name } = require('ejs');
 app.get('/overview', async (req, res) => {
   if (!req.session.sales) {
     return res.status(401).send('Unauthorized: Salesperson not logged in');
   }
-
   const reference = req.query.reference || req.session.reference;
   if (!reference) {
     return res.status(400).send('Missing reference in query or session.');
   }
-
    try {
     const itemsResult = await executeQuery(
       `SELECT i.bill, i.stock_code, i.description, i.qty, i.product_type, i.unit_cost, 
               i.maint_lab_factor, i.labour_factor_hrs, i.install_diff_factor, 
               i.labour_margin, i.equipment_margin,
-              c.customerName, c.customerEmail
+              c.customerName, c.customerEmail, c.customerCell, c.name, c.email, c.cell, c.role, c.jobDescription, c.reference
        FROM items i
        JOIN customer c ON i.reference = c.reference
        WHERE i.reference = ? 
@@ -493,17 +541,15 @@ app.get('/overview', async (req, res) => {
       Project_Management: 1058.82,
       Installation_Commissioning_Engineering: 3150.30
     };
-
     const referenceTotals = calculateOverviewData(itemsResult, extraCosts);
-
     const groupedItems = {
       reference,
-      customer_name: itemsResult[0].customer_name,
-      customer_cell: itemsResult[0].customer_cell,
-      customer_email: itemsResult[0].customer_email,
-      sale_person: itemsResult[0].sale_person,
-      sale_cell: itemsResult[0].sale_cell,
-      job_description: itemsResult[0].job_description,
+      customerName: itemsResult[0].customerName,
+      customerCell: itemsResult[0].customerCell,
+      customerEmail: itemsResult[0].customerEmail,
+      name: itemsResult[0].name,
+      cell: itemsResult[0].cell,
+      jobDescription: itemsResult[0].jobDescription,
       referenceTotals
     };
 
@@ -515,7 +561,54 @@ app.get('/overview', async (req, res) => {
     res.status(500).send('Error generating overview.');
   }
 });
+app.get('/viewQuotes', async (req, res) => {
+  const salespersonName = req.query.name;
+  try {
+    let query;
+    let params = [];
+    if (salespersonName) {
+      query = `
+        SELECT 
+          reference, customerName, customerEmail, customerCell, jobDescription,
+          name, email, role, cell 
+        FROM customer
+        WHERE name = ?
+        ORDER BY customerName
+      `;
+      params = [salespersonName];
+    } else {
+      query = `
+        SELECT DISTINCT name 
+        FROM customer
+        ORDER BY name
+      `;
+    }
+    const results = await executeQuery(query, params);
+    res.render('viewQuotes', { quotes: results, selectedName: salespersonName });
+  } catch (error) {
+    console.error('Error fetching quotes:', error);
+    res.status(500).send('Server Error');
+  }
+});
+app.get('/my-customers', (req, res) => {
+  const salesperson = req.session.sales;
 
+  if (!salesperson) {
+    return res.redirect('/login');
+  }
+
+  const salespersonName = salesperson.name;
+
+  const sql = 'SELECT * FROM Customer WHERE name = ?';
+  db.query(sql, [salespersonName], (err, results) => {
+    if (err) {
+      console.error('Error fetching customers:', err);
+      return res.status(500).send('Error retrieving customers.');
+    }
+
+    res.render('customer/my-customers', { customers: results });
+  });
+});
 
 // Logout
 app.get('/logout', (req, res) => {
@@ -523,7 +616,6 @@ app.get('/logout', (req, res) => {
   res.redirect('/login');
 });
 // Routes to render pages
-
 app.get('/print', (req, res) => res.render('print'));
 
 app.listen(port, () => {
