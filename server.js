@@ -118,12 +118,10 @@ app.post('/register-customer', (req, res) => {
     email,
     role
   } = req.body;
-
   const checkSql = `
     SELECT * FROM Customer 
     WHERE reference = ? AND customerEmail = ? AND customerName = ?
   `;
-
   db.query(checkSql, [reference, customerEmail, customerName], (err, results) => {
     if (err) {
       console.error('Error checking customer:', err);
@@ -132,25 +130,14 @@ app.post('/register-customer', (req, res) => {
     if (results.length > 0) {
       return res.status(409).send('Customer with the same reference, email, and name already exists.');
     }
-
     const insertSql = `
       INSERT INTO Customer 
       (customerEmail, customerName, customerCell, jobDescription, reference, name, cell, email, role)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-
     const values = [
-      customerEmail,
-      customerName,
-      customerCell,
-      jobDescription,
-      reference,
-      name,
-      cell,
-      email,
-      role
+      customerEmail, customerName, customerCell, jobDescription, reference, name, cell, email, role
     ];
-
     db.query(insertSql, values, (err, result) => {
       if (err) {
         console.error('Error inserting customer:', err);
@@ -191,13 +178,11 @@ app.get('/salespeople', (req, res) => {
   if (!req.session.admin && !req.session.sales) {
     return res.redirect('/login');
   }
-
   db.query('SELECT name, email, cell, role FROM Salespeople', (err, results) => {
     if (err) {
       console.error('Error fetching salespeople:', err);
       return res.status(500).send('Failed to retrieve salespeople.');
     }
-
     res.render('sales/salespeople', { salespeople: results });
   });
 });
@@ -220,10 +205,7 @@ app.get('/additems', async (req, res) => {
       executeQuery('SELECT supply FROM supplytype'),
     ]);
     res.render('additems', {
-      reference,
-      productTypes,
-      installDifficultyTypes,
-      supplyTypes
+      reference, productTypes, installDifficultyTypes, supplyTypes
     });
   } catch (error) {
     console.error('Error loading additems page:', error);
@@ -234,8 +216,7 @@ app.post('/additems', async (req, res) => {
   try {
     const {
       reference, bill, stock_code, description, qty,
-      product_type, install_diff, install_diff_factor,
-      unit_cost, supply,
+      product_type, install_diff, install_diff_factor, unit_cost, supply,
       labour_factor_hrs, maint_lab_factor, labour_margin, equipment_margin
     } = req.body;
     if (!reference) return res.status(400).send('Error: Reference is missing.');
@@ -282,30 +263,23 @@ app.get('/viewitems', async (req, res) => {
   if (!req.session.sales) {
     return res.status(401).send('Unauthorized: Salesperson not logged in');
   }
-
   const reference = req.query.reference;
   if (!reference) {
     return res.status(400).send('Missing reference in query.');
   }
-
   try {
     const items = await executeQuery(
       'SELECT * FROM Items WHERE reference = ? ORDER BY bill, reference',
       [reference]
     );
-
     const groupedItems = {};
-
     items.forEach(item => {
       const enrichedItem = calculateItemFields(item);
-
       if (!groupedItems[enrichedItem.bill]) {
         groupedItems[enrichedItem.bill] = [];
       }
-
       groupedItems[enrichedItem.bill].push(enrichedItem);
     });
-
     res.render('viewitems', { reference, groupedItems });
   } catch (err) {
     console.error('Error loading items:', err);
@@ -315,24 +289,18 @@ app.get('/viewitems', async (req, res) => {
 app.post('/delete-item/:id', async (req, res) => {
   const itemId = req.params.id;
   const reference = req.query.reference;
-
   if (!req.session.sales) {
     return res.status(403).send('Unauthorized: Salesperson not logged in');
   }
-
   if (!reference) {
     return res.status(400).send('Missing customer reference in query.');
   }
-
   const deleteQuery = `DELETE FROM Items WHERE id_items = ? AND reference = ?`;
-
   try {
     const [deleteResult] = await db.promise().execute(deleteQuery, [itemId, reference]);
-
     if (deleteResult.affectedRows === 0) {
       return res.status(404).send('Item not found or does not belong to this reference.');
     }
-
     res.redirect(`/viewitems?reference=${reference}`);
   } catch (error) {
     console.error('Error deleting item:', error);
@@ -347,9 +315,7 @@ app.get('/edit-item/:id', async (req, res) => {
   }
   try {
     const [
-      installDifficultyTypes,
-      productTypes,
-      supplyTypes,
+      installDifficultyTypes, productTypes, supplyTypes,
       [itemResult]
     ] = await Promise.all([
       executeQuery('SELECT install_diff, install_diff_factor FROM InstallDifficultyType'),
@@ -363,7 +329,6 @@ app.get('/edit-item/:id', async (req, res) => {
         [itemId, reference]
       )
     ]);
-
     if (itemResult.length === 0) {
       return res.status(404).send('Item not found or unauthorized');
     }
@@ -397,7 +362,6 @@ app.post('/edit-item/:id', async (req, res) => {
       install_diff_factor = ?
       WHERE id_items = ? AND reference = ?
     `;
-
     await db.promise().execute(updateQuery, [
       stock_code, description, qty, unit_cost, labour_margin, equipment_margin,
       supply, product_type, labour_factor_hrs, maint_lab_factor, install_diff, install_diff_factor,
@@ -408,7 +372,6 @@ app.post('/edit-item/:id', async (req, res) => {
       return res.redirect('/sales/dashboard');
     }
     res.json({ message: 'Item updated successfully' });
-
   } catch (error) {
     console.error('Error updating item:', error);
     res.status(500).send('Failed to update item');
@@ -419,12 +382,10 @@ app.get('/billing', async (req, res) => {
   if (!req.session.sales) {
     return res.status(401).send('Unauthorized: Salesperson not logged in');
   }
-
   const reference = req.query.reference || req.session.reference;
   if (!reference) {
     return res.status(400).send('Missing reference in query or session.');
   }
-
   try {
     const itemsResult = await executeQuery(
       `SELECT i.bill, i.stock_code, i.description, i.qty, i.product_type, i.unit_cost, 
@@ -437,26 +398,21 @@ app.get('/billing', async (req, res) => {
        ORDER BY i.bill, i.reference`,
       [reference]
     );
-
     if (itemsResult.length === 0) {
       return res.status(404).send('No items found for this reference.');
     }
-
     const extraCosts = {
       Sundries_and_Consumables: 1529.47,
       Project_Management: 1058.82,
       Installation_Commissioning_Engineering: 3150.30
     };
-
     const billsData = calculateBillingData(itemsResult, extraCosts);
-
     req.session.reference = reference;
     req.session.calculatedBills = billsData.map(b => ({
       bill: b.bill,
       bill_tot_selling: b.bill_tot_selling,
       hwReplace: b.hwReplace
     }));
-
     req.session.customerInfo = {
       customerName: itemsResult[0]?.customerName || '',
       customerEmail: itemsResult[0]?.customerEmail || '',
@@ -464,7 +420,6 @@ app.get('/billing', async (req, res) => {
       jobDescription: itemsResult[0]?.jobDescription || '',
       cell: itemsResult[0]?.cell || ''
     };
-
     const groupedItems = {
       reference,
       customerName: itemsResult[0]?.customerName || '',
@@ -474,7 +429,6 @@ app.get('/billing', async (req, res) => {
       cell: itemsResult[0]?.cell || '',
       bills: billsData
     };
-
     res.render('billing', { groupedItems });
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -486,13 +440,10 @@ app.get('/billSummary', (req, res) => {
   const reference = req.session.reference;
   const billsData = req.session.calculatedBills;
   const customerInfo = req.session.customerInfo;
-
   if (!reference || !billsData || !customerInfo) {
     return res.redirect('/login');
   }
-
   const billSummaryData = calculateBillSummaryData(billsData);
-
   res.render('billSummary', {
     billSummaryData,
     customerInfo,
@@ -525,7 +476,6 @@ app.get('/overview', async (req, res) => {
     if (itemsResult.length === 0) {
       return res.send('No Bill found for this reference. (Add a Bill first)');
     }
-
     const extraCosts = {
       Sundries_and_Consumables: 1529.47,
       Project_Management: 1058.82,
@@ -542,7 +492,6 @@ app.get('/overview', async (req, res) => {
       jobDescription: itemsResult[0].jobDescription,
       referenceTotals
     };
-
     req.session.reference = reference;
     res.render('overview', { groupedItems });
 
@@ -582,20 +531,16 @@ app.get('/viewQuotes', async (req, res) => {
 });
 app.get('/my-customers', (req, res) => {
   const salesperson = req.session.sales;
-
   if (!salesperson) {
     return res.redirect('/login');
   }
-
   const salespersonName = salesperson.name;
-
   const sql = 'SELECT * FROM Customer WHERE name = ?';
   db.query(sql, [salespersonName], (err, results) => {
     if (err) {
       console.error('Error fetching customers:', err);
       return res.status(500).send('Error retrieving customers.');
     }
-
     res.render('customer/my-customers', { customers: results });
   });
 });
@@ -605,7 +550,7 @@ app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/login');
 });
-// Routes to render pages
+
 app.get('/print', (req, res) => res.render('print'));
 
 app.listen(port, () => {
