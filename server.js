@@ -211,10 +211,8 @@ app.get('/additems', async (req, res) => {
   if (!req.session.sales) {
     return res.redirect('/login');
   }
-
   const reference = req.query.reference;
   if (!reference) return res.status(400).send('Missing reference in query.');
-
   try {
     const [productTypes, installDifficultyTypes, supplyTypes] = await Promise.all([
       executeQuery('SELECT product_type, maint_lab_factor, labour_factor_hrs FROM producttype'),
@@ -240,11 +238,8 @@ app.post('/additems', async (req, res) => {
       unit_cost, supply,
       labour_factor_hrs, maint_lab_factor, labour_margin, equipment_margin
     } = req.body;
-
     if (!reference) return res.status(400).send('Error: Reference is missing.');
     if (!bill) return res.status(400).send('Error: Bill is missing.');
-
-    // Check if customer reference exists
     const referenceExists = await executeQuery(
       'SELECT 1 FROM customer WHERE reference = ?',
       [reference]
@@ -252,8 +247,6 @@ app.post('/additems', async (req, res) => {
     if (referenceExists.length === 0) {
       return res.status(404).send('Error: Reference does not exist in customers.');
     }
-
-    // Check if bill exists
     const billExists = await executeQuery(
       'SELECT 1 FROM Bills WHERE bill = ? AND reference = ?',
       [bill, reference]
@@ -265,7 +258,6 @@ app.post('/additems', async (req, res) => {
       );
       console.log(`Bill '${bill}' inserted for reference '${reference}'`);
     }
-
     await executeQuery(
       `INSERT INTO Items (
         reference, bill, stock_code, description, qty, product_type,
@@ -279,9 +271,7 @@ app.post('/additems', async (req, res) => {
         maint_lab_factor || 0, labour_margin || 0, equipment_margin || 0
       ]
     );
-
-    // ✅ Redirect to sales dashboard
-    res.redirect('/sales/dashboard');
+    res.redirect('/additems');
   } catch (error) {
     console.error('Error inserting item:', error);
     res.status(500).send('Database error while processing request.');

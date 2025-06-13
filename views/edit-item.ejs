@@ -7,7 +7,16 @@
      <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-   
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLl5RFBWd70u8xNBu3mBTfHBq-Y1TzCuXJ5w&s" width="50" height="50" alt="logo"/>
+      </a>
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="sales/dashboard">Home</a></li>
+      </ul>
+    </div>
+  </nav>
 <form id="edit-form" action="/edit-item/<%= item.id_items %>?reference=<%= reference %>" method="POST">
    <h2>Edit Item</h2>
   <div class="edit-form-group">
