@@ -472,7 +472,6 @@ app.get('/overview', async (req, res) => {
        ORDER BY i.bill, i.reference`,
       [reference]
     );
-
     if (itemsResult.length === 0) {
       return res.send('No Bill found for this reference. (Add a Bill first)');
     }
