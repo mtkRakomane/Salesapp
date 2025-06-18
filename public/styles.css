@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
-  background-color: rgba(54, 46, 58, 0.247);
+  background: linear-gradient(135deg, #01274d, #1d2020, #c4c0c0);
 }
   .form-container {
       min-height: 100vh;
@@ -34,10 +34,11 @@ body {
   max-width: 400px;
   margin: 50px auto;
   padding: 30px;
-  background-color: #ffffff;
+  background: linear-gradient(135deg, #2c3136, #1d2020, #c4c0c0); background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color : white;
   }
   .login-form button[type="submit"], 
   .admin-sale-form button[type="submit"],
@@ -60,7 +61,7 @@ body {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: #333;
+  color: whitesmoke;
 }
 .login-form-group input {
   width: 100%;
@@ -78,13 +79,14 @@ body {
 .signup-form,
 #additem-form,
 #edit-form{
-   max-width: 600px;
+  max-width: 600px;
   margin: 40px auto;
   padding: 30px;
-  background-color: #ffffff;
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+  color: whitesmoke;
 }
 .signup-form-group,
 .additem-form-group,
@@ -96,8 +98,10 @@ body {
 .edit-form-group{
   display: block;
   margin-bottom: 8px;
+  width: 100%;
   font-weight: 600;
-  color: #333;
+  font-weight: 600;
+  color: whitesmoke;
 }
 .signup-form-group input[type="text"],
 .signup-form-group input[type="email"],
@@ -115,12 +119,12 @@ body {
   border: 1px solid #ccc;
   border-radius: 8px;
   box-sizing: border-box;
-  font-size: 10px;
+  font-size: 14px;
   transition: border-color 0.3s ease;
   background-color: #f9f9f9;
 }
 .details-form-group{
-    background: #fff;
+      background: linear-gradient(135deg, #928dab);
       padding: 25px;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -134,3 +138,29 @@ body {
       flex-wrap: wrap;
       margin-bottom: 40px;
 }
+.view-table,table{
+ font-size: 12px;
+    width: 100%;
+    border-collapse: collapse; 
+    margin-bottom: 30px;
+    color:#f2f2f2
+}
+  .bill-header {
+       background: linear-gradient(135deg, #01274d, #1d2020, #c4c0c0);
+      font-weight: bold;
+      text-align: center;
+      color:#f9f9f9;
+    }
+    .green-text-head {
+      color: green;
+    }
+    .green-text {
+      color: green;
+    }
+      table, th, td {
+      border: 1px solid #ddd; 
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
