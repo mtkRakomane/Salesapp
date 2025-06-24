@@ -7,46 +7,37 @@
    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
- 
   <form id="additem-form" action="/additems" method="POST">
      <h1>Add Item</h1>
     <input type="hidden" name="reference" value="<%= reference %>" >
-
     <div class="additem-form-group">
       <label for="bill">Bill Name:</label>
       <input id="bill" name="bill" type="text" placeholder="Bill Name" required autocomplete="off" />
     </div>
-
     <div class="additem-form-group">
       <label for="stock_code">Stock Code:</label>
       <input id="stock_code" name="stock_code" type="text" placeholder="Stock Code" required autocomplete="off" />
     </div>
-
     <div class="additem-form-group">
       <label for="description">Description:</label>
       <input id="description" name="description" type="text" placeholder="Description" required autocomplete="off" />
     </div>
-
     <div class="additem-form-group">
       <label for="qty">Quantity:</label>
       <input id="qty" name="qty" type="number" placeholder="Quantity" required min="1" step="1" autocomplete="off" />
     </div>
-
     <div class="additem-form-group">
       <label for="unit_cost">Unit Cost:</label>
       <input id="unit_cost" name="unit_cost" type="number" placeholder="Unit Cost" required min="0" step="0.01" autocomplete="off" />
     </div>
-
     <div class="additem-form-group">
       <label for="equipment_margin">Equipment Margin:</label>
       <input id="equipment_margin" name="equipment_margin" type="number" placeholder="Equipment Margin" required min="0" step="0.01" autocomplete="off" />
     </div>
-
     <div class="additem-form-group">
       <label for="labour_margin">Labour Margin:</label>
       <input id="labour_margin" name="labour_margin" type="number" placeholder="Labour Margin" required min="0" step="0.01" autocomplete="off" />
     </div>
-
     <div class="additem-form-group">
       <label for="product_type">Select Product Type:</label>
       <select id="product_type" name="product_type"  required>
@@ -56,10 +47,8 @@
         <% }); %>
       </select>
     </div>
-   
     <input type="hidden" id="labour_factor_hrs" name="labour_factor_hrs" />
-    <input type="hidden" id="maint_lab_factor" name="maint_lab_factor" />
-    
+    <input type="hidden" id="maint_lab_factor" name="maint_lab_factor" />  
     <div class="additem-form-group">
       <label for="install_diff">Installation Difficulty:</label>
       <select id="install_diff" name="install_diff" required>
@@ -70,7 +59,6 @@
       </select>
     </div>
     <input type="hidden" id="install_diff_factor" name="install_diff_factor" />
-
     <div class="additem-form-group">
       <label for="supply">Supplier:</label>
       <select id="supply" name="supply" required>
@@ -80,7 +68,6 @@
         <% }); %>
       </select>
     </div>
-
     <div class="form-group">
       <button type="submit">Add Item</button>
     </div>

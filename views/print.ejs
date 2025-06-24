@@ -3,9 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Print</title>
+    <title>Print - Quoting System</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <h1> Print Quote</h1>
+    <%
+    function formatAccounting(amount) {
+        let num = parseFloat(amount || 0);
+        const isNegative = num < 0;
+        const formatted = Math.abs(num).toLocaleString('en-ZA', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).replace(/,/g, ' ');
+        return isNegative ? `R (${formatted})` : `R ${formatted}`;
+    }
+%>
+    <div class=" form-container" id="container"> 
+               <div class="card-right">
+            <div class="card-body">
+                <div class="image-text-container">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLl5RFBWd70u8xNBu3mBTfHBq-Y1TzCuXJ5w&s" class="img-fluid mb-3" alt="Placeholder image" width="150px" height="150px">
+                    <div class="text-container" style="text-align: right; font-size: 11px;">
+                        <p>1004 Teak Close & Witch-Hazel Ave, Highveld Techno Park</p>
+                        <p>Centurion 0157</p>
+                        <p>Tel +27 12665 8000</p>
+                        <p>PO Box 68726 Highveld 0169</p>
+                        <p>South Africa</p>
+                        <p>www.proteacoin.co.za</p>
+                    </div>
+                </div>
+            </div>   
+    <div >
+        <p style="font-size: 11px;"><strong>To:</strong> <%= groupedItems.customer_name%></p>
+        <p style="font-size: 11px;"><strong>ATT:</strong></p>
+        <p style="font-size: 11px;"><strong>Email:</strong> <%= groupedItems.customer_email %></p>
+        <p style="font-size: 13px;"><strong>Date:</strong> <%= new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+        <p style="font-size: 11px;"><strong>Re: </strong> <%= groupedItems.job_description %></p>
+    </div>
+    <hr>
+    <p style="font-size: 12px;">Dear: <%= groupedItems.customer_name %> </p>
+    <p style="font-size: 12px;">Thank you for affording Bidvest Protea Coin the opportunity to quote for your technology security requirements. We look forward to delivering and supplying the proposed solution.</p>     
+    <span style="font-size: 12px;">
+        Bidvest Protea Coin designs, builds, and maintains stand-alone and integrated security systems. Our knowledge of a wide range of technologies, products, and systems provides cost-effective, reliable, and scalable solutions.
+        We help customers meet standards and exceed compliance regulations from development through installation and ongoing maintenance.
+        From consulting and design, through technology deployment and integration, our team provides turnkey solutions to effectively secure critical infrastructure, energy and chemical facilities, ports, airports, corporate offices, and more.
+    </span>  
+    <br>
+    <% groupedItems.bills.forEach(bill => { %>
+        <div>
+            <table class="table-print">
+                <thead>
+                    <tr>
+                      <th style="background-color: rgb(67, 67, 161); font-size: 12px;"><%= bill.bill %></th>
+                    </tr>
+                    <tr style="font-size: 12px;">
+                        <th>Item</th>
+                        <th>Stock Code</th>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Unit Cost</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% bill.items.forEach((item, index) => { %>
+                        <tr style="font-size: 12px;">
+                            <td><%= index + 1 %></td>
+                            <td><%= item.stock_code %></td>
+                            <td><%= item.description %></td>
+                            <td><%= item.qty %></td>
+                            <td> <%= formatAccounting(item.equip_unit_rate) %></td>
+                            <td> <%= formatAccounting(item.total_price) %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+                <tbody style="font-size: 12px;">
+                  
+                    <tr>
+                        <td colspan="5"><strong>Sundries and Consumables:</strong></td>
+                        <td><strong> <%= formatAccounting(bill.extras.Sundries ) %></strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><strong>Project Management:</strong></td>
+                        <td><strong> <%= formatAccounting( bill.extras.Project_Management) %></strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><strong>Installation, Commissioning and Engineering:</strong></td>
+                        <td><strong> <%= formatAccounting(bill.extras.Installation_Engineering) %></strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="background-color: rgb(4, 4, 43);"></td>
+                        <td><strong>Subtotal:</strong></td>
+                        <td><strong> <%= formatAccounting(bill.subtotal) %></strong></td>
+                    </tr>
+                </tbody>
+            </table>  
+        </div>
+      
+    <% }) %>
+    <table border="1" cellpadding="10" cellspacing="0" class="table-print">
+        <thead>
+          <tr>
+            <th  style="background-color: rgb(4, 4, 43);"> </th>
+          </tr>
+        </thead>
+        <tbody style="font-size: 12px;">
+            <tr>
+                <td>
+                  <div style="text-align: left; display: inline-block; width: 33%;"><strong>CAPEX Option:</strong></div>
+                  <div style="text-align: center; display: inline-block; width: 33%;"><strong>Total Excluding VAT</strong></div>
+                  <div style="text-align: right; display: inline-block; width: 33%;"><strong> <%= formatAccounting(groupedItems.totalExcludingVAT)  %></strong></div>
+                </td>
+              </tr>
+          <tr>
+            <td>
+                <div style="text-align: center;"><strong>VAT (15%)</strong> </div>
+                <div style="text-align: right;"><strong> <%= formatAccounting(groupedItems.vat)  %></strong> </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="text-align: center;"> <strong>Total Including VAT</strong> </div>  
+               <div style="text-align:right;">  <strong>  <%= formatAccounting(groupedItems.totalIncludingVAT)  %></strong> </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <br> 
+      <p style="font-size: Bold; color: rgb(148, 10, 10); text-align: center;">Proposal Expiry Date: <span id="expiryDateSummary">Loading...</span></p>
+    <p style="font-size: 12px">Terms and Conditions</p>
+    <div class="terms">
+        <div class="term" style="font-size: 12px">1. Delivery to be confirmed on placement of order.</div>
+        <div class="term" style="font-size: 12px">2. Standard delivery is 2 to 6 weeks, subject to solution design components.</div>
+        <div class="term" style="font-size: 12px">Exclusions and Assumptions: </div> 
+        <div class="term" style="font-size: 12px">SACO</div> 
+        <div class="term" style="font-size: 12px">3. Data transfer, Payroll interface, Shift sensing, Job costing, Mining modules and additional reports unless specifically quoted above.  </div> 
+        <div class="term" style="font-size: 12px">4. customisation after Business Process Analysis not included. </div> 
+        <div class="term" style="font-size: 12px">5. Assistance with system configuration and setup can be provided at the prevailing hourly rate if not quoted for separately.</div> 
+        <div class="term" style="font-size: 12px">6. Network and server architecture to be provided by client, unless quoted for separately.</div> 
+        <div class="term" style="font-size: 12px">7.  Static IP addresses required for biometric and controller devices.</div> 
+        <div class="term" style="font-size: 12px">Technical Security Solutions  </div> 
+        <div class="term" style="font-size: 12px">8. All cable installation more than 3 meter above ground level will be charged at double the stated rate  </div> 
+        <div class="term" style="font-size: 12px">9.  The price quoted for installation assumes that all required cable routes are freely accessible without blockages</div> 
+        <div class="term" style="font-size: 12px">10.   Customer induction training courses, medicals and security certification costs  are excluded unless specified  </div> 
+        <div class="term" style="font-size: 12px">General</div> 
+        <div class="term" style="font-size: 12px">11.   Prices quoted are exclusive of any civil work pertaining to the installation.</div> 
+        <div class="term" style="font-size: 12px">12. 220V AC power supply to be provided by the client within 3 metres of each installation point where required, unless specifically quoted for.</div> 
+        <div class="term" style="font-size: 12px">13.  No work will commence without an official company order & a signed copy of this quotation and Terms and Conditions</div> 
+        <div class="term" style="font-size: 12px">14.  All equipment remains the property of BPC until the account is settled in full. </div> 
+        <div class="term" style="font-size: 12px">15.  The pricing provided in the quotation is subject to the Rate of Exchange on the day of quote and subject to supplier pricing not fluctuating more than 3%.  </div> 
+        <div class="term" style="font-size: 12px">16. Payment terms are 30 days from date of invoice.</div> 
+        <div class="term"style="font-size: 12px">17.  It is hereby recorded that the sole function of the service contemplated herein and/or personnel provided for by Bidvest Protea Coin is to endeavour to minimise the risk of 
+            loss or damage (to person, property or otherwise). Bidvest Protea Coin therefore does not warrant or guarantee that it or its personnel will be able to minimise or prevent any such 
+            loss or damage. Bidvest Protea Coin shall not be liable to you or any third party for any loss or damage (to person or property) of whatsoever kind or nature, whether direct, 
+            indirect, special or consequential, arising out of any act, omission, or failure to act on the part of Bidvest Protea Coin or against any claim which may be made against Bidvest 
+            Protea Coin in respect of such loss or damage, and you by your signature hereto agree to indemnify and hold Bidvest Protea Coin harmless against any such loss or damage 
+            (including legal costs and/or expense) incurred by Bidvest Protea Coin. </div> 
+        <div class="term" style="font-size: 12px">18.   At acceptance of service by either your signature hereto or actual inception thereof (whichever is the earlier) whilst legal terms and conditions of an agreement between the 
+            Parties are being finalized, it is agreed that these terms and conditions will govern the relationship between the Parties unless and until an agreement to the contrary has been 
+            concluded. </div> 
+        <div class="term" style="font-size: 12px">19.  You acknowledge having read and understood the foregoing terms and conditions and having no objection in writing thereto by your signature  being duly authorized hereto 
+            irrevocably accept the foregoing to be legal binding and enforceable provisions.   </div> 
+        <div class="term" style="font-size: 12px">20.  Proposal valid only for the period stipulated on this document</div> 
+        <div class="term" style="font-size: 12px">21.   ISP Connectivity to be supplied by the client, for the cost of the client</div>
+    </div>
+    <hr>
+    <div class="signature" style="font-size: 12px;">
+        <table style="width: 60%; margin: 0 auto; border: 1px solid #ccc; border-collapse: collapse; text-align: left;" class="table-print">
+          <thead>
+            <tr>
+              <th colspan="2" style="text-align: center;">Customer Acceptance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Print Name</td>  
+            </tr>
+            <tr>
+              <td>Date</td>
+            </tr>
+            <tr>
+              <td>Signature</td>
+            </tr>
+            <tr>
+              <td colspan="2" style="font-size: 12px; text-align: center;">
+                By signing this acceptance, I confirm acceptance of the terms and conditions attached here!
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 12px; text-align: center;">Yours Faithfully</p>
+        <p style="font-size: 12px; text-align: center;"><%= groupedItems.sale_person %></p>
+        <p style="font-size: 12px; text-align: center;">Bidvest Protea Coin</p>
+        <p style="font-size: 12px; text-align: center;">1004 Teak Close & Witch-Hazel Ave, Highveld Techno Park Centurion, 0157</p>
+        <p style="font-size: 12px; text-align: center;"><%= groupedItems.sale_cell %></p>
+        <p style="font-size: 12px; text-align: center;">Office: +27 (0) 12 665 8000</p>
+      
+    <div>
+        <button onclick="window.print()">Print this page</button>
+    </div>
+               </div>
+    <div class="footer">
+        <p>&copy; <%= new Date().getFullYear() %> Bidvest Protea Coin</p>
+    </div>
+        </div> 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    let expiryDate = localStorage.getItem("expiryDate");
+    
+    if (expiryDate) {
+        document.getElementById("expiryDateSummary").innerText = expiryDate;
+    } else {
+        document.getElementById("expiryDateSummary").innerText = "No expiry date selected.";
+    }
+});
+
+    </script>
 </body>
 </html>

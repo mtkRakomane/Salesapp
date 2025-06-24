@@ -309,8 +309,8 @@ app.post('/delete-item/:id', async (req, res) => {
   }
 });
 app.get('/edit-item/:id', async (req, res) => {
-  const { id: itemId } = req.params;
-  const { reference } = req.query;
+  const itemId = req.params.id;
+  const reference = req.query.reference;
   if (!req.session.sales) {
     return res.status(403).send('Unauthorized: Salesperson not logged in');
   }
@@ -494,7 +494,6 @@ app.get('/overview', async (req, res) => {
     };
     req.session.reference = reference;
     res.render('overview', { groupedItems });
-
   } catch (error) {
     console.error('Error fetching overview data:', error);
     res.status(500).send('Error generating overview.');
@@ -545,14 +544,48 @@ app.get('/my-customers', (req, res) => {
   });
 });
 
+const calculatePrintData = require('./utils/calculatePrintData');
+app.get('/print', async (req, res) => {
+  const userRefNum = req.query.reference || req.session.user?.reference;
+  if (!userRefNum) return res.redirect('/');
+  try {
+    const itemsResult = await executeQuery(
+      `SELECT 
+         i.bill, i.stock_code, i.description, i.qty, i.product_type, i.unit_cost, 
+         i.maint_lab_factor, i.labour_factor_hrs, i.install_diff_factor, 
+         i.labour_margin, i.equipment_margin,
+         c.customerName AS customer_name,
+         c.customerEmail AS customer_email,
+         c.customerCell AS customer_cell,
+         c.name AS sale_person,
+         c.cell AS sale_cell,
+         c.jobDescription AS job_description,
+         c.reference
+       FROM items i
+       JOIN customer c ON i.reference = c.reference
+       WHERE i.reference = ? 
+       ORDER BY i.bill, i.reference`, 
+      [userRefNum]
+    );
+    if (itemsResult.length === 0) return res.send('No items found for this reference.');
+    const groupedItems = calculatePrintData(itemsResult);
+    groupedItems.reference = userRefNum;
+    groupedItems.customer_name = itemsResult[0]?.customer_name || '';
+    groupedItems.customer_email = itemsResult[0]?.customer_email || '';
+    groupedItems.sale_person = itemsResult[0]?.sale_person || '';
+    groupedItems.sale_cell = itemsResult[0]?.sale_cell || '';
+    groupedItems.job_description = itemsResult[0]?.job_description || '';
+    res.render('print', { groupedItems });
+  } catch (error) {
+    console.error('Error fetching print data:', error);
+    res.status(500).send('Error retrieving print data.');
+  }
+});
 // Logout
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/login');
 });
-
-app.get('/print', (req, res) => res.render('print'));
-
 app.listen(port, () => {
   console.log(`Server running`);
 });

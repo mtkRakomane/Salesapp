@@ -3,33 +3,34 @@
 <head>
   <title>Register Customer</title>
   <link rel="stylesheet" href="/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <form class="signup-form" action="/register-customer" method="POST">
       <h1>Register New Customer</h1>
         <div class="signup-form-group">
-            <label for="reference">Reference:</label>
+            <label for="reference"> <i class="fa-solid fa-asterisk"></i> Reference:</label>
             <input type="text" id="reference" name="reference" placeholder="Reference:" required>
         </div>
         <div class="signup-form-group">
-            <label for="customerName">Customer Name:</label>
+            <label for="customerName"> <i class="fa-solid fa-signature"></i> Customer Name:</label>
             <input type="text" id="customerName" name="customerName" placeholder="Customer Name:" required>
         </div>
         <div class="signup-form-group">
-            <label for="customerEmail">Customer Email:</label>
+            <label for="customerEmail"> <i class="fa-solid fa-envelope"></i> Customer Email:</label>
             <input type="email" id="customerEmail" name="customerEmail" placeholder="Customer Email:" required>
         </div>
         <div class="signup-form-group">
-            <label for="customerCell">Customer Cell:</label>
+            <label for="customerCell"> <i class="fa-solid fa-phone"></i> Customer Cell:</label>
             <input type="tel" id="customerCell" name="customerCell" placeholder="Customer Cell:" required>
         </div>
         <div class="signup-form-group">
-            <label for="jobDescription">Job Description:</label>
+            <label for="jobDescription"><i class="fa-solid fa-audio-description"></i> Job Description:</label>
             <textarea id="jobDescription" name="jobDescription" placeholder="Job Description:" required></textarea>
         </div>  
             <div class="signup-form-group">
-      <label for="name">Sales Person:</label>
+      <label for="name"> <i class="fa-solid fa-signature"></i> Sales Person:</label>
       <select id="name" name="name" required>
         <option value="" disabled selected>Select a Sale Person</option>
         <% salesPeoples.forEach(type => { %>
@@ -45,15 +46,15 @@
       </select>
     </div>   
     <div class="signup-form-group">
-      <label for="cell">Sales Contact:</label>
+      <label for="cell"> <i class="fa-solid fa-phone"></i> Sales Contact:</label>
       <input type="text" id="cell" name="cell" readonly required />
     </div>   
     <div class="signup-form-group">
-      <label for="email">Sales Email:</label>
+      <label for="email"> <i class="fa-solid fa-envelope"></i> Sales Email:</label>
       <input type="email" id="email" name="email" readonly required />
     </div>   
     <div class="signup-form-group">
-      <label for="role">Sales Role:</label>
+      <label for="role"><i class="fa-brands fa-critical-role"></i> Sales Role:</label>
       <input type="text" id="role" name="role" readonly required />
     </div> 
       <button type="submit">Register Customer</button>

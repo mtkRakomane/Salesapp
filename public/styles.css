@@ -71,6 +71,7 @@ body {
   box-sizing: border-box;
   font-size: 14px;
   transition: border-color 0.3s ease;
+  color: black;
 }
 .login-form-group input[type="text"]:focus {
   border-color: #007bff;
@@ -163,4 +164,21 @@ body {
     th, td {
       padding: 8px;
       text-align: left;
+    }
+    #container{
+      background-color: #e9e4e4;
+    }
+    .table-print{
+    font-size: 12px;
+    width: 100%;
+    border-collapse: collapse; 
+    margin-bottom: 30px;
+    color: black;
+    }
+    #dash-sale{
+      margin: 0;
+      padding: 0;
+    }
+    #dash-form{
+      padding-top: 0%;
     }

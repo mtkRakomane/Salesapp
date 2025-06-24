@@ -5,7 +5,6 @@ function calculateBillingData(items, extraCosts = {}, labourRate = 400, pmRate =
     acc[bill].push(item);
     return acc;
   }, {});
-
   const billsData = Object.keys(bills).map(billName => {
     const items = bills[billName].map(item => {
       const qty = parseFloat(item.qty) || 0;
@@ -15,18 +14,14 @@ function calculateBillingData(items, extraCosts = {}, labourRate = 400, pmRate =
       const maintLabFactor = parseFloat(item.maint_lab_factor) || 0;
       const labourMargin = (parseFloat(item.labour_margin) / 100) || 0;
       const equipmentMargin = (parseFloat(item.equipment_margin) / 100) || 0;
-
       const equipmentCost = unitCost * qty;
       const equipmentSelling = (1 - equipmentMargin) !== 0
         ? (unitCost / (1 - equipmentMargin)) * qty
         : 0;
-
       const sellRate = (1 - labourMargin) !== 0 ? labourRate / (1 - labourMargin) : 0;
       const unitLabRate = sellRate * labourFactorHrs * installDiffFactor;
       const totalLabour = unitLabRate * qty;
-
       const hwReplaceProv = maintLabFactor > 0 ? equipmentSelling : 0;
-
       return {
         ...item,
         equipment_margin: equipmentMargin,
@@ -40,22 +35,18 @@ function calculateBillingData(items, extraCosts = {}, labourRate = 400, pmRate =
         maint_lab_factor: maintLabFactor  
       };
     });
-
     const bill_equipment_cost = items.reduce((sum, item) => sum + parseFloat(item.equipment_cost || 0), 0);
     const bill_equipment_selling = items.reduce((sum, item) => sum + parseFloat(item.equipment_selling || 0), 0);
     const subtotal = items.reduce((sum, item) => sum + (parseFloat(item.unit_cost || 0) * parseFloat(item.qty || 0)), 0)
       + (extraCosts.Sundries_and_Consumables || 0)
       + (extraCosts.Project_Management || 0)
       + (extraCosts.Installation_Commissioning_Engineering || 0);
-
     const totalLabourHours = items.reduce((sum, item) => sum + (parseFloat(item.labour_factor_hrs || 0) * parseFloat(item.qty || 0)), 0);
-
     const bill_labourCost = items.reduce((sum, item) => {
       const hrs = parseFloat(item.labour_factor_hrs || 0);
       const qty = parseFloat(item.qty || 0);
       return sum + (hrs * labourRate * qty);
     }, 0);
-
     const bill_labourSell = items.reduce((sum, item) => {
       const hrs = parseFloat(item.labour_factor_hrs || 0);
       const qty = parseFloat(item.qty || 0);
@@ -63,27 +54,20 @@ function calculateBillingData(items, extraCosts = {}, labourRate = 400, pmRate =
       const sellRate = (1 - labourMargin) !== 0 ? labourRate / (1 - labourMargin) : 0;
       return sum + (hrs * qty * sellRate);
     }, 0);
-
     const pmRates = totalLabourHours * pmRate;
     const firstItemMargin = parseFloat(items[0]?.labour_margin) || 0;
     const pmRatesell = (1 - firstItemMargin) !== 0 ? (totalLabourHours * labourRate * pmRate) / (1 - firstItemMargin) : 0;
-
     const pm_cost = labourRate * pmRates;
     const pm_selling = pmRatesell;
-
     const sundries_cost = totalLabourHours * equipSundries;
     const sundries_selling = (1 - firstItemMargin) !== 0
       ? (sundries_cost / (1 - firstItemMargin))
       : 0;
-
     const bill_tot_selling = bill_labourSell + bill_equipment_selling + pm_selling + sundries_selling;
     const bill_tot_cost = bill_labourCost + bill_equipment_cost + pm_cost + sundries_cost + totalLabourHours;
-
     const hwReplace = items.reduce((sum, item) => sum + parseFloat(item.hwReplaceProv || 0), 0);
-
     const totalMaintLabFactor = items.reduce((sum, item) =>
       sum + ((parseFloat(item.maint_lab_factor) || 0) * (parseFloat(item.qty) || 0)), 0); 
-
     return {
       bill: billName,
       items,
@@ -104,7 +88,6 @@ function calculateBillingData(items, extraCosts = {}, labourRate = 400, pmRate =
       totalMaintLabFactor: totalMaintLabFactor.toFixed(2)
     };
   });
-
   return billsData;
 }
 

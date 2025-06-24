@@ -1,5 +1,3 @@
-// utils/calculateItemData.js
-
 function calculateItemFields(item, labourRate = 400) {
   const qty = parseFloat(item.qty) || 0;
   const unitCost = parseFloat(item.unit_cost) || 0;
@@ -8,7 +6,6 @@ function calculateItemFields(item, labourRate = 400) {
   const maintLabFactor = parseFloat(item.maint_lab_factor) || 0;
   const labourMargin = parseFloat(item.labour_margin) / 100 || 0;
   const equipmentMargin = parseFloat(item.equipment_margin) / 100 || 0;
-
   const safeLabourDivisor = 1 - labourMargin;
   const sellRate = safeLabourDivisor !== 0 ? labourRate / safeLabourDivisor : 0;
   const equipUnitRate = (1 - equipmentMargin) !== 0 ? unitCost / (1 - equipmentMargin) : 0;

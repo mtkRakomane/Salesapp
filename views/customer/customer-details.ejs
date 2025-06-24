@@ -1,33 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Customer Details</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Customer Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/styles.css">
+  <style>
+    .sidebar-hidden {
+      transform: translateX(-100%);
+    }
+  </style>
 </head>
-<body>
-<div class="container">
-<div class="details-form-group">
- <h1>Customer Details</h1>
-       <h2><strong>Job Description:</strong> <%= customer.jobDescription %></h2>
-       <p><strong>Name:</strong> <%= customer.customerName %></p>
-       <p><strong>Email:</strong> <%= customer.customerEmail %></p>
-       <p><strong>Cell:</strong> <%= customer.customerCell %></p>
-   <br>  
-   <div class="details-button-container text-center mt-3">
-  <a href="/additems?reference=<%= customer.reference %>" class="button">Add Items </a><br>
-  <a href="/viewitems?reference=<%= customer.reference %>" class="btn btn-success mb-2">View Items</a><br>
-  <a href="/billing?reference=<%= customer.reference %>" class="btn btn-success mb-2">View Billing</a><br>
-  <a href="/overview?reference=<%= customer.reference %>" class="btn btn-info mb-2">Overview</a><br>
-  <a href="/print" class="btn btn-info mb-2">Print</a>
+<body class="bg-gray-100 text-gray-900">
+  <header class="bg-blue-900 text-white p-4 shadow">
+    <div class="flex justify-between items-center">
+      <h1 class="text-xl font-semibold">Bidvest Protea Coin</h1>
+      <a href="/sales/dashboard" class="bg-blue-700 hover:bg-blue-600 px-4 py-2 rounded">Back to Login</a>
+    </div>
+  </header>
+  <div class="flex min-h-screen">
+    <aside class="text-white w-64 p-6 hidden md:block" 
+       style="background: linear-gradient(135deg, #2c3136, #1d2020, #c4c0c0);">
+      <h2 class="text-2xl font-bold mb-6">Actions</h2>
+      <nav class="space-y-3">
+        <a href="/additems?reference=<%= customer.reference %>" class="block bg-blue-700 hover:bg-blue-600 p-3 rounded">Add Items</a>
+        <a href="/viewitems?reference=<%= customer.reference %>" class="block bg-green-600 hover:bg-green-500 p-3 rounded">View Items</a>
+        <a href="/billing?reference=<%= customer.reference %>" class="block bg-green-700 hover:bg-green-600 p-3 rounded">View Billing</a>
+        <a href="/overview?reference=<%= customer.reference %>" class="block bg-teal-600 hover:bg-teal-500 p-3 rounded">Overview</a>
+    <a href="/print?reference=<%= customer.reference %>" class="block bg-indigo-600 hover:bg-indigo-500 p-3 rounded">Print</a>
+      </nav>
+    </aside>
+    <main class="flex-1 p-6" id="main-details">
+     <h2 class="text-3xl font-bold mb-4 text-white">Customer Details</h2>
+  <div class="bg-white shadow-md rounded-lg p-6" style="background: linear-gradient(135deg, #2c3136, #1d2020, #c4c0c0);">
+  <h3 class="text-xl font-semibold mb-2 text-white">Job Description</h3>
+  <p class="mb-4 text-white"><%= customer.jobDescription %></p>
+  <div class="space-y-2 text-white">
+    <p><strong>Name:</strong> <%= customer.customerName %></p>
+    <p><strong>Email:</strong> <%= customer.customerEmail %></p>
+    <p><strong>Cell:</strong> <%= customer.customerCell %></p>
   </div>
-  <a href="/sales/dashboard">Back to Customer Login</a>
-   </div>
-<br>
 </div>
-<footer>
-    <p>&copy; <%= new Date().getFullYear() %> Bidvest Protea Coin</p>
-    </footer>
+    </main>
+  </div>
+  <footer class="text-center text-gray-500 mt-8 p-4">
+    &copy; <%= new Date().getFullYear() %> Bidvest Protea Coin
+  </footer>
 </body>
 </html>

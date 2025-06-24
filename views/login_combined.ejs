@@ -4,9 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LoginAminSales</title>
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link rel="shortcut icon" href="assets/Bidvest-Protea-Coin-Logo.png" type="image/x-icon" />
 </head>
 <body>
@@ -22,22 +24,22 @@
              </div>
           <h2 class="text-center mb-4" style="font-size: 16px;">Login as Admin or Salesperson</h2>
           <div class="login-form-group">
-            <label for="email">Email:</label>
+            <label for="email"><i class="fa-solid fa-envelope"></i> Email:</label>
             <input type="email" name="email" placeholder="Email" required />
           </div>
           <div class="login-form-group">
-            <label for="password">Password:</label>
+            <label for="password"> <i class="fa-solid fa-unlock"></i> Password:</label>
             <input type="password" name="password" placeholder="Password" required />
           </div>
           <div class="mb-3">
-            <label><input type="radio" name="role" value="admin" required> Admin</label>
-            <label class="ms-3"><input type="radio" name="role" value="sales" required> Salesperson</label>
+            <label><input type="radio" name="role" value="admin" required> Admin <i class="fa-solid fa-gear"></i></label>
+            <label class="ms-3"><input type="radio" name="role" value="sales" required>  Salesperson <i class="fa-solid fa-user-tie"></i></label>
           </div>
           <button type="submit">Login</button>
+          <p>Not yet Registered contact Administrator!!</p>
         </form>
       </div>
     </div>
   </div>
-
 </body>
 </html>
