@@ -13,6 +13,7 @@ const bill_equipment_selling = sum(billingData, 'bill_equipment_selling');
   const totalLabourHours = sum(billingData, 'totalLabourHours');
   const totalSellProject = bill_equipment_selling + bill_labourSell + pm_selling + sundries_selling;
   const totalCostProject = bill_equipment_cost + bill_labourCost + pm_cost + sundries_cost;
+   const grossProfit = totalSellProject - totalCostProject;
   const totalGrossMargin = totalSellProject - totalCostProject;
   const actualGrossMargin = totalSellProject === 0
     ? 0
@@ -35,6 +36,7 @@ const bill_equipment_selling = sum(billingData, 'bill_equipment_selling');
     totalSellProject: totalSellProject.toFixed(2),
     totalCostProject: totalCostProject.toFixed(2),
     totalGrossMargin: totalGrossMargin.toFixed(2),
+    grossProfit: grossProfit.toFixed(2),
     actualGrossMargin,
     gmEquip: gm(bill_equipment_selling, bill_equipment_cost),
     gmLabour: gm(bill_labourSell, bill_labourCost),

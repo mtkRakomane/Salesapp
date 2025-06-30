@@ -72,6 +72,7 @@ function calculateBillingData(
       : 0;
     const bill_tot_selling = bill_labourSell + bill_equipment_selling + pm_selling + sundries_selling;
     const bill_tot_cost = bill_labourCost + bill_equipment_cost + pm_cost + sundries_cost + totalLabourHours;
+    const grossProfit = bill_tot_selling - bill_tot_selling;
     const hwReplace = billItems.reduce((sum, i) => sum + parseFloat(i.hwReplaceProv || 0), 0);
     const totalMaintLabFactor = billItems.reduce((sum, i) =>
       sum + ((parseFloat(i.maint_lab_factor) || 0) * (parseFloat(i.qty) || 0)), 0);
@@ -91,6 +92,7 @@ function calculateBillingData(
       bill_tot_cost: bill_tot_cost.toFixed(2),
       bill_labourCost: bill_labourCost.toFixed(2),
       bill_labourSell: bill_labourSell.toFixed(2),
+      grossProfit: grossProfit.toFixed(2),
       hwReplace: hwReplace.toFixed(2),
       totalMaintLabFactor: totalMaintLabFactor.toFixed(2)
     };
