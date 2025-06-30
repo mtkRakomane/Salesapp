@@ -15,7 +15,6 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -23,7 +22,6 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME
 });
 const port = process.env.PORT || 3034;
-
 db.connect(err => {
   if (err) throw err;
   console.log('MySQL connected.');
@@ -109,15 +107,7 @@ app.get('/register-customer', async (req, res) => {
 });
 app.post('/register-customer', (req, res) => {
   const {
-    customerEmail,
-    customerName,
-    customerCell,
-    jobDescription,
-    reference,
-    name,
-    cell,
-    email,
-    role
+    customerEmail, customerName, customerCell, jobDescription, reference, name, cell, email, role
   } = req.body;
   const checkSql = `
     SELECT * FROM Customer 
@@ -543,7 +533,6 @@ app.get('/my-customers', (req, res) => {
     res.render('customer/my-customers', { customers: results });
   });
 });
-
 const calculatePrintData = require('./utils/calculatePrintData');
 app.get('/print', async (req, res) => {
   const userRefNum = req.query.reference || req.session.user?.reference;

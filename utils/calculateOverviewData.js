@@ -8,6 +8,7 @@ const bill_equipment_selling = sum(billingData, 'bill_equipment_selling');
   const bill_labourCost = sum(billingData, 'bill_labourCost');
   const pm_cost = sum(billingData, 'pm_cost');
   const pm_selling = sum(billingData, 'pm_selling');
+  const pm_hrs = sum(billingData, 'pm_hrs')
   const sundries_cost = sum(billingData, 'sundries_cost');
   const sundries_selling = sum(billingData, 'sundries_selling');
   const totalLabourHours = sum(billingData, 'totalLabourHours');
@@ -31,6 +32,7 @@ const bill_equipment_selling = sum(billingData, 'bill_equipment_selling');
     bill_labourSell: bill_labourSell.toFixed(2),
     pm_cost: pm_cost.toFixed(2),
     pm_selling: pm_selling.toFixed(2),
+    pm_hrs: pm_hrs.toFixed(2),
     sundries_cost: sundries_cost.toFixed(2),
     sundries_selling: sundries_selling.toFixed(2),
     totalSellProject: totalSellProject.toFixed(2),
@@ -49,7 +51,7 @@ const bill_equipment_selling = sum(billingData, 'bill_equipment_selling');
     totalTax: vat.toFixed(2),
     totalVatSell: totalVatSell.toFixed(2),
     totalLabourHours: totalLabourHours.toFixed(2),
-    projectDays: (totalLabourHours / 8).toFixed(2),
+    projectDays: Math.round(totalLabourHours / 8),
     projectWeeks: (totalLabourHours / 40).toFixed(2)
   };
 }

@@ -7,6 +7,7 @@
    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <div class="container">
   <form id="additem-form" action="/additems" method="POST">
      <h1>Add Item</h1>
     <input type="hidden" name="reference" value="<%= reference %>" >
@@ -72,6 +73,17 @@
       <button type="submit">Add Item</button>
     </div>
   </form>
+  <form >
+    <h2 style="color: aliceblue;"> NOC</h2>
+       <div class="additem-form-group">
+    <label>Alarm monitoring - per partion: <input placeholder="Alarm"/> </label> </div>
+      <div class="additem-form-group">
+    <label>Armed Response : <input placeholder="Armed Response "/> </label> </div>
+      <div class="additem-form-group">
+    <label>SMS - Actionable signals sms to 2 numbers<input placeholder="SMS - Actionable signals sms to 2 numbers"/> </label> </div>
+    
+  </form>
+  </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function () {

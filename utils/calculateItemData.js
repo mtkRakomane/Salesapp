@@ -11,7 +11,7 @@ function calculateItemFields(item, labourRate = 400) {
   const equipUnitRate = (1 - equipmentMargin) !== 0 ? unitCost / (1 - equipmentMargin) : 0;
   const equipTotal = equipUnitRate * qty * installDiffFactor;
   const equipmentCost = unitCost * qty;
-  const labourCost = labourFactorHrs * labourRate * installDiffFactor;
+  const labourCost = labourFactorHrs * labourRate * installDiffFactor * qty;
   const unitLabRate = labourFactorHrs * sellRate * installDiffFactor;
   const totalLabour = unitLabRate * qty;
   const hwReplaceProv = maintLabFactor > 0 ? equipTotal : 0;
