@@ -575,6 +575,8 @@ app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/login');
 });
+app.get('/noc', (req, res) => res.render('noc'));
+
 app.listen(port, () => {
   console.log(`Server running`);
 });
