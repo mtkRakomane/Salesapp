@@ -210,14 +210,12 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
     let expiryDate = localStorage.getItem("expiryDate");
-    
     if (expiryDate) {
         document.getElementById("expiryDateSummary").innerText = expiryDate;
     } else {
         document.getElementById("expiryDateSummary").innerText = "No expiry date selected.";
     }
 });
-
     </script>
 </body>
 </html>

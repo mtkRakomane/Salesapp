@@ -81,43 +81,34 @@
     <label>Armed Response : <input placeholder="Armed Response "/> </label> </div>
       <div class="additem-form-group">
     <label>SMS - Actionable signals sms to 2 numbers<input placeholder="SMS - Actionable signals sms to 2 numbers"/> </label> </div>
-    
   </form>
   </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function () {
       const installDifficultyTypes = <%- JSON.stringify(installDifficultyTypes) %>;
-  
       $("#product_type").change(function () {
         var selectedProduct = $(this).val();
         var selectedProductData = <%- JSON.stringify(productTypes) %>.find(function (product) {
           return product.product_type === selectedProduct;
         });
-  
         if (selectedProductData) {
           $("#labour_factor_hrs").val(selectedProductData.labour_factor_hrs);
           $("#maint_lab_factor").val(selectedProductData.maint_lab_factor);
         }
       });
-  
       $('#install_diff').change(function () {
         const selectedDiff = $(this).val();
-  
         const selectedDiffData = installDifficultyTypes.find(function (item) {
           return item.install_diff === selectedDiff;
         });
-  
         if (selectedDiffData) {
           $('#install_diff_factor').val(selectedDiffData.install_diff_factor);
         }
       });
-
       $('#additem-form').on('submit', function (e) {
         e.preventDefault();
-  
         const formData = $(this).serialize();
-  
         $.ajax({
           url: '/additems',
           type: 'POST',
