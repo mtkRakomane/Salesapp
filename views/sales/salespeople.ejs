@@ -21,17 +21,19 @@
         <td><%= person.email %></td>
         <td><%= person.cell %></td>
         <td><%= person.role %></td>
-        <td> #give access</td>
-          <td>
-        <form method="POST" action="/admin/delete-salesperson" onsubmit="return confirm('Are you sure you want to remove this salesperson?');">
-          <input type="hidden" name="email" value="<%= person.email %>">
-          <button type="submit" style="background-color:red; color:white;">Remove</button>
-        </form>
-      </td>
+        <td style="color: <%= person.is_allowed ? 'limegreen' : 'red' %>;">
+          <%= person.is_allowed ? 'Given Access' : 'Not Approved' %>
+        </td>
+        <td>
+          <form method="POST" action="/admin/delete-salesperson" onsubmit="return confirm('Are you sure you want to remove this salesperson?');">
+            <input type="hidden" name="email" value="<%= person.email %>">
+            <button type="submit" style="background-color:red; color:white;">Remove</button>
+          </form>
+        </td>
       </tr>
     <% }); %>
   </table>
-   <button type="submit" ><a href="/viewQuotes" class="btn btn-warning mb-2">view our sales Quotes</a> </button>
+ <button type="submit" ><a href="/viewQuotes" class="btn btn-warning mb-2">View Our Sales Quotes</a></button> 
   <br>
   <a href="/admin/dashboard">Back to Admin Dashboard</a>
 </body>

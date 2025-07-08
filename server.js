@@ -169,7 +169,7 @@ app.get('/salespeople', (req, res) => {
   if (!req.session.admin && !req.session.sales) {
     return res.redirect('/login');
   }
-  db.query('SELECT name, email, cell, role FROM Salespeople', (err, results) => {
+  db.query('SELECT name, email, cell, is_allowed, role FROM Salespeople', (err, results) => {
     if (err) {
       console.error('Error fetching salespeople:', err);
       return res.status(500).send('Failed to retrieve salespeople.');
@@ -490,32 +490,65 @@ app.get('/overview', async (req, res) => {
   }
 });
 app.get('/viewQuotes', async (req, res) => {
-  const salespersonName = req.query.name;
+  const name = req.query.name;
+
   try {
-    let query;
-    let params = [];
-    if (salespersonName) {
-      query = `
-        SELECT 
-          reference, customerName, customerEmail, customerCell, jobDescription,
-          name, email, role, cell 
-        FROM customer
-        WHERE name = ?
-        ORDER BY customerName
-      `;
-      params = [salespersonName];
+    if (name) {
+      // 1. Get salesperson info
+      const [salesperson] = await executeQuery(
+        'SELECT * FROM Salespeople WHERE name = ?',
+        [name]
+      );
+      if (!salesperson) return res.send('Salesperson not found');
+
+      const isRemoved = salesperson.is_allowed === 0;
+
+      // 2. Get customer quotes for that salesperson
+      const customers = await executeQuery(
+        `SELECT * FROM customer WHERE name = ? ORDER BY customerName`,
+        [name]
+      );
+
+      // 3. Get their items (only if salesperson was removed)
+      let groupedItems = {};
+      if (isRemoved && customers.length > 0) {
+        const references = customers.map(c => c.reference);
+        const placeholders = references.map(() => '?').join(',');
+        const itemRows = await executeQuery(
+          `SELECT * FROM items WHERE reference IN (${placeholders})`,
+          references
+        );
+
+        // Group by reference
+        itemRows.forEach(item => {
+          if (!groupedItems[item.reference]) {
+            groupedItems[item.reference] = [];
+          }
+          groupedItems[item.reference].push(item);
+        });
+      }
+
+      res.render('viewQuotes', {
+        selectedName: name,
+        isRemoved,
+        quotes: customers,
+        items: groupedItems
+      });
     } else {
-      query = `
-        SELECT DISTINCT name 
-        FROM customer
-        ORDER BY name
-      `;
+      // No name selected → show salespeople list
+      const salespeople = await executeQuery(
+        'SELECT DISTINCT name, is_allowed FROM Salespeople ORDER BY name'
+      );
+      res.render('viewQuotes', {
+        selectedName: null,
+        isRemoved: null,
+        quotes: salespeople,
+        items: {}
+      });
     }
-    const results = await executeQuery(query, params);
-    res.render('viewQuotes', { quotes: results, selectedName: salespersonName });
-  } catch (error) {
-    console.error('Error fetching quotes:', error);
-    res.status(500).send('Server Error');
+  } catch (err) {
+    console.error('Error loading viewQuotes:', err);
+    res.status(500).send('Internal server error');
   }
 });
 app.get('/my-customers', (req, res) => {
@@ -572,12 +605,49 @@ app.get('/print', async (req, res) => {
 });
 app.post('/admin/delete-salesperson', async (req, res) => {
   const email = req.body.email;
-
   try {
-    await executeQuery('DELETE FROM salespeople WHERE email = ?', [email]);
+    await executeQuery('UPDATE salespeople SET is_allowed = 0 WHERE email = ?', [email]);
     res.redirect('/admin/dashboard');
   } catch (error) {
-    console.error('Failed to delete salesperson:', error);
+    console.error('Error disabling salesperson:', error);
+    res.status(500).send('Server Error');
+  }
+});
+app.get('/admin/salesperson-data/:name', async (req, res) => {
+  const name = req.params.name;
+  try {
+    const customers = await executeQuery(
+      `SELECT 
+         reference, customerName, customerEmail, customerCell, jobDescription,
+         name, email, role, cell 
+       FROM customer
+       WHERE name = ?
+       ORDER BY customerName`,
+      [name]
+    );
+    const references = customers.map(c => c.reference);
+    let items = [];
+    if (references.length > 0) {
+      items = await executeQuery(
+        `SELECT * FROM items WHERE reference IN (${references.map(() => '?').join(',')})`,
+        references
+      );
+    }
+    res.render('admin-view-salesperson-data', { name, customers, items });
+  } catch (error) {
+    console.error('Error retrieving data:', error);
+    res.status(500).send('Server error.');
+  }
+});
+app.post('/admin/toggle-access', async (req, res) => {
+  const email = req.body.email;
+  try {
+    const [user] = await executeQuery('SELECT is_allowed FROM salespeople WHERE email = ?', [email]);
+    const newStatus = user.is_allowed ? 0 : 1;
+    await executeQuery('UPDATE salespeople SET is_allowed = ? WHERE email = ?', [newStatus, email]);
+    res.redirect('/admin/dashboard');
+  } catch (error) {
+    console.error('Error toggling access:', error);
     res.status(500).send('Server Error');
   }
 });
