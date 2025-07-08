@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h2>Sale's People List</h2>
+  <h2 style="color: aliceblue;">Sale's People List</h2>
   <table border="1">
     <tr>
       <th>Name</th>
@@ -13,6 +13,7 @@
       <th>Cell</th>
       <th>Role</th>
       <th>Approved/NotApproved</th>
+      <th>Action</th>
     </tr>
     <% salespeople.forEach(person => { %>
       <tr>
@@ -21,6 +22,12 @@
         <td><%= person.cell %></td>
         <td><%= person.role %></td>
         <td> #give access</td>
+          <td>
+        <form method="POST" action="/admin/delete-salesperson" onsubmit="return confirm('Are you sure you want to remove this salesperson?');">
+          <input type="hidden" name="email" value="<%= person.email %>">
+          <button type="submit" style="background-color:red; color:white;">Remove</button>
+        </form>
+      </td>
       </tr>
     <% }); %>
   </table>

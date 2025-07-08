@@ -570,6 +570,17 @@ app.get('/print', async (req, res) => {
     res.status(500).send('Error retrieving print data.');
   }
 });
+app.post('/admin/delete-salesperson', async (req, res) => {
+  const email = req.body.email;
+
+  try {
+    await executeQuery('DELETE FROM salespeople WHERE email = ?', [email]);
+    res.redirect('/admin/dashboard');
+  } catch (error) {
+    console.error('Failed to delete salesperson:', error);
+    res.status(500).send('Server Error');
+  }
+});
 // Logout
 app.get('/logout', (req, res) => {
   req.session.destroy();
