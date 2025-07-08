@@ -20,7 +20,6 @@
 <body>
 <div class="container mt-5">
   <h2 class="mb-4">View Quotes (All Salespeople)</h2>
-
   <% if (!selectedName) { %>
     <h4>Select a Salesperson:</h4>
     <ul class="list-group">
@@ -38,10 +37,8 @@
         </li>
       <% }) %>
     </ul>
-
   <% } else { %>
     <h4 class="mb-3">Quotes for <%= selectedName %></h4>
-
     <% if (quotes.length > 0) { %>
       <table class="table table-bordered table-striped bg-white text-dark">
         <thead class="table-dark">
@@ -68,7 +65,6 @@
     <% } else { %>
       <p>No quotes found for this salesperson.</p>
     <% } %>
-
     <% if (isRemoved) { %>
       <h4 class="mt-4">Items for <%= selectedName %>'s Customers</h4>
       <% if (Object.keys(items).length > 0) { %>
@@ -103,10 +99,8 @@
         <p>No items found for this salesperson’s customers.</p>
       <% } %>
     <% } %>
-
     <a href="/viewQuotes" class="btn btn-secondary mt-3">← Back to Salespeople</a>
   <% } %>
-
   <a href="/login" class="btn btn-outline-light ms-2 mt-3">Back to Login</a>
 </div>
 </body>
