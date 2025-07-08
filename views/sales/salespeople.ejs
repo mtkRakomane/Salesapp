@@ -23,7 +23,7 @@
         <td><%= person.cell %></td>
         <td><%= person.role %></td>
         <td style="color: <%= person.is_allowed ? 'limegreen' : 'red' %>;">
-          <%= person.is_allowed ? 'Given Access' : 'Not Approved' %>
+          <%= person.is_allowed ? 'Approved' : 'Not Approved' %>
         </td>
         <td>
           <form method="POST" action="/admin/delete-salesperson" onsubmit="return confirm('Are you sure you want to remove this salesperson?');">
