@@ -1,9 +1,9 @@
 function calculateItemFields(item, labourRate = 400) {
   const qty = parseFloat(item.qty) || 0;
   const unitCost = parseFloat(item.unit_cost) || 0;
-  const labourFactorHrs = parseFloat(item.labour_factor_hrs) || 0;
+  const labourFactorHrs = parseFloat(item.labour_factor_hrs * qty) || 0;
   const installDiffFactor = parseFloat(item.install_diff_factor) || 0;
-  const maintLabFactor = parseFloat(item.maint_lab_factor) || 0;
+  const maintLabFactor = parseFloat(item.maint_lab_factor * qty) || 0;
   const labourMargin = parseFloat(item.labour_margin) / 100 || 0;
   const equipmentMargin = parseFloat(item.equipment_margin) / 100 || 0;
   const safeLabourDivisor = 1 - labourMargin;
@@ -11,9 +11,9 @@ function calculateItemFields(item, labourRate = 400) {
   const equipUnitRate = (1 - equipmentMargin) !== 0 ? unitCost / (1 - equipmentMargin) : 0;
   const equipTotal = equipUnitRate * qty * installDiffFactor;
   const equipmentCost = unitCost * qty;
-  const labourCost = labourFactorHrs * labourRate * installDiffFactor * qty;
+  const labourCost = labourFactorHrs * labourRate * installDiffFactor;
   const unitLabRate = labourFactorHrs * sellRate * installDiffFactor;
-  const totalLabour = unitLabRate * qty;
+  const totalLabour = unitLabRate;
   const hwReplaceProv = maintLabFactor > 0 ? equipTotal : 0;
   return {
     ...item,

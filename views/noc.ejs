@@ -23,75 +23,75 @@
         <th>Equipment Unit Rate</th>
     </thead>
     <tbody>
-      <tr>
-        <td>MON</td>
-        <td>Alarm monitoring - per partition:</td>
-        <td><input type="text" id="alarm" name="alarm" placeholder="Alarm" class="form-control" /></td>
-        <td>R 300.00</td>
-        <td>R ...</td>
-      </tr>
-      <tr>
-         <td>MON</td>
-        <td>Armed Response:</td>
-        <td><input type="text" id="response" name="response" placeholder="Armed Response" class="form-control" /></td>
-        <td>R 450.00</td>
-        <td>R ...</td>
-      </tr>
+     <tr>
+    <td>MON</td>
+    <td>Alarm monitoring - per partition:</td>
+    <td><input type="number" class="qty" data-index="0" placeholder="Qty" /></td>
+    <td class="labour" data-index="0">300.00</td>
+    <td class="equipment" data-index="0">R 0.00</td>
+  </tr>
+   <tr>
+    <td>MON</td>
+    <td>Armed Response:</td>
+    <td><input type="number" class="qty" data-index="0" placeholder="Qty" /></td>
+    <td class="labour" data-index="0">450.00</td>
+    <td class="equipment" data-index="0">R 0.00</td>
+  </tr>
       <tr>
          <td>MON</td>
         <td>SMS - Actionable signals sms to 2 numbers:</td>
-        <td><input type="text" id="sms" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers" class="form-control" /></td>
-        <td>R 50.00</td>
-        <td>R ...</td>
+        <td><input type="number" class="qty" data-index="0" placeholder="SMS - Actionable signals sms to 2 numbers"  /></td>
+        <td class="labour" data-index="0">R 50.00</td>
+         <td class="equipment" data-index="0">R 0.00</td>
       </tr>
       <tr>
          <td>MON</td>
          <td>SMS Change</td>
-        <td><input type="text" id="sms" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers" class="form-control" /></td>
-        <td>R 65.00</td>
-        <td>R ...</td>
+        <td><input type="number" class="qty" data-index="0" placeholder="SMS - Actionable signals sms to 2 numbers"  /></td>
+        <td class="labour" data-index="0">R 65.00</td>
+       <td class="equipment" data-index="0">R 0.00</td>
       </tr>
       <tr>
          <td>MON</td>
         <td>Communication Fee</td>
-        <td><input type="text" id="sms" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers" class="form-control" /></td>
-        <td>R 25.00</td>
-        <td>R ...</td>
+        <td><input type="number" class="qty" data-index="0" placeholder="SMS - Actionable signals sms to 2 numbers"  /></td>
+        <td class="labour" data-index="0">R 25.00</td>
+        <td class="equipment" data-index="0">R 0.00</td>
       </tr>
       <tr>
          <td>MON</td>
         <td>AJAX Data Fee</td>
-        <td><input type="text" id="sms" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers" class="form-control" /></td>
-        <td>R 90.00</td>
-        <td>R ...</td>
+        <td><input type="number" class="qty" data-index="0" placeholder="SMS - Actionable signals sms to 2 numbers"  /></td>
+        <td class="labour" data-index="0" >R 90.00</td>
+        <td class="equipment" data-index="0">R 0.00</td>
       </tr>
       <tr>
          <td>MON</td>
         <td>VideoFied Data Fee:</td>
-         <td><input type="text" id="sms" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers" class="form-control" /></td>
-        <td>R 50.00</td>
-        <td>R ...</td>
+         <td><input type="number" class="qty" data-index="0" placeholder="SMS - Actionable signals sms to 2 numbers" /></td>
+        <td class="labour" data-index="0">R 50.00</td>
+         <td class="equipment" data-index="0">R 0.00</td>
       </tr>
       <tr>
          <td>EBM</td>
         <td>CCTV Offsite Event Based Monitoring:</td>
-        <td><input type="text" id="sms" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers" class="form-control" /></td>
+        <td><input type="number" class="qty" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers" /></td>
         <td>-</td>
-        <td>R ...</td>
+        <td>R </td>
       </tr>
       <tr>
         <td>SF</td>
         <td>Scarface - Facial Recognition - Live System:</td>
-        <td><input type="text" id="sms" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers" class="form-control" /></td>
-        <td>-</td>
-        <td>R ...</td>
+        <td><input type="number" class="qty" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers"  /></td>
+        <td> -</td>
+        <td>R </td>
       </tr>
       <tr>
          <td>SF App</td>
         <td>Scarface - Facial Recognition - Mobile App:</td>
-        <td><input type="text" id="sms" name="sms" placeholder="SMS - Actionable signals sms to 2 numbers" class="form-control" /></td>
-        <td>R 4999.00</td>
-        <td>R ...</td>
+        <td><input type="number" class="qty" data-index="0" placeholder="SMS - Actionable signals sms to 2 numbers" /></td>
+        <td class="labour" data-index="0">R 4999.00</td>
+         <td class="equipment" data-index="0">R 0.00</td>
       </tr>
     </tbody>
   </table>
@@ -117,6 +117,7 @@
     </tbody>
   </table>
 </form>
+<script src="/utils/nocCalculation.js"></script>
 
 </body>
 </html>
