@@ -74,7 +74,7 @@ app.post('/login', (req, res) => {
       if (results.length > 0 && await bcrypt.compare(password, results[0].password)) {
         if (!results[0].is_allowed) return res.send('Access denied by admin.');
         req.session.sales = results[0];
-        return res.redirect('/sales/dashboard');
+        return res.redirect('/sales/salesView');
       } else {
         return res.send('Invalid salesperson login.');
       }
@@ -420,7 +420,7 @@ app.get('/billing', async (req, res) => {
       cell: itemsResult[0]?.cell || '',
       bills: billsData
     };
-    res.render('billing', { groupedItems });
+    res.render('billing', { groupedItems, reference });
   } catch (error) {
     console.error('Error fetching items:', error);
     res.status(500).send('Error retrieving items data.');
@@ -491,25 +491,18 @@ app.get('/overview', async (req, res) => {
 });
 app.get('/viewQuotes', async (req, res) => {
   const name = req.query.name;
-
   try {
     if (name) {
-      // 1. Get salesperson info
       const [salesperson] = await executeQuery(
         'SELECT * FROM Salespeople WHERE name = ?',
         [name]
       );
       if (!salesperson) return res.send('Salesperson not found');
-
       const isRemoved = salesperson.is_allowed === 0;
-
-      // 2. Get customer quotes for that salesperson
       const customers = await executeQuery(
         `SELECT * FROM customer WHERE name = ? ORDER BY customerName`,
         [name]
       );
-
-      // 3. Get their items (only if salesperson was removed)
       let groupedItems = {};
       if (isRemoved && customers.length > 0) {
         const references = customers.map(c => c.reference);
@@ -518,8 +511,6 @@ app.get('/viewQuotes', async (req, res) => {
           `SELECT * FROM items WHERE reference IN (${placeholders})`,
           references
         );
-
-        // Group by reference
         itemRows.forEach(item => {
           if (!groupedItems[item.reference]) {
             groupedItems[item.reference] = [];
@@ -527,7 +518,6 @@ app.get('/viewQuotes', async (req, res) => {
           groupedItems[item.reference].push(item);
         });
       }
-
       res.render('viewQuotes', {
         selectedName: name,
         isRemoved,
@@ -535,7 +525,6 @@ app.get('/viewQuotes', async (req, res) => {
         items: groupedItems
       });
     } else {
-      // No name selected → show salespeople list
       const salespeople = await executeQuery(
         'SELECT DISTINCT name, is_allowed FROM Salespeople ORDER BY name'
       );
@@ -657,6 +646,32 @@ app.get('/logout', (req, res) => {
   res.redirect('/login');
 });
 app.get('/noc', (req, res) => res.render('noc'));
+app.get('/sales/salesView', (req, res) => {
+  res.render('sales/salesView'); 
+});
+app.get('/items', async (req, res) => {
+  const reference = req.query.reference;
+  const bill = req.query.bill;
+  if (!reference || !bill) return res.status(400).send('Missing reference or bill.');
+
+  try {
+    const items = await executeQuery(
+      `SELECT id_items,stock_code, description, qty, product_type, unit_cost,
+              maint_lab_factor, labour_factor_hrs, install_diff_factor,
+              labour_margin, equipment_margin
+       FROM items
+       WHERE reference = ? AND bill = ?`,
+      [reference, bill]
+    );
+
+    const calculatedItems = items.map(item => calculateItemFields(item));
+
+    res.render('items', { bill, reference, items: calculatedItems });
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).send('Server error');
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running`);

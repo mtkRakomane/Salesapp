@@ -25,12 +25,12 @@
        style="background: linear-gradient(135deg, #2c3136, #1d2020, #c4c0c0);">
       <h2 class="text-2xl font-bold mb-6">Actions</h2>
       <nav class="space-y-3">
+         <a href="/overview?reference=<%= customer.reference %>" class="block bg-teal-600 hover:bg-teal-500 p-3 rounded">Overview</a>
         <a href="/additems?reference=<%= customer.reference %>" class="block bg-blue-700 hover:bg-blue-600 p-3 rounded">Add Items</a>
         <a href="/viewitems?reference=<%= customer.reference %>" class="block bg-green-600 hover:bg-green-500 p-3 rounded">View Items</a>
-        <a href="/billing?reference=<%= customer.reference %>" class="block bg-green-700 hover:bg-green-600 p-3 rounded">View Billing</a>
-        <a href="/overview?reference=<%= customer.reference %>" class="block bg-teal-600 hover:bg-teal-500 p-3 rounded">Overview</a>
-    <a href="/print?reference=<%= customer.reference %>" class="block bg-indigo-600 hover:bg-indigo-500 p-3 rounded">Print</a>
-    <a href="/noc" class="block bg-green-600 hover:bg-green-500 p-3 rounded"> NOC </a>
+        <a href="/billing?reference=<%= customer.reference %>" class="block bg-green-700 hover:bg-green-600 p-3 rounded">View Bills</a>
+        <a href="/print?reference=<%= customer.reference %>" class="block bg-indigo-600 hover:bg-indigo-500 p-3 rounded">View Qoute</a>
+        <a href="/noc" class="block bg-green-600 hover:bg-green-500 p-3 rounded"> NOC </a>
       </nav>
     </aside>
    <main 
