@@ -139,32 +139,32 @@ app.post('/register-customer', (req, res) => {
   });
 });
 app.get('/customer-search', (req, res) => {
-  const { reference, email } = req.query;
+  const { reference } = req.query;
   const salesperson = req.session.sales;
+
   if (!salesperson) {
     return res.redirect('/login');
   }
-  if (!reference || !email) {
-    return res.status(400).send('Reference and email are required.');
+
+  if (!reference) {
+    return res.status(400).send('Reference is required.');
   }
-  const salespersonName = salesperson.name; 
-  const sql = `
-    SELECT * FROM Customer 
-    WHERE reference = ? 
-      AND customerEmail = ? 
-      AND name = ?
-  `;
-  db.query(sql, [reference, email, salespersonName], (err, results) => {
+
+  const sql = `SELECT * FROM Customer WHERE reference = ?`;
+
+  db.query(sql, [reference], (err, results) => {
     if (err) {
       console.error('Error fetching customer:', err);
       return res.status(500).send('Error retrieving customer details.');
     }
     if (results.length === 0) {
-      return res.status(404).send('Customer not found for this salesperson.');
+      return res.status(404).send('Customer not found.');
     }
+
     res.render('customer/customer-details', { customer: results[0] });
   });
 });
+
 app.get('/salespeople', (req, res) => {
   if (!req.session.admin && !req.session.sales) {
     return res.redirect('/login');
@@ -640,12 +640,6 @@ app.post('/admin/toggle-access', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-// Logout
-app.get('/logout', (req, res) => {
-  req.session.destroy();
-  res.redirect('/login');
-});
-app.get('/noc', (req, res) => res.render('noc'));
 app.get('/sales/salesView', (req, res) => {
   res.render('sales/salesView'); 
 });
@@ -672,7 +666,99 @@ app.get('/items', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+app.get('/noc', (req, res) => {
+  if (!req.session.sales) return res.redirect('/login');
+  const reference = req.session.sales.reference;
+  res.render('noc', { reference });
+});
+app.post('/noc', async (req, res) => {
+  try {
+     const reference = req.session.sales?.reference; // ✅ use session
 
+    if (!reference) return res.status(400).send('Error: Reference is missing.');
+
+    const {
+      alarmMonitoring,
+      armedResponse,
+      smsActionable,
+      smsChange,
+      communicationFee,
+      ajaxDataFee,
+      videoFiedFee,
+      cctvOffsite,
+      scarfaceLiveSystem,
+      scarfaceMobile,
+      cctvLinkFee,
+      nocLinkFee
+    } = req.body;
+
+    // Validate reference
+    if (!reference) return res.status(400).send('Error: Reference is missing.');
+
+    const referenceExists = await executeQuery(
+      'SELECT 1 FROM customer WHERE reference = ?',
+      [reference]
+    );
+
+    if (referenceExists.length === 0) {
+      return res.status(404).send('Error: Reference does not exist in customers.');
+    }
+
+    // Optional: Check if NOC entry already exists
+    const nocExists = await executeQuery(
+      'SELECT 1 FROM noc WHERE reference = ?',
+      [reference]
+    );
+
+    if (nocExists.length > 0) {
+      return res.status(400).send('Error: NOC entry already exists for this reference.');
+    }
+
+    // Insert NOC data
+    await executeQuery(
+      `INSERT INTO noc (
+        reference,
+        alarmMonitoring,
+        armedResponse,
+        smsActionable,
+        smsChange,
+        communicationFee,
+        ajaxDataFee,
+        videoFiedFee,
+        cctvOffsite,
+        scarfaceLiveSystem,
+        scarfaceMobile,
+        cctvLinkFee,
+        nocLinkFee
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        reference,
+        alarmMonitoring || 0,
+        armedResponse || 0,
+        smsActionable || 0,
+        smsChange || 0,
+        communicationFee || 0,
+        ajaxDataFee || 0,
+        videoFiedFee || 0,
+        cctvOffsite || 0,
+        scarfaceLiveSystem || 0,
+        scarfaceMobile || 0,
+        cctvLinkFee || 0,
+        nocLinkFee || 0
+      ]
+    );
+
+    res.redirect('/noc'); // or res.json({ success: true }) if using fetch
+  } catch (error) {
+    console.error('Error inserting NOC data:', error);
+    res.status(500).send('Database error while processing NOC request.');
+  }
+});
+// Logout
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/login');
+});
 app.listen(port, () => {
   console.log(`Server running`);
 });

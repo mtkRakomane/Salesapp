@@ -5,7 +5,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css" />
   <link rel="shortcut icon" href="assets/Bidvest-Protea-Coin-Logo.png" type="image/x-icon" />
-  <style>
+ <style>
     body {
       background-color: #1c1c2b;
       color: aliceblue;
@@ -20,7 +20,6 @@
 </head>
 <body>
 <div class="container mt-5">
-
   <% if (!selectedName) { %>
       <h2 class="mb-4">View Quotes (All Salespeople)</h2>
     <h4>Select a Salesperson:</h4>
@@ -42,6 +41,14 @@
   <% } else { %>
     <h4 class="mb-3">Quotes for <%= selectedName %></h4>
     <% if (quotes.length > 0) { %>
+          <div class="mb-3">
+  <input 
+    type="text" 
+    id="searchInput" 
+    class="form-control" 
+    placeholder="Search by customer name, email, reference"
+  >
+</div>
       <table class="table table-bordered table-striped bg-white text-dark">
         <thead class="table-dark">
           <tr>
@@ -75,5 +82,17 @@
   <% } %>
   <a href="/login" class="btn btn-outline-light ms-2 mt-3">Back to Login</a>
 </div>
+<script>
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const searchValue = this.value.toLowerCase();
+    const rows = document.querySelectorAll('table tbody tr');
+
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(searchValue) ? '' : 'none';
+    });
+  });
+</script>
+
 </body>
 </html>

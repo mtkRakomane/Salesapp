@@ -1,19 +1,39 @@
-// public/js/nocCalculation.js
+document.querySelector('form').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
-document.addEventListener('DOMContentLoaded', () => {
-  const qtyInputs = document.querySelectorAll('.qty');
+  const items = [];
 
-  qtyInputs.forEach(input => {
-    input.addEventListener('input', () => {
-      const index = input.dataset.index;
-      const qty = parseFloat(input.value) || 0;
-      const labourCell = document.querySelector(`.labour[data-index="${index}"]`);
-      const equipmentCell = document.querySelector(`.equipment[data-index="${index}"]`);
+  document.querySelectorAll('tbody tr').forEach(row => {
+    const qtyInput = row.querySelector('input[type="number"]');
+    const labourCell = row.querySelector('.labourUniteRate');
 
-      const labourRate = parseFloat(labourCell.textContent.replace(/[^\d.]/g, '')) || 0;
-      const total = qty * labourRate;
+    if (qtyInput && labourCell) {
+      const quantity = parseFloat(qtyInput.value);
+      const labourRate = parseFloat(labourCell.innerText.replace(/[^\d.]/g, ''));
 
-      equipmentCell.textContent = `R ${total.toFixed(2)}`;
-    });
+      if (!isNaN(quantity) && !isNaN(labourRate) && quantity > 0) {
+        items.push({
+          quantity,
+          labourUnitRate: labourRate
+        });
+      }
+    }
   });
+
+  if (items.length > 0) {
+    try {
+      const res = await fetch('/noc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items })
+      });
+
+      const result = await res.json();
+      alert(result.message || 'Saved!');
+    } catch (err) {
+      alert('Error submitting form');
+    }
+  } else {
+    alert('Please enter quantities');
+  }
 });
