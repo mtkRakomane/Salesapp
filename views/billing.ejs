@@ -73,7 +73,7 @@
     <tbody>
       <% groupedItems.bills.forEach((bill) => { %>
         <tr>
-          <td><a href="/items?bill=<%= bill.bill %>&reference=<%= reference %>" class="btn btn-sm btn-info">Items</a></td>
+          <td><a href="/items?bill=<%= bill.bill %>&reference=<%= reference %>" class="btn btn-sm btn-info">View Items</a></td>
           <td style="width: 80px; font-size: 11px;"><%= bill.bill %></td>
           <td style="width: 80px; font-size: 11px;"><%= bill.totalLabourHours %></td>
           <td style="width: 80px; font-size: 11px;"><%= formatAccounting(bill.bill_labourCost) %></td>
