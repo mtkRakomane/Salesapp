@@ -30,7 +30,7 @@ body {
     width: 75%;
     box-sizing: border-box;
   }
-  .login-form, .admin-sale-form{
+  .login-form, .admin-sale-form, .updateSales-form{
   max-width: 400px;
   margin: 50px auto;
   padding: 30px;
@@ -57,7 +57,7 @@ body {
 .login-form button[type="submit"]:hover {
   background-color: #0056b3;
 }
-.login-form-group{
+.login-form-group, .updateSales-form-group{
   display: block;
   margin-bottom: 8px;
   font-weight: 600;

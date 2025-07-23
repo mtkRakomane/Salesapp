@@ -9,15 +9,23 @@
 <body>
 
   <h1>Update Sales Details for <%= sales.name %></h1>
-  <form action="/sales/updateSales" method="POST">
+  <form class="updateSales-form" action="/sales/updateSales" method="POST">
+    <div class="updateSales-form-group">
     <label for="name">Sales Name:</label>
     <input type="text" id="name" name="name" value="<%= sales.name %>" required><br><br>
+    </div>
+    <div class="updateSales-form-group">
     <label for="email">Sales Email:</label>
     <input type="email" id="email" name="email" value="<%= sales.email %>" required><br><br>
+    </div>
+    <div class="updateSales-form-group">
     <label for="cell">Sales Cell:</label>
     <input type="text" id="cell" name="cell" value="<%= sales.cell %>" required><br><br>
+    </div>
+    <div class="updateSales-form-group">
     <label for="role">Sales Role:</label>
     <input type="text" id="role" name="role" value="<%= sales.role %>" required><br><br>
+    </div>
     <button type="submit">Update Details</button>
   </form>
 </body>
