@@ -49,7 +49,6 @@
     placeholder="Search by customer name, email, reference"
   >
 </div>
-     
     <table class="table table-bordered text-white">
   <thead>
     <tr>
@@ -73,17 +72,17 @@
        <td><%= quote.customerCell %></td>
         <td><%= quote.jobDescription %></td>
         <td>
-          <% if (bill) { %>
-            <a href="/items?bill=<%= bill %>&reference=<%= quote.reference %>" class="btn btn-sm btn-info">View Items</a>
-          <% } else { %>
-            <span class="text-muted">No Items</span>
-          <% } %>
-        </td>
+  <% if (itemsForThisRef && itemsForThisRef.length > 0) { %>
+    <a href="/viewitems?reference=<%= quote.reference %>" class="block bg-green-600 hover:bg-green-500 p-3 rounded text-blue text-center">View Items</a>
+  <% } else { %>
+    <span class="text-muted">No Items</span>
+  <% } %>
+</td>
+
       </tr>
     <% }); %>
   </tbody>
 </table>
-
     <% } else { %>
       <p>No quotes found for this salesperson.</p>
     <% } %>  

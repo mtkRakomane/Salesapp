@@ -143,19 +143,13 @@ app.get('/customer-search', (req, res) => {
   const salesperson = req.session.sales;
   if (!salesperson) return res.redirect('/login');
   if (!reference) return res.status(400).send('Reference is required.');
-
   db.query('SELECT * FROM Customer WHERE reference = ?', [reference], (err, results) => {
     if (err) return res.status(500).send('Error retrieving customer details.');
     if (results.length === 0) return res.status(404).send('Customer not found.');
-
-    // ✅ Save reference in session
     req.session.reference = reference;
-
     res.render('customer/customer-details', { customer: results[0] });
   });
 });
-
-
 app.get('/salespeople', (req, res) => {
   if (!req.session.admin && !req.session.sales) {
     return res.redirect('/login');
@@ -638,7 +632,6 @@ app.get('/items', async (req, res) => {
   const reference = req.query.reference;
   const bill = req.query.bill;
   if (!reference || !bill) return res.status(400).send('Missing reference or bill.');
-
   try {
     const items = await executeQuery(
       `SELECT id_items,stock_code, description, qty, product_type, unit_cost,
@@ -648,9 +641,7 @@ app.get('/items', async (req, res) => {
        WHERE reference = ? AND bill = ?`,
       [reference, bill]
     );
-
     const calculatedItems = items.map(item => calculateItemFields(item));
-
     res.render('items', { bill, reference, items: calculatedItems });
   } catch (err) {
     console.error('Error:', err);
