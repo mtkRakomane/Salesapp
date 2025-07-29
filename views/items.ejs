@@ -25,6 +25,7 @@
       <table class="table table-dark table-bordered table-sm">
         <thead>
           <tr>
+            <th>Bill</th>
             <th>Stock Code</th>
             <th>Description</th>
             <th>Qty</th>
@@ -44,6 +45,7 @@
         <tbody>
           <% items.forEach(item => { %>
             <tr>
+              <td><%= item.bill %></td>
               <td><%= item.stock_code %></td>
               <td><%= item.description %></td>
               <td><%= item.qty %></td>

@@ -494,21 +494,21 @@ app.get('/viewQuotes', async (req, res) => {
         `SELECT * FROM customer WHERE name = ? ORDER BY customerName`,
         [name]
       );
-      let groupedItems = {};
-      if (isRemoved && customers.length > 0) {
-        const references = customers.map(c => c.reference);
-        const placeholders = references.map(() => '?').join(',');
-        const itemRows = await executeQuery(
-          `SELECT * FROM items WHERE reference IN (${placeholders})`,
-          references
-        );
-        itemRows.forEach(item => {
-          if (!groupedItems[item.reference]) {
-            groupedItems[item.reference] = [];
-          }
-          groupedItems[item.reference].push(item);
-        });
-      }
+    let groupedItems = {};
+if (customers.length > 0) {
+  const references = customers.map(c => c.reference);
+  const placeholders = references.map(() => '?').join(',');
+  const itemRows = await executeQuery(
+    `SELECT * FROM items WHERE reference IN (${placeholders})`,
+    references
+  );
+  itemRows.forEach(item => {
+    if (!groupedItems[item.reference]) {
+      groupedItems[item.reference] = [];
+    }
+    groupedItems[item.reference].push(item);
+  });
+}
       res.render('viewQuotes', {
         selectedName: name,
         isRemoved,
@@ -643,7 +643,7 @@ app.get('/items', async (req, res) => {
     const items = await executeQuery(
       `SELECT id_items,stock_code, description, qty, product_type, unit_cost,
               maint_lab_factor, labour_factor_hrs, install_diff_factor,
-              labour_margin, equipment_margin
+              labour_margin, equipment_margin, bill
        FROM items
        WHERE reference = ? AND bill = ?`,
       [reference, bill]
