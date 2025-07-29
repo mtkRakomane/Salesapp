@@ -236,8 +236,9 @@ app.post('/additems', async (req, res) => {
 });
 const calculateItemFields = require('./utils/calculateItemData');
 app.get('/viewitems', async (req, res) => {
-  if (!req.session.sales) {
-    return res.status(401).send('Unauthorized: Salesperson not logged in');
+  const { sales, admin } = req.session;
+  if (!sales && !admin) {
+    return res.status(401).send('Unauthorized: Login required');
   }
   const reference = req.query.reference;
   if (!reference) {
@@ -758,7 +759,6 @@ app.post('/sales/updateSales', (req, res) => {
     }
   );
 });
-
 // Logout
 app.get('/logout', (req, res) => {
   req.session.destroy();

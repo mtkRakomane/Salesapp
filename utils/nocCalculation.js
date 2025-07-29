@@ -1,4 +1,3 @@
-
 const labourUnitRates = {
   alarmMonitoring: 3000.00,
   armedResponse: 450.00,
@@ -13,10 +12,8 @@ const labourUnitRates = {
   cctvLinkFee: 0.00,
   nocLinkFee: 0.00
 };
-
 function calculateEquipmentRates(nocData) {
   const results = {};
-
   for (const item in labourUnitRates) {
     const quantity = parseInt(nocData[item] || 0, 10);
     const labourRate = labourUnitRates[item];
@@ -29,5 +26,4 @@ function calculateEquipmentRates(nocData) {
 
   return results;
 }
-
 module.exports = { calculateEquipmentRates };

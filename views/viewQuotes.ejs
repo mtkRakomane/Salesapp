@@ -78,7 +78,6 @@
     <span class="text-muted">No Items</span>
   <% } %>
 </td>
-
       </tr>
     <% }); %>
   </tbody>
@@ -94,7 +93,6 @@
   document.getElementById('searchInput').addEventListener('input', function () {
     const searchValue = this.value.toLowerCase();
     const rows = document.querySelectorAll('table tbody tr');
-
     rows.forEach(row => {
       const text = row.innerText.toLowerCase();
       row.style.display = text.includes(searchValue) ? '' : 'none';
