@@ -1,6 +1,8 @@
 const calculateBillingData = require('./calculateBillingData');
+const calculateItemData = require('./calculateItemData');
 function calculatePrintData(items, labour_rate = 400, pm_rate = 0.15, equip_sundries = 0.03) {
-  const billing = calculateBillingData(items, {}, labour_rate, pm_rate, equip_sundries);
+  const enrichedItems = items.map(item => calculateItemData(item, labour_rate));
+  const billing = calculateBillingData(enrichedItems, {}, labour_rate, pm_rate, equip_sundries);
   const bills = billing.map(b => {
     return {
       bill: b.bill,
