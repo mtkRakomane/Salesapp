@@ -114,7 +114,7 @@
         </tr>
       </tfoot>
     </table>
-      <p style="font-size: bold; color: rgb(148, 10, 10);  text-align: center;">This proposal is valid for days and expires on <span id="expiryDateSummary">Loading...</span>
+      <p style="font-size: bold; color: rgb(148, 10, 10);  text-align: center;">This proposal is valid for days and expires on <span id="expiryDateSummary"></span>
 </p>
  <p style="font-size: 12px; text-align: center;">Standard Terms and conditions Apply</p>
 
@@ -156,5 +156,15 @@
     </div>
     <a href="/billing" class="btn btn-secondary mt-3">Back to Billing</a>
   </div>
+   <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    let expiryDate = localStorage.getItem("expiryDate");
+    if (expiryDate) {
+        document.getElementById("expiryDateSummary").innerText = expiryDate;
+    } else {
+        document.getElementById("expiryDateSummary").innerText = "No expiry date selected.";
+    }
+});
+    </script>
 </body>
 </html>
