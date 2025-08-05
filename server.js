@@ -558,8 +558,12 @@ app.get('/print', async (req, res) => {
          c.cell AS sale_cell,
          c.jobDescription AS job_description,
          c.reference,
+         n.alarmMonitoring, n.armedResponse, n.smsChange, n.smsActionable, n.communicationFee,
+         n.ajaDataFee, n.videoFieldFee, n.cctvOffsite, n.scarfaceLiveSystem, 
+         n.scafaceMobile
        FROM items i
        JOIN customer c ON i.reference = c.reference
+       JOIN noc n on i.reference = n.reference
        WHERE i.reference = ? 
        ORDER BY i.bill, i.reference`, 
       [userRefNum]
