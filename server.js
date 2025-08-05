@@ -557,7 +557,7 @@ app.get('/print', async (req, res) => {
          c.name AS sale_person,
          c.cell AS sale_cell,
          c.jobDescription AS job_description,
-         c.reference
+         c.reference,
        FROM items i
        JOIN customer c ON i.reference = c.reference
        WHERE i.reference = ? 

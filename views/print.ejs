@@ -135,15 +135,14 @@
             </td>
           </tr>
         </tbody>
-      </table>
-    <br> 
- <div class="container pt-5 mt-3">
-  <div class="row">
+      </table> 
+      <div class="container pt-5 mt-3">
+  <div class="row g-3">
     <div class="col-md-5">
       <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <p class="card-title text-uppercase text-muted" style="font-size: 12px; color: black;"><strong>Monitoring and Armed Response Rates</strong></pl>
-          <ul class="list-unstyled small" style="font-size: 11px;">
+        <div class="card-body p-3">
+          <h6 class="mb-3 text-dark" style="font-size: 13px; font-weight: bold;">Monitoring and Armed Response Rates</h6>
+          <ul class="list-unstyled mb-0" style="font-size: 12px;">
             <li>Alarm monitoring - per partition</li>
             <li>Armed Response - limited to 5 responses per month, additional fee applies thereafter</li>
             <li>SMS - Actionable signals SMS to 2 customer-defined numbers</li>
@@ -155,26 +154,26 @@
         </div>
       </div>
     </div>
-    <div class="col-md-7" style="color: black;">
+    <div class="col-md-7">
       <div class="card h-100 shadow-sm">
-        <div class="card-body">
-          <table class="table table-bordered table-sm mb-0">
+        <div class="card-body p-3">
+          <table class="table table-bordered table-sm mb-0" style="font-size: 12px;">
             <thead class="thead-light">
               <tr>
-                <th class="text-dark" style="font-size: 11px;color: black;">QTY</th>
-                <th class="text-dark" style="font-size: 11px; color: black;">Monthly Rate excl. VAT</th>
+                <th>QTY</th>
+                <th>Monthly Rate excl. VAT</th>
               </tr>
             </thead>
             <tbody>
               <% for(let i = 0; i < 7; i++) { %>
               <tr>
-                <td style="font-size: 10px; color: black;">0</td>
-                <td style="font-size: 10px; color: black;">R</td>
+                <td>0</td>
+                <td>R</td>
               </tr>
               <% } %>
               <tr>
-                <td>Total Mothely Rate</td>
-                <td>R</td>
+                <td><strong>Total Monthly Rate</strong></td>
+                <td><strong>R</strong></td>
               </tr>
             </tbody>
           </table>
