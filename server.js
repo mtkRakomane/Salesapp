@@ -559,8 +559,8 @@ app.get('/print', async (req, res) => {
          c.jobDescription AS job_description,
          c.reference,
          n.alarmMonitoring, n.armedResponse, n.smsChange, n.smsActionable, n.communicationFee,
-         n.ajaDataFee, n.videoFieldFee, n.cctvOffsite, n.scarfaceLiveSystem, 
-         n.scafaceMobile
+         n.ajaxDataFee, n.videoFiedFee, n.cctvOffsite, n.scarfaceLiveSystem, 
+         n.scarfaceMobile, n.reference 
        FROM items i
        JOIN customer c ON i.reference = c.reference
        JOIN noc n on i.reference = n.reference
