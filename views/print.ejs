@@ -6,6 +6,12 @@
     <title>Print - Quoting System</title>
     <link rel="stylesheet" href="/styles.css">
     <link rel="shortcut icon" href="assets/Bidvest-Protea-Coin-Logo.png" type="image/x-icon" />
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </head>
 <body>
     <%
@@ -131,7 +137,53 @@
         </tbody>
       </table>
     <br> 
-    
+ <div class="container pt-5 mt-3">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <p class="card-title text-uppercase text-muted" style="font-size: 12px; color: black;"><strong>Monitoring and Armed Response Rates</strong></pl>
+          <ul class="list-unstyled small" style="font-size: 11px;">
+            <li>Alarm monitoring - per partition</li>
+            <li>Armed Response - limited to 5 responses per month, additional fee applies thereafter</li>
+            <li>SMS - Actionable signals SMS to 2 customer-defined numbers</li>
+            <li>SIM Charge</li>
+            <li>Communication Fee</li>
+            <li>AJAX Data Fee</li>
+            <li>VideoFies Data Fee</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7" style="color: black;">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <table class="table table-bordered table-sm mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th class="text-dark" style="font-size: 11px;color: black;">QTY</th>
+                <th class="text-dark" style="font-size: 11px; color: black;">Monthly Rate excl. VAT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i = 0; i < 7; i++) { %>
+              <tr>
+                <td style="font-size: 10px; color: black;">0</td>
+                <td style="font-size: 10px; color: black;">R</td>
+              </tr>
+              <% } %>
+              <tr>
+                <td>Total Mothely Rate</td>
+                <td>R</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
       <p style="font-size: Bold; color: rgb(148, 10, 10); text-align: center;">Proposal Expiry Date: <span id="expiryDateSummary">Loading...</span></p>
     <p style="font-size: 12px">Terms and Conditions</p>
     <div class="terms">
