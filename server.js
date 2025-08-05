@@ -656,20 +656,16 @@ app.get('/items', async (req, res) => {
 app.get('/noc', (req, res) => {
   if (!req.session.sales) return res.redirect('/login');
   if (!req.session.reference) return res.status(400).send('Please select a customer first.');
-
   res.render('noc', { reference: req.session.reference });
 });
 const { calculateEquipmentRates } = require('./utils/nocCalculation');
 app.get('/noc/calculate', async (req, res) => {
   if (!req.session.sales) return res.redirect('/login');
-
   const reference = req.query.reference;
   if (!reference) return res.status(400).send('Reference missing');
-
   try {
     const [nocRow] = await executeQuery('SELECT * FROM noc WHERE reference = ?', [reference]);
     if (!nocRow) return res.status(404).send('No NOC data found for this reference');
-
     const calculations = calculateEquipmentRates(nocRow);
     res.render('nocRates', { reference, calculations });
   } catch (error) {
