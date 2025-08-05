@@ -19,10 +19,10 @@ const bill_equipment_selling = sum(billingData, 'bill_equipment_selling');
   const actualGrossMargin = totalSellProject === 0
     ? 0
     : ((totalGrossMargin / totalSellProject) * 100).toFixed(2);
-  const gm = (selling, cost) =>
-    selling === 0 ? 0 : (((selling - cost) / selling) * 100).toFixed(2);
-  const p = (part, total) =>
-    total === 0 ? 0 : ((part / total) * 100).toFixed(2);
+const gm = (selling, cost) =>
+  selling === 0 ? 0 : Math.round(((selling - cost) / selling) * 100);
+const p = (part, total) =>
+  total === 0 ? 0 : Math.round((part / total) * 100);
   const vat = (totalSellProject * 0.15);
   const totalVatSell = totalSellProject + vat;
   return {
