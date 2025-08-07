@@ -9,14 +9,22 @@
      <link rel="shortcut icon" href="assets/Bidvest-Protea-Coin-Logo.png" type="image/x-icon" />
     </head>
 <body>
-    <h2 style="color: aliceblue;">Customers</h2>
+    <h2 style="color: aliceblue;">My Quotes</h2>
 <br>
+ <div class="mb-3">
+            <input 
+               type="text" 
+               id="searchInput" 
+               class="form-control" 
+               placeholder="Search by customer name, email, reference" >
+          </div>
 <% if (customers.length === 0) { %>
   <p>No customers assigned to you yet.</p>
 <% } else { %>
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Login</th>
         <th>Quote Reference</th>
         <th>Customer Name</th>
         <th>Customer Email</th>
@@ -27,6 +35,9 @@
     <tbody>
       <% customers.forEach(customer => { %>
         <tr>
+          <td><button>
+            <a href="/sales/dashboard">View Quote</a>
+          </button></td>
           <td><%= customer.reference %></td>
           <td><%= customer.customerName %></td>
           <td><%= customer.customerEmail %></td>
@@ -37,5 +48,15 @@
     </tbody>
   </table>
 <% } %>
+<script>
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const searchValue = this.value.toLowerCase();
+    const rows = document.querySelectorAll('table tbody tr');
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(searchValue) ? '' : 'none';
+    });
+  });
+</script>
 </body>
 </html>

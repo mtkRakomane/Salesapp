@@ -576,6 +576,7 @@ app.get('/print', async (req, res) => {
     groupedItems.sale_person = itemsResult[0]?.sale_person || '';
     groupedItems.sale_cell = itemsResult[0]?.sale_cell || '';
     groupedItems.job_description = itemsResult[0]?.job_description || '';
+    groupedItems.alarmMonitoring = itemsResult[0]?.alarmMonitoring || '';
     res.render('print', { groupedItems });
   } catch (error) {
     console.error('Error fetching print data:', error);

@@ -4,10 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View sales</title>
-     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+}
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin: 8px 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+.btn-success:hover {
+    background-color: #218838;
+}
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #0069d9;
+}
+form button {
+    margin: 8px 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #ffc107;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+form button:hover {
+    background-color: #e0a800;
+}
+    </style>
 </head>
 <body>
-    <h1>Welcome, </h1>
     <button onclick="window.location.href='/register-customer'" class="btn btn-success">
   Start New Quote
 </button>
@@ -15,6 +60,6 @@
    <form action="/sales/updateSales" method="get">
   <button type="submit">Update Sales Details</button>
 </form>
-    <a href="/my-customers" class="btn btn-primary">View My Customers</a>
+    <a href="/my-customers" class="btn btn-primary">View My Quotes</a>
 </body>
 </html>
