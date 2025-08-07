@@ -14,16 +14,19 @@ const labourUnitRates = {
 };
 function calculateEquipmentRates(nocData) {
   const results = {};
+  let totMonthlyRate = 0;
   for (const item in labourUnitRates) {
     const quantity = parseInt(nocData[item] || 0, 10);
     const labourRate = labourUnitRates[item];
+    const equipmentUnitRate = labourRate * quantity;
+    totMonthlyRate += equipmentUnitRate;
     results[item] = {
       quantity,
       labourUnitRate: labourRate,
-      equipmentUnitRate: labourRate * quantity
+      equipmentUnitRate: equipmentUnitRate
     };
   }
-
+  results['totMonthlyRate'] = totMonthlyRate;
   return results;
 }
 module.exports = { calculateEquipmentRates };
