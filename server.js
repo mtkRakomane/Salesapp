@@ -577,6 +577,14 @@ app.get('/print', async (req, res) => {
     groupedItems.sale_cell = itemsResult[0]?.sale_cell || '';
     groupedItems.job_description = itemsResult[0]?.job_description || '';
     groupedItems.alarmMonitoring = itemsResult[0]?.alarmMonitoring || '';
+    groupedItems.armedResponse = itemsResult[0]?.armedResponse || '';
+    groupedItems.smsChange = itemsResult[0]?.smsChange || '';
+    groupedItems.smsActionable = itemsResult[0]?.smsActionable || '';
+    groupedItems.communicationFee = itemsResult[0]?.communicationFee || '';
+    groupedItems.ajaxDataFee = itemsResult[0]?.ajaxDataFee || '';
+    groupedItems.videoFiedFee = itemsResult[0]?.videoFiedFee || '';
+    groupedItems.scarfaceLivrSystem = itemsResult[0]?.scarfaceLivrSystem || '';
+    groupedItems.scarfaceMobile = itemsResult[0]?.scarfaceMobile || '';
     res.render('print', { groupedItems });
   } catch (error) {
     console.error('Error fetching print data:', error);
