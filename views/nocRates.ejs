@@ -33,17 +33,18 @@
       </thead>
       <tbody>
         <% let index = 1; %>
-        <% for (const item in calculations) { %>
-          <% if (item !== 'totMonthlyRate') { %>
-            <tr>
-              <td><%= index++ %></td>
-              <td><%= item %></td>
-              <td><%= calculations[item].quantity %></td>
-              <td>R <%= calculations[item].labourUnitRate.toFixed(2) %></td>
-              <td>R <%= calculations[item].equipmentUnitRate.toFixed(2) %></td>
-            </tr>
-          <% } %>
-        <% } %>
+       <% for (const item in calculations) { %>
+  <% if (item !== 'totMonthlyRate') { %>
+    <tr>
+      <td><%= index++ %></td>
+      <td><%= calculations[item].label %></td> 
+      <td><%= calculations[item].quantity %></td>
+      <td>R <%= calculations[item].labourUnitRate.toFixed(2) %></td>
+      <td>R <%= calculations[item].equipmentUnitRate.toFixed(2) %></td>
+    </tr>
+  <% } %>
+<% } %>
+
       </tbody>
       <tfoot>
         <tr>

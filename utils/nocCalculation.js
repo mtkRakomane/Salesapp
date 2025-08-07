@@ -12,6 +12,20 @@ const labourUnitRates = {
   cctvLinkFee: 0.00,
   nocLinkFee: 0.00
 };
+const displayNames = {
+  alarmMonitoring: 'Alarm Monitoring - Per Partition',
+  armedResponse: 'Armed Response',
+  smsActionable: 'SMS Actionable',
+  smsChange: 'SMS Change',
+  communicationFee: 'Communication Fee',
+  ajaxDataFee: 'Ajax Data Fee',
+  videoFiedFee: 'VideoFied Fee',
+  cctvOffsite: 'CCTV Offsite',
+  scarfaceLiveSystem: 'Scarface Live System',
+  scarfaceMobile: 'Scarface Mobile',
+  cctvLinkFee: 'CCTV Link Fee',
+  nocLinkFee: 'NOC Link Fee'
+};
 function calculateEquipmentRates(nocData) {
   const results = {};
   let totMonthlyRate = 0;
@@ -21,6 +35,7 @@ function calculateEquipmentRates(nocData) {
     const equipmentUnitRate = labourRate * quantity;
     totMonthlyRate += equipmentUnitRate;
     results[item] = {
+      label: displayNames[item] || item,
       quantity,
       labourUnitRate: labourRate,
       equipmentUnitRate: equipmentUnitRate
@@ -29,4 +44,5 @@ function calculateEquipmentRates(nocData) {
   results['totMonthlyRate'] = totMonthlyRate;
   return results;
 }
+
 module.exports = { calculateEquipmentRates };
