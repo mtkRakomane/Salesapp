@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NOC</title>
-       <link rel="stylesheet" href="/styles.css">
+        <link rel="stylesheet" href="/styles.css">
        <link rel="shortcut icon" href="assets/Bidvest-Protea-Coin-Logo.png" type="image/x-icon" />
 </head>
 <body>
@@ -74,20 +74,31 @@
         <td class="labourUniteRate" data-index="0">R 50.00</td>
          <td class="equipmentUnitRate" data-index="0">R 0.00</td>
       </tr>
-      <tr>
-         <td>EBM</td>
-        <td>CCTV Offsite Event Based Monitoring:</td>
-        <td><input type="number" name="cctvOffsite" placeholder="CCTV Offsite Event Based Monitoring" /></td>
-        <td>-</td>
-        <td>R </td>
-      </tr>
-      <tr>
-        <td>SF</td>
-        <td>Scarface - Facial Recognition - Live System:</td>
-        <td><input type="number" name="scarfaceLivrSystem" placeholder="Scarface - Facial Recognition - Live System:"  /></td>
-        <td> -</td>
-        <td>R </td>
-      </tr>
+    <div class="signup-form-group">
+  <label for="cameras">Camera rates:</label>
+  <select id="cameras" name="cameras" required>
+    <option value="" disabled selected>Select a Camera rate</option>
+    <% ebmCameras.forEach(type => { %>
+      <option 
+        value="<%= type.cameras %>" 
+        data-rate_per_camera="<%= type.rate_per_camera %>" 
+        data-linkup_fee="<%= type.linkup_fee %>">
+        <%= type.cameras %> 
+      </option>
+    <% }); %>
+  </select>
+</div>   
+
+<div class="signup-form-group">
+  <label for="rate_per_camera"><i class="fa-solid fa-phone"></i> Sales Rate:</label>
+  <input type="text" id="rate_per_camera" name="rate_per_camera" readonly required />
+</div>   
+
+
+  <label for="linkup_fee"><i class="fa-solid fa-envelope"></i> Sales Linkup:</label>
+  <input type="text" id="linkup_fee" name="linkup_fee" readonly required />
+</div>  
+
       <tr>
          <td>SF App</td>
         <td>Scarface - Facial Recognition - Mobile App:</td>
@@ -122,5 +133,6 @@
     <a href="/noc/calculate?reference=<%= reference %>" class="btn btn-success ms-2">View NOC Rates</a>
 </form>
 <script src="/utils/nocCalculation.js"></script>
+<script src="/js/form.js"></script>
 </body>
 </html>

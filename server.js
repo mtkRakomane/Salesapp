@@ -662,10 +662,26 @@ app.get('/items', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-app.get('/noc', (req, res) => {
-  if (!req.session.sales) return res.redirect('/login');
-  if (!req.session.reference) return res.status(400).send('Please select a customer first.');
-  res.render('noc', { reference: req.session.reference });
+app.get('/noc', async (req, res) => {
+  try {
+    if (!req.session.sales) {
+      return res.redirect('/login');
+    }
+    if (!req.session.reference) {
+      return res.status(400).send('Please select a customer first.');
+    }
+    const ebmCameras = await executeQuery('SELECT * FROM ebm_cameras');
+    const scarfaceCameras = await executeQuery('SELECT * FROM scarface_cameras');
+    res.render('noc', {
+      reference: req.session.reference,
+      ebmCameras,
+      scarfaceCameras
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 });
 const { calculateEquipmentRates } = require('./utils/nocCalculation');
 app.get('/noc/calculate', async (req, res) => {
