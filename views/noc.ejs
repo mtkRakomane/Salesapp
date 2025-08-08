@@ -75,9 +75,9 @@
          <td class="equipmentUnitRate" data-index="0">R 0.00</td>
       </tr>
    <tr>
-    <td>MON</td>
+    <td>EBM</td>
   <td>
-    <label for="cameras">Camera rates:</label>
+    <label for="cameras">CCTV Offsite Event Based Monitoring</label>
   </td>
   <td>
     <select id="cameras" name="cameras" required>
@@ -87,7 +87,7 @@
           value="<%= type.cameras %>" 
           data-rate_per_camera="<%= type.rate_per_camera %>" 
           data-linkup_fee="<%= type.linkup_fee %>">
-          <%= type.cameras %> Cameras
+          <%= type.cameras %> 
         </option>
       <% }); %>
     </select>
@@ -95,7 +95,13 @@
   <td><input type="text" id="rate_per_camera" name="rate_per_camera" readonly required /></td>
   <td><input type="text" id="linkup_fee" name="linkup_fee" readonly required /></td>
 </tr>
-
+<tr>
+  <td>SF</td>
+  <td> <label for="noScarfaceCamera" > Scarface - Facial Recognition - Live Sytem</label></td>
+  <td>...</td>
+  <td>...</td>
+  <td>...</td>
+</tr>
       <tr>
          <td>SF App</td>
         <td>Scarface - Facial Recognition - Mobile App:</td>
