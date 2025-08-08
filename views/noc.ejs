@@ -74,30 +74,27 @@
         <td class="labourUniteRate" data-index="0">R 50.00</td>
          <td class="equipmentUnitRate" data-index="0">R 0.00</td>
       </tr>
-    <div class="signup-form-group">
-  <label for="cameras">Camera rates:</label>
-  <select id="cameras" name="cameras" required>
-    <option value="" disabled selected>Select a Camera rate</option>
-    <% ebmCameras.forEach(type => { %>
-      <option 
-        value="<%= type.cameras %>" 
-        data-rate_per_camera="<%= type.rate_per_camera %>" 
-        data-linkup_fee="<%= type.linkup_fee %>">
-        <%= type.cameras %> 
-      </option>
-    <% }); %>
-  </select>
-</div>   
-
-<div class="signup-form-group">
-  <label for="rate_per_camera"><i class="fa-solid fa-phone"></i> Sales Rate:</label>
-  <input type="text" id="rate_per_camera" name="rate_per_camera" readonly required />
-</div>   
-
-
-  <label for="linkup_fee"><i class="fa-solid fa-envelope"></i> Sales Linkup:</label>
-  <input type="text" id="linkup_fee" name="linkup_fee" readonly required />
-</div>  
+   <tr>
+    <td>MON</td>
+  <td>
+    <label for="cameras">Camera rates:</label>
+  </td>
+  <td>
+    <select id="cameras" name="cameras" required>
+      <option value="" disabled selected>Select a Camera rate</option>
+      <% ebmCameras.forEach(type => { %>
+        <option 
+          value="<%= type.cameras %>" 
+          data-rate_per_camera="<%= type.rate_per_camera %>" 
+          data-linkup_fee="<%= type.linkup_fee %>">
+          <%= type.cameras %> Cameras
+        </option>
+      <% }); %>
+    </select>
+  </td>
+  <td><input type="text" id="rate_per_camera" name="rate_per_camera" readonly required /></td>
+  <td><input type="text" id="linkup_fee" name="linkup_fee" readonly required /></td>
+</tr>
 
       <tr>
          <td>SF App</td>
