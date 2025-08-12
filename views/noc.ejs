@@ -97,10 +97,22 @@
 </tr>
 <tr>
   <td>SF</td>
-  <td> <label for="noScarfaceCamera" > Scarface - Facial Recognition - Live Sytem</label></td>
-  <td>...</td>
-  <td>...</td>
-  <td>...</td>
+  <td>
+    <label for="noScarfaceCamera">Scarface - Facial Recognition - Live System</label>
+  </td>
+  <td>
+    <select id="noScarfaceCamera" name="noScarfaceCamera" required>
+  <option value="" disabled selected>Select a Scarface Camera</option>
+  <% scarfaceCameras.forEach(type => { %>
+    <option 
+      value="<%= type.noScarfaceCamera %>"
+      data-monthlyrate="<%= type.monthlyRate %>">
+      <%= type.noScarfaceCamera %>
+    </option>
+  <% }); %>
+</select>
+  </td>
+  <td><input type="text" id="monthlyRate" name="monthlyRate" readonly required /></td>
 </tr>
       <tr>
          <td>SF App</td>

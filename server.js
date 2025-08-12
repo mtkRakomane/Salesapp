@@ -672,12 +672,11 @@ app.get('/noc', async (req, res) => {
     }
     const ebmCameras = await executeQuery('SELECT * FROM ebm_cameras');
     const scarfaceCameras = await executeQuery('SELECT * FROM scarface_cameras');
-    res.render('noc', {
-      reference: req.session.reference,
-      ebmCameras,
-      scarfaceCameras
-    });
-
+   res.render('noc', {
+  reference: req.session.reference,
+  ebmCameras,
+  scarfaceCameras
+});
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
