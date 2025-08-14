@@ -14,7 +14,7 @@ const totalLabour = unitLabRate * qty;
 const equipUnitRate = (1 - equipmentMargin) !== 0 ? unitCost / (1 - equipmentMargin) : 0;
 const equipTotal = equipUnitRate * qty * installDiffFactor;
 const equipmentCost = unitCost * qty;
-const labourCost = labourFactorHrsPerUnit * labourRate * installDiffFactor;
+const labourCost = labourFactorHrsPerUnit * labourRate * installDiffFactor * qty;;
 const hwReplaceProv = maintLabFactor > 0 ? equipTotal : 0;
   return {
     ...item,
