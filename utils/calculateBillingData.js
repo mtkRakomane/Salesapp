@@ -58,7 +58,7 @@ function calculateBillingData(
       const qty = parseFloat(i.qty || 0);
       const labourMargin = parseFloat(i.labour_margin) || 0;
       const sellRate = (1 - labourMargin) !== 0 ? labourRate / (1 - labourMargin) : 0;
-      return sum + (hrs * qty * sellRate);
+      return sum + (parseFloat(i.installation_selling || i.total_labour || 0));
     }, 0);
     const pm_hrs = totalLabourHours * pmRate;
     const itemRate = labourRate * 1.41; 
