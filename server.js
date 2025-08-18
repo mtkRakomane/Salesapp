@@ -559,8 +559,7 @@ app.get('/print', async (req, res) => {
          c.jobDescription AS job_description,
          c.reference,
          n.alarmMonitoring, n.armedResponse, n.smsChange, n.smsActionable, n.communicationFee,
-         n.ajaxDataFee, n.videoFiedFee, n.cctvOffsite, n.scarfaceLiveSystem, 
-         n.scarfaceMobile, n.reference 
+         n.ajaxDataFee, n.videoFiedFee, n.scarfaceMobile, n.reference 
        FROM items i
        JOIN customer c ON i.reference = c.reference
        JOIN noc n on i.reference = n.reference
@@ -700,10 +699,8 @@ app.get('/noc/calculate', async (req, res) => {
 app.post('/noc', (req, res) => {
   const salesperson = req.session.sales;
   const reference = req.session.reference;
-
   if (!salesperson) return res.redirect('/login');
   if (!reference) return res.status(400).send('Customer reference is missing.');
-
   const {
     alarmMonitoring = 0,
     armedResponse = 0,
@@ -712,51 +709,60 @@ app.post('/noc', (req, res) => {
     communicationFee = 0,
     ajaxDataFee = 0,
     videoFiedFee = 0,
-    cctvOffsite = 0,
-    scarfaceLivrSystem = 0,
-    scarfaceMobile = 0
+    scarfaceMobile = 0,
+    cameras = 0,
+    rate_per_camera = 0,
+    linkup_fee = 0,
+    noScarfaceCamera = 0,
+    monthlyRate = 0,
   } = req.body;
-
-const sql = `
-  INSERT INTO NOC (
-    reference, alarmMonitoring, armedResponse, smsActionable, smsChange, 
-    communicationFee, ajaxDataFee, videoFiedFee, cctvOffsite, 
-    scarfaceLiveSystem, scarfaceMobile
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  ON DUPLICATE KEY UPDATE
-    alarmMonitoring = VALUES(alarmMonitoring),
-    armedResponse = VALUES(armedResponse),
-    smsActionable = VALUES(smsActionable),
-    smsChange = VALUES(smsChange),
-    communicationFee = VALUES(communicationFee),
-    ajaxDataFee = VALUES(ajaxDataFee),
-    videoFiedFee = VALUES(videoFiedFee),
-    cctvOffsite = VALUES(cctvOffsite),
-    scarfaceLiveSystem = VALUES(scarfaceLiveSystem),
-    scarfaceMobile = VALUES(scarfaceMobile)
-`;
-
-const values = [
-  reference,
-  alarmMonitoring,
-  armedResponse,
-  smsActionable,
-  smsChange,
-  communicationFee,
-  ajaxDataFee,
-  videoFiedFee,
-  cctvOffsite,
-  scarfaceLivrSystem,
-  scarfaceMobile
-];
+  const sql = `
+    INSERT INTO noc (
+      reference, alarmMonitoring, armedResponse, smsActionable, smsChange, 
+      communicationFee, ajaxDataFee, videoFiedFee, scarfaceMobile,
+      cameras, rate_per_camera, linkup_fee, 
+      noScarfaceCamera, monthlyRate
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON DUPLICATE KEY UPDATE
+      alarmMonitoring = VALUES(alarmMonitoring),
+      armedResponse = VALUES(armedResponse),
+      smsActionable = VALUES(smsActionable),
+      smsChange = VALUES(smsChange),
+      communicationFee = VALUES(communicationFee),
+      ajaxDataFee = VALUES(ajaxDataFee),
+      videoFiedFee = VALUES(videoFiedFee),
+      scarfaceMobile = VALUES(scarfaceMobile),
+      cameras = VALUES(cameras),
+      rate_per_camera = VALUES(rate_per_camera),
+      linkup_fee = VALUES(linkup_fee),
+      noScarfaceCamera = VALUES(noScarfaceCamera),
+      monthlyRate = VALUES(monthlyRate)
+  `;
+  const values = [
+    reference,
+    alarmMonitoring,
+    armedResponse,
+    smsActionable,
+    smsChange,
+    communicationFee,
+    ajaxDataFee,
+    videoFiedFee,
+    scarfaceMobile,
+    cameras,
+    rate_per_camera,
+    linkup_fee,
+    noScarfaceCamera,
+    monthlyRate
+  ];
   db.query(sql, values, (err) => {
     if (err) {
-      console.error('Error saving NOC data:', err);
+      console.error('Error saving NOC data:', err.sqlMessage || err);
       return res.status(500).send('Failed to store NOC information.');
     }
-   res.redirect('/sales/dashboard');
+    res.redirect('/sales/dashboard');
   });
 });
+
 app.get('/sales/updateSales', async (req, res) => {
   const salesperson = req.session.sales;
   if (!salesperson) return res.redirect('/login');

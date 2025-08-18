@@ -6,8 +6,6 @@ const labourUnitRates = {
   communicationFee: 25.00,
   ajaxDataFee: 90.00,
   videoFiedFee: 50.00,
-  cctvOffsite: 0.00,
-  scarfaceLiveSystem: 0.00,
   scarfaceMobile: 4999.00,
   cctvLinkFee: 0.00,
   nocLinkFee: 0.00
@@ -20,11 +18,11 @@ const displayNames = {
   communicationFee: 'Communication Fee',
   ajaxDataFee: 'Ajax Data Fee',
   videoFiedFee: 'VideoFied Fee',
-  cctvOffsite: 'CCTV Offsite',
-  scarfaceLiveSystem: 'Scarface Live System',
   scarfaceMobile: 'Scarface Mobile',
   cctvLinkFee: 'CCTV Link Fee',
-  nocLinkFee: 'NOC Link Fee'
+  nocLinkFee: 'NOC Link Fee',
+  cameras: 'CCTV Offsite',
+  noScarfacefaceCamera: 'Scarface Live System'
 };
 function calculateEquipmentRates(nocData) {
   const results = {};

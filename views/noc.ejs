@@ -74,8 +74,8 @@
         <td class="labourUniteRate" data-index="0">R 50.00</td>
          <td class="equipmentUnitRate" data-index="0">R 0.00</td>
       </tr>
-   <tr>
-    <td>EBM</td>
+ <tr>
+  <td>EBM</td>
   <td>
     <label for="cameras">CCTV Offsite Event Based Monitoring</label>
   </td>
@@ -87,14 +87,15 @@
           value="<%= type.cameras %>" 
           data-rate_per_camera="<%= type.rate_per_camera %>" 
           data-linkup_fee="<%= type.linkup_fee %>">
-          <%= type.cameras %> 
+          <%= type.cameras %>
         </option>
       <% }); %>
     </select>
   </td>
-  <td><input type="text" id="rate_per_camera" name="rate_per_camera" readonly required /></td>
-  <td><input type="text" id="linkup_fee" name="linkup_fee" readonly required /></td>
+  <td><input type="text" id="rate_per_camera" name="rate_per_camera" readonly /></td>
+  <td><input type="text" id="linkup_fee" name="linkup_fee" readonly /></td>
 </tr>
+
 <tr>
   <td>SF</td>
   <td>
@@ -102,18 +103,19 @@
   </td>
   <td>
     <select id="noScarfaceCamera" name="noScarfaceCamera" required>
-  <option value="" disabled selected>Select a Scarface Camera</option>
-  <% scarfaceCameras.forEach(type => { %>
-    <option 
-      value="<%= type.noScarfaceCamera %>"
-      data-monthlyrate="<%= type.monthlyRate %>">
-      <%= type.noScarfaceCamera %>
-    </option>
-  <% }); %>
-</select>
+      <option value="" disabled selected>Select a Scarface Camera</option>
+      <% scarfaceCameras.forEach(type => { %>
+        <option 
+          value="<%= type.noScarfaceCamera %>"
+          data-monthly_rate="<%= type.monthlyRate %>">
+          <%= type.noScarfaceCamera %>
+        </option>
+      <% }); %>
+    </select>
   </td>
-  <td><input type="text" id="monthlyRate" name="monthlyRate" readonly required /></td>
+  <td><input type="text" id="monthlyRate" name="monthlyRate" readonly /></td>
 </tr>
+
       <tr>
          <td>SF App</td>
         <td>Scarface - Facial Recognition - Mobile App:</td>
