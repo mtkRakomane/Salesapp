@@ -1,9 +1,7 @@
-// --- Salesperson autofill ---
 const salePersonSelect = document.getElementById('name');
 const saleCellInput = document.getElementById('cell');
 const saleEmailInput = document.getElementById('email');
 const saleRoleInput = document.getElementById('role');
-
 if (salePersonSelect) {
   salePersonSelect.addEventListener('change', function () {
     const selectedOption = salePersonSelect.options[salePersonSelect.selectedIndex];
@@ -12,12 +10,9 @@ if (salePersonSelect) {
     saleRoleInput.value = selectedOption.dataset.role || '';
   });
 }
-
-// --- EBM Cameras ---
 const ebmCameraSelect = document.getElementById('cameras');
 const ratePerCameraInput = document.getElementById('rate_per_camera');
 const linkFeeInput = document.getElementById('linkup_fee');
-
 if (ebmCameraSelect) {
   ebmCameraSelect.addEventListener('change', function () {
     const selectedOption = ebmCameraSelect.options[ebmCameraSelect.selectedIndex];
@@ -32,8 +27,6 @@ if (ebmCameraSelect) {
     linkFeeInput.value = `R ${linkFee.toFixed(2)}`;
   });
 }
-
-// --- Scarface Cameras ---
 const scarfaceRateSelect = document.getElementById('noScarfaceCamera');
 const monthlyRateInput = document.getElementById('monthlyRate');
 
