@@ -31,7 +31,7 @@ const hwReplaceProv = maintLabFactor > 0 ? equipTotal : 0;
   labour_cost: parseFloat(labourCost.toFixed(2)),
   unitLabRate: parseFloat(unitLabRate.toFixed(2)),
   total_labour: parseFloat(totalLabour.toFixed(2)),
-  installation_selling: parseFloat(totalLabour.toFixed(2)), // <-- ADD THIS
+  installation_selling: parseFloat(totalLabour.toFixed(2)), 
   hwReplaceProv: parseFloat(hwReplaceProv.toFixed(2))
 };
 }
