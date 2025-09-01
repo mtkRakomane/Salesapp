@@ -13,43 +13,54 @@
     }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
   <header class="bg-blue-900 text-white p-4 shadow">
     <div class="flex justify-between items-center">
       <h1 class="text-xl font-semibold">Bidvest Protea Coin</h1>
-      <a href="/sales/dashboard" class="bg-blue-700 hover:bg-blue-600 px-4 py-2 rounded">Back to Login</a>
+      <button id="menu-btn" class="md:hidden bg-blue-700 hover:bg-blue-600 px-3 py-2 rounded">
+        ☰ Menu
+      </button>
+      <a href="/sales/dashboard" class="hidden md:inline bg-blue-700 hover:bg-blue-600 px-4 py-2 rounded">
+        Back to Login
+      </a>
     </div>
   </header>
-  <div class="flex min-h-screen">
-    <aside class="text-white w-64 p-6 hidden md:block" 
-       style="background: linear-gradient(135deg, #2c3136, #1d2020, #c4c0c0);">
+  <div class="flex flex-1">
+    <aside id="sidebar"
+      class="fixed md:static inset-y-0 left-0 w-64 transform md:transform-none transition-transform duration-300 ease-in-out bg-gradient-to-br from-gray-800 via-gray-900 to-gray-700 text-white p-6 z-20 sidebar-hidden md:block">
       <h2 class="text-2xl font-bold mb-6">Actions</h2>
       <nav class="space-y-3">
         <a href="/overview?reference=<%= customer.reference %>" class="block bg-teal-600 hover:bg-teal-500 p-3 rounded">Overview</a>
         <a href="/additems?reference=<%= customer.reference %>" class="block bg-blue-700 hover:bg-blue-600 p-3 rounded">Add Items</a>
         <a href="/viewitems?reference=<%= customer.reference %>" class="block bg-green-600 hover:bg-green-500 p-3 rounded">View Items</a>
         <a href="/billing?reference=<%= customer.reference %>" class="block bg-green-700 hover:bg-green-600 p-3 rounded">View Bills</a>
-        <a href="/print?reference=<%= customer.reference %>" class="block bg-indigo-600 hover:bg-indigo-500 p-3 rounded">View Qoute</a>
-        <a href="/noc" class="block bg-green-600 hover:bg-green-500 p-3 rounded"> NOC </a>
+        <a href="/print?reference=<%= customer.reference %>" class="block bg-indigo-600 hover:bg-indigo-500 p-3 rounded">View Quote</a>
+        <a href="/noc" class="block bg-green-600 hover:bg-green-500 p-3 rounded">NOC</a>
+        <a href="/sales/dashboard" class="md:hidden block bg-red-600 hover:bg-red-500 p-3 rounded">Back to Login</a>
       </nav>
     </aside>
-   <main 
-  class="flex-1 p-6 bg-cover bg-center relative"
-  id="main-details"
-  style="background-image: url('/assets/monitoring.jpg');">
-  <div class="bg-black bg-opacity-70 rounded-lg p-6 shadow-lg max-w-3xl mx-auto">
-    <h2 class="text-3xl font-bold mb-4 text-white" style="color: bisque;">Customer Details</h2>
-    <h3 class="text-xl font-semibold mb-2 text-white">Job Description</h3>
-    <p class="mb-4 text-white"><%= customer.jobDescription %></p>
-    <div class="space-y-2 text-white">
-      <p><strong>Salesperson:</strong> <%= customer.name %></p>
-      <p><strong>Customer Name:</strong> <%= customer.customerName %></p>
-      <p><strong>Customer Email:</strong> <%= customer.customerEmail %></p>
-      <p><strong>Customer Cell:</strong> <%= customer.customerCell %></p>
-    </div>
+    <main class="flex-1 p-6 bg-cover bg-center relative"
+      id="main-details"
+      style="background-image: url('/assets/monitoring.jpg');">
+      <div class="bg-black bg-opacity-70 rounded-lg p-6 shadow-lg max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold mb-4 text-bisque">Customer Details</h2>
+        <h3 class="text-xl font-semibold mb-2 text-white">Job Description</h3>
+        <p class="mb-4 text-white"><%= customer.jobDescription %></p>
+        <div class="space-y-2 text-white">
+          <p><strong>Salesperson:</strong> <%= customer.name %></p>
+          <p><strong>Customer Name:</strong> <%= customer.customerName %></p>
+          <p><strong>Customer Email:</strong> <%= customer.customerEmail %></p>
+          <p><strong>Customer Cell:</strong> <%= customer.customerCell %></p>
+        </div>
+      </div>
+    </main>
   </div>
-</main>
-  </div>
-</div>
+  <script>
+    const menuBtn = document.getElementById("menu-btn");
+    const sidebar = document.getElementById("sidebar");
+    menuBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("sidebar-hidden");
+    });
+  </script>
 </body>
 </html>
