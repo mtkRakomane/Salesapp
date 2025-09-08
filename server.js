@@ -708,23 +708,33 @@ app.post('/noc', (req, res) => {
     smsChange = 0,
     communicationFee = 0,
     ajaxDataFee = 0,
-    videoFiedFee = 0,
+    videoFiedFee = 0,   
     scarfaceMobile = 0,
     cameras = 0,
     noScarfaceCamera = 0,
-    cctvOffEventMonitorLabour =0,
+    cctvOffEventMonitorLabour = 0,
     scarfaceLiveSystemLabour = 0,
     cctvOffEventMonitorEquip = 0, 
     scarfaceLiveSystemEquip = 0,
   } = req.body;
   const sql = `
     INSERT INTO noc (
-      reference, alarmMonitoring, armedResponse, smsActionable, smsChange, 
-      communicationFee, ajaxDataFee, videoFiedFee, scarfaceMobile,
+      reference, 
+      alarmMonitoring, 
+      armedResponse, 
+      smsActionable, 
+      smsChange, 
+      communicationFee, 
+      ajaxDataFee, 
+      videoFiedFee, 
+      scarfaceMobile,
       cameras,  
-      noScarfaceCamera, cctvOffEventMonitorLabour, scarfaceLiveSystemLabour,
-      cctvOffEventMonitorEquip, scarfaceLiveSystemEquip
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      noScarfaceCamera,
+      cctvOffEventMonitorLabour,
+      scarfaceLiveSystemLabour,
+      cctvOffEventMonitorEquip, 
+      scarfaceLiveSystemEquip
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     ON DUPLICATE KEY UPDATE
       alarmMonitoring = VALUES(alarmMonitoring),
       armedResponse = VALUES(armedResponse),
@@ -736,7 +746,7 @@ app.post('/noc', (req, res) => {
       scarfaceMobile = VALUES(scarfaceMobile),
       cameras = VALUES(cameras),
       noScarfaceCamera = VALUES(noScarfaceCamera),
-      cctvOffEventMonitorLabour =  VALUES(cctvOffEventMonitorLabour),
+      cctvOffEventMonitorLabour = VALUES(cctvOffEventMonitorLabour),
       scarfaceLiveSystemLabour = VALUES(scarfaceLiveSystemLabour),
       cctvOffEventMonitorEquip = VALUES(cctvOffEventMonitorEquip),
       scarfaceLiveSystemEquip = VALUES(scarfaceLiveSystemEquip)
