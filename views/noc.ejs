@@ -74,7 +74,7 @@
         <td class="labourUniteRate" data-index="0">R 50.00</td>
          <td class="equipmentUnitRate" data-index="0">R 0.00</td>
       </tr>
- <tr>
+<tr>
   <td>EBM</td>
   <td>
     <label for="cameras">CCTV Offsite Event Based Monitoring</label>
@@ -85,17 +85,16 @@
       <% ebmCameras.forEach(type => { %>
         <option 
           value="<%= type.cameras %>" 
-          data-rate_per_camera="<%= type.rate_per_camera %>" 
-          data-linkup_fee="<%= type.linkup_fee %>">
+          data-cctvoffeventmonitorlabour = "<%= type.cctvOffEventMonitorLabour %>" 
+          data-cctvoffeventmonitorequip = "<%= type.cctvOffEventMonitorEquip %>">
           <%= type.cameras %>
         </option>
       <% }); %>
     </select>
   </td>
-  <td><input type="text" id="rate_per_camera" name="rate_per_camera" readonly /></td>
-  <td><input type="text" id="linkup_fee" name="linkup_fee" readonly /></td>
+  <td><input type="text" id="cctvOffEventMonitorLabour" name="cctvOffEventMonitorLabour" readonly /></td>
+  <td><input type="text" id="cctvOffEventMonitorEquip" name="cctvOffEventMonitorEquip" readonly /></td>
 </tr>
-
 <tr>
   <td>SF</td>
   <td>
@@ -107,15 +106,16 @@
       <% scarfaceCameras.forEach(type => { %>
         <option 
           value="<%= type.noScarfaceCamera %>"
-          data-monthly_rate="<%= type.monthlyRate %>">
+          data-scarfacelivesystemlabour="<%= type.scarfaceLiveSystemLabour %>"
+          data-scarfacelivesystemequip="<%= type.scarfaceLiveSystemEquip %>">
           <%= type.noScarfaceCamera %>
         </option>
       <% }); %>
     </select>
   </td>
-  <td><input type="text" id="monthlyRate" name="monthlyRate" readonly /></td>
+  <td><input type="text" id="scarfaceLiveSystemLabour" name="scarfaceLiveSystemLabour" readonly /></td>
+  <td><input type="text" id="scarfaceLiveSystemEquip" name="scarfaceLiveSystemEquip" readonly /></td>
 </tr>
-
       <tr>
          <td>SF App</td>
         <td>Scarface - Facial Recognition - Mobile App:</td>

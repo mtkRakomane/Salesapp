@@ -711,18 +711,20 @@ app.post('/noc', (req, res) => {
     videoFiedFee = 0,
     scarfaceMobile = 0,
     cameras = 0,
-    rate_per_camera = 0,
-    linkup_fee = 0,
     noScarfaceCamera = 0,
-    monthlyRate = 0,
+    cctvOffEventMonitorLabour =0,
+    scarfaceLiveSystemLabour = 0,
+    cctvOffEventMonitorEquip = 0, 
+    scarfaceLiveSystemEquip = 0,
   } = req.body;
   const sql = `
     INSERT INTO noc (
       reference, alarmMonitoring, armedResponse, smsActionable, smsChange, 
       communicationFee, ajaxDataFee, videoFiedFee, scarfaceMobile,
-      cameras, rate_per_camera, linkup_fee, 
-      noScarfaceCamera, monthlyRate
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      cameras,  
+      noScarfaceCamera, cctvOffEventMonitorLabour, scarfaceLiveSystemLabour,
+      cctvOffEventMonitorEquip, scarfaceLiveSystemEquip
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON DUPLICATE KEY UPDATE
       alarmMonitoring = VALUES(alarmMonitoring),
       armedResponse = VALUES(armedResponse),
@@ -733,10 +735,11 @@ app.post('/noc', (req, res) => {
       videoFiedFee = VALUES(videoFiedFee),
       scarfaceMobile = VALUES(scarfaceMobile),
       cameras = VALUES(cameras),
-      rate_per_camera = VALUES(rate_per_camera),
-      linkup_fee = VALUES(linkup_fee),
       noScarfaceCamera = VALUES(noScarfaceCamera),
-      monthlyRate = VALUES(monthlyRate)
+      cctvOffEventMonitorLabour =  VALUES(cctvOffEventMonitorLabour),
+      scarfaceLiveSystemLabour = VALUES(scarfaceLiveSystemLabour),
+      cctvOffEventMonitorEquip = VALUES(cctvOffEventMonitorEquip),
+      scarfaceLiveSystemEquip = VALUES(scarfaceLiveSystemEquip)
   `;
   const values = [
     reference,
@@ -749,10 +752,11 @@ app.post('/noc', (req, res) => {
     videoFiedFee,
     scarfaceMobile,
     cameras,
-    rate_per_camera,
-    linkup_fee,
     noScarfaceCamera,
-    monthlyRate
+    cctvOffEventMonitorLabour, 
+    scarfaceLiveSystemLabour,
+    cctvOffEventMonitorEquip, 
+    scarfaceLiveSystemEquip
   ];
   db.query(sql, values, (err) => {
     if (err) {
@@ -762,7 +766,6 @@ app.post('/noc', (req, res) => {
     res.redirect('/sales/dashboard');
   });
 });
-
 app.get('/sales/updateSales', async (req, res) => {
   const salesperson = req.session.sales;
   if (!salesperson) return res.redirect('/login');
