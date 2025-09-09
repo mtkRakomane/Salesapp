@@ -13,6 +13,7 @@ if (salePersonSelect) {
 const ebmCameraSelect = document.getElementById('cameras');
 const ratePerCameraInput = document.getElementById('cctvOffEventMonitorLabour');
 const linkFeeInput = document.getElementById('cctvOffEventMonitorEquip');
+
 if (ebmCameraSelect) {
   ebmCameraSelect.addEventListener('change', function () {
     const selectedOption = ebmCameraSelect.options[ebmCameraSelect.selectedIndex];
@@ -21,8 +22,8 @@ if (ebmCameraSelect) {
       linkFeeInput.value = '';
       return;
     }
-    const rate = parseFloat(selectedOption.dataset.cctvoffeventmonitorlabour) || 0;
-    const linkFee = parseFloat(selectedOption.dataset.cctvoffeventmonitorequip) || 0;
+    const rate = parseFloat(selectedOption.dataset.labour) || 0;
+    const linkFee = parseFloat(selectedOption.dataset.equip) || 0;
     ratePerCameraInput.value = `R ${rate.toFixed(2)}`;
     linkFeeInput.value = `R ${linkFee.toFixed(2)}`;
   });
@@ -38,10 +39,11 @@ if (scarfaceRateSelect) {
       monthlyEquipInput.value = '';
       return;
     }
-    const monthRate = parseFloat(selectedOption.dataset.scarfacelivesystemlabour) || 0;
-    const monthEquip = parseFloat(selectedOption.dataset.scarfacelivesystemequip) || 0;
+    const monthRate = parseFloat(selectedOption.dataset.labour) || 0;
+    const monthEquip = parseFloat(selectedOption.dataset.equip) || 0;
     monthlyRateInput.value = `R ${monthRate.toFixed(2)}`;
     monthlyEquipInput.value = `R ${monthEquip.toFixed(2)}`;
   });
 }
+
 

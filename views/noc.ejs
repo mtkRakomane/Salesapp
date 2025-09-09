@@ -85,15 +85,15 @@
       <% ebmCameras.forEach(type => { %>
         <option 
           value="<%= type.cameras %>" 
-          data-cctvoffeventmonitorlabour = "<%= type.cctvOffEventMonitorLabour %>" 
-          data-cctvoffeventmonitorequip = "<%= type.cctvOffEventMonitorEquip %>">
+          data-labour = "<%= type.cctvOffEventMonitorLabour %>" 
+          data-equip = "<%= type.cctvOffEventMonitorEquip %>">
           <%= type.cameras %>
         </option>
       <% }); %>
     </select>
   </td>
   <td><input type="text" id="cctvOffEventMonitorLabour" name="cctvOffEventMonitorLabour" readonly /></td>
-  <td><input type="text" id="cctvOffEventMonitorEquip" name="cctvOffEventMonitorEquip" readonly /></td>
+  <td>0.00</td>
 </tr>
 <tr>
   <td>SF</td>
@@ -105,16 +105,16 @@
       <option value="" disabled selected>Select a Scarface Camera</option>
       <% scarfaceCameras.forEach(type => { %>
         <option 
-          value="<%= type.noScarfaceCamera %>"
-          data-scarfacelivesystemlabour="<%= type.scarfaceLiveSystemLabour %>"
-          data-scarfacelivesystemequip="<%= type.scarfaceLiveSystemEquip %>">
-          <%= type.noScarfaceCamera %>
-        </option>
+  value="<%= type.noScarfaceCamera %>"
+  data-labour = "<%= type.scarfaceLiveSystemLabour %>"
+  data-equip = "<%= type.scarfaceLiveSystemEquip %>">
+  <%= type.noScarfaceCamera %>
+</option>
       <% }); %>
     </select>
   </td>
   <td><input type="text" id="scarfaceLiveSystemLabour" name="scarfaceLiveSystemLabour" readonly /></td>
-  <td><input type="text" id="scarfaceLiveSystemEquip" name="scarfaceLiveSystemEquip" readonly /></td>
+  <td>0.00</td>
 </tr>
       <tr>
          <td>SF App</td>
@@ -134,15 +134,15 @@
          <td>EBM</td>
         <td> CCTV Linkup Fee</td>
         <td>0</td>
-        <td>R</td>
-        <td>R</td>
+        <td><input type="text" id="cctvOffEventMonitorEquip" name="cctvOffEventMonitorEquip" readonly /></td>
+        <td>0.00</td>
       </tr>
       <tr>
          <td>NOC</td>
          <td> NOC Linkup Fee</td>
-        <td>0</td>
-        <td>R</td>
-        <td>R</td>
+        <td>1</td>
+        <td>R 900.00</td>
+        <td>R 900.00</td>
       </tr>
     </tbody>
   </table>
