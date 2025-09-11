@@ -802,6 +802,21 @@ app.post('/sales/updateSales', (req, res) => {
     }
   );
 });
+app.get("/nocRates/:reference", (req, res) => {
+  const reference = req.params.reference;
+  res.render("nocRates", {
+    reference,
+    calculations,
+    alarmMonitoring,
+    armedResponse,
+    smsActionable,
+    smsChange,
+    communicationFee,
+    ajaxDataFee,
+
+  });
+});
+
 // Logout
 app.get('/logout', (req, res) => {
   req.session.destroy();
