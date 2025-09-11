@@ -819,7 +819,7 @@ app.get("/nocRates/:reference", (req, res) => {
     scarfaceMobile
   });
 });
-Logout
+//Logout
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/login');
