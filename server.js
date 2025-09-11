@@ -813,11 +813,13 @@ app.get("/nocRates/:reference", (req, res) => {
     smsChange,
     communicationFee,
     ajaxDataFee,
-
+    videoFiedFee,
+    cameras,
+    noScarfaceCamera,
+    scarfaceMobile
   });
 });
-
-// Logout
+Logout
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/login');

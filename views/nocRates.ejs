@@ -19,7 +19,7 @@
 </head>
 <body>
   <div class="container mt-5">
-    <h2 class="mb-4">NOC Equipment Rate Calculations for Reference: <%= reference %></h2>
+    <h2 class="mb-4">NOC Equipment Rate : <%= reference %></h2>
 
     <table class="table table-bordered table-dark">
       <thead>
@@ -38,18 +38,7 @@
         </tr>
       </thead>
       <tbody>
-        <% let index = 1; %>
-       <% for (const item in calculations) { %>
-  <% if (item !== 'totMonthlyRate') { %>
-    <tr>
-      <td><%= index++ %></td>
-      <td><%= calculations[item].label %></td> 
-      <td><%= calculations[item].quantity %></td>
-      <td>R <%= calculations[item].labourUnitRate.toFixed(2) %></td>
-      <td>R <%= calculations[item].equipmentUnitRate.toFixed(2) %></td>
-    </tr>
-  <% } %>
-<% } %>
+   
 
 <tr>
   <td>MON</td>
@@ -68,15 +57,57 @@
 <tr>
   <td>MON</td>
   <td>SMS - Actionable signals sms to 2 numbers</td>
-  <td></td>
+  <td><%= calculations.smsActionable.quantity %></td>
   <td>R 50.00</td>
   <td>R</td>
 </tr>
 <tr>
   <td>MON</td>
   <td>SIM Charge</td>
-  <td></td>
+  <td><%= calculations.smsChange.quantity %></td>
   <td>R 65.00</td>
+  <td>R</td>
+</tr>
+<tr>
+  <td>MON</td>
+  <td>Communication Fee</td>
+  <td><%= calculations.communicationFee.quantity %></td>
+  <td>R 25.00</td>
+  <td>R</td>
+</tr>
+<tr>
+  <td>MON</td>
+  <td>AJAX Data Fee</td>
+  <td><%= calculations.ajaxDataFee.quantity %></td>
+  <td>R 90.00</td>
+  <td>R</td>
+</tr>
+<tr>
+  <td>MON</td>
+  <td>VideoFied Data Fee</td>
+  <td><%= calculations.videoFiedFee.quantity %></td>
+  <td>R 50.00</td>
+  <td>R</td>
+</tr>
+<tr>
+  <td>EBM</td>
+  <td>CCTV Offsite Event Based Monitoring</td>
+  <td><%= calculations.cameras.quantity %></td>
+  <td>R 0.00</td>
+  <td>R</td>
+</tr>
+<tr>
+  <td>SF</td>
+  <td>Scarface - Facial Recognition - Live Sytem</td>
+  <td><%= calculations.noScarfaceCamera.quantity %></td>
+  <td>R 0.00</td>
+  <td>R</td>
+</tr>
+<tr>
+  <td>SFApp</td>
+  <td>Scarface - Facial Recognition - Mobile App</td>
+  <td><%= calculations.scarfaceMobile.quantity %></td>
+  <td>R 4999.00</td>
   <td>R</td>
 </tr>
       </tbody>

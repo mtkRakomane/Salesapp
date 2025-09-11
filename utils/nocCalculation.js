@@ -8,7 +8,9 @@ const labourUnitRates = {
   videoFiedFee: 50.00,
   scarfaceMobile: 4999.00,
   cctvLinkFee: 0.00,
-  nocLinkFee: 0.00
+  nocLinkFee: 0.00,
+  cameras: 0.00,
+  noScarfaceCamera: 0.00
 };
 const displayNames = {
   alarmMonitoring: 'Alarm Monitoring - Per Partition',
@@ -23,6 +25,7 @@ const displayNames = {
   nocLinkFee: 'NOC Link Fee',
   cameras: 'CCTV Offsite',
   noScarfacefaceCamera: 'Scarface Live System'
+
 };
 function calculateEquipmentRates(nocData) {
   const results = {};
