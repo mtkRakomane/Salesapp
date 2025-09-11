@@ -1,5 +1,5 @@
 const labourUnitRates = {
-  alarmMonitoring: 3000.00,
+  alarmMonitoring: 300.00,
   armedResponse: 450.00,
   smsActionable: 50.00,
   smsChange: 65.00,
