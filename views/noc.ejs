@@ -1,153 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOC</title>
-        <link rel="stylesheet" href="/styles.css">
-       <link rel="shortcut icon" href="assets/Bidvest-Protea-Coin-Logo.png" type="image/x-icon" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOC</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="shortcut icon" href="assets/Bidvest-Protea-Coin-Logo.png" type="image/x-icon" />
 </head>
 <body>
 <form method="POST" action="/noc">
   <h2 class="mb-3" style="color: aliceblue;">NOC</h2>
-
+  <input type="hidden" name="reference" value="<%= reference %>">
   <table class="table table-bordered w-100">
     <thead>
-        <th colspan="3" style="text-align: center;">NOC Rates</th>
-        <th colspan="4" style="text-align: center;">Selling Rates</th>
+      <th colspan="3" style="text-align: center;">NOC Rates</th>
+      <th colspan="4" style="text-align: center;">Selling Rates</th>
     </thead>
     <thead>
-        <th>item</th>
-        <th>DESCRIPTION</th>
-        <th>QTY</th>
-        <th>Labour Unit Rate</th>
-        <th>Equipment Unit Rate</th>
+      <th>Item</th>
+      <th>Description</th>
+      <th>QTY</th>
+      <th>Labour Unit Rate</th>
+      <th>Equipment Unit Rate</th>
     </thead>
     <tbody>
-     <tr>
-      <input type="hidden" name="reference" value="<%= reference %>">
-    <td>MON</td>
-    <td>Alarm monitoring - per partition:</td>
-    <td><input type="number" name="alarmMonitoring" placeholder="Alarm Monitoring Qty" /></td>
-    <td class="labourUniteRate" data-index="0">300.00</td>
-    <td class="equipmentUnitRate" data-index="0">R 0.00</td>
-  </tr>
-   <tr>
-    <td>MON</td>
-    <td>Armed Response:</td>
-    <td><input type="number" name="armedResponse" placeholder="Armed Response Qty" /></td>
-    <td class="labourUniteRate" data-index="0">450.00</td>
-    <td class="equipmentUnitRate" data-index="0">R 0.00</td>
-  </tr>
       <tr>
-         <td>MON</td>
+        <td>MON</td>
+        <td>Alarm monitoring - per partition:</td>
+        <td><input type="number" name="alarmMonitoring" /></td>
+        <td>300.00</td>
+        <td>0.00</td>
+      </tr>
+      <tr>
+        <td>MON</td>
+        <td>Armed Response:</td>
+        <td><input type="number" name="armedResponse" /></td>
+        <td>450.00</td>
+        <td>0.00</td>
+      </tr>
+      <tr>
+        <td>MON</td>
         <td>SMS - Actionable signals sms to 2 numbers:</td>
-        <td><input type="number" name="smsActionable" placeholder="SMS - Actionable signals sms to 2 numbers"  /></td>
-        <td class="labourUniteRate" data-index="0">R 50.00</td>
-         <td class="equipmentUnitRate" data-index="0">R 0.00</td>
+        <td><input type="number" name="smsActionable" /></td>
+        <td>50.00</td>
+        <td>0.00</td>
       </tr>
       <tr>
-         <td>MON</td>
-         <td>SMS Change</td>
-        <td><input type="number" name="smsChange" placeholder="SMS Change"  /></td>
-        <td class="labourUniteRate" data-index="0">R 65.00</td>
-       <td class="equipmentUnitRate" data-index="0">R 0.00</td>
+        <td>MON</td>
+        <td>SMS Change</td>
+        <td><input type="number" name="smsChange" /></td>
+        <td>65.00</td>
+        <td>0.00</td>
       </tr>
       <tr>
-         <td>MON</td>
+        <td>MON</td>
         <td>Communication Fee</td>
-        <td><input type="number" name="communicationFee" placeholder="Communication Fee"  /></td>
-        <td class="labourUniteRate" data-index="0">R 25.00</td>
-        <td class="equipmentUnitRate" data-index="0">R 0.00</td>
+        <td><input type="number" name="communicationFee" /></td>
+        <td>25.00</td>
+        <td>0.00</td>
       </tr>
       <tr>
-         <td>MON</td>
+        <td>MON</td>
         <td>AJAX Data Fee</td>
-        <td><input type="number" name="ajaxDataFee" placeholder="AJAX Data Fee"  /></td>
-        <td class="labourUniteRate" data-index="0" >R 90.00</td>
-        <td class="equipmentUnitRate" data-index="0">R 0.00</td>
+        <td><input type="number" name="ajaxDataFee" /></td>
+        <td>90.00</td>
+        <td>0.00</td>
       </tr>
       <tr>
-         <td>MON</td>
+        <td>MON</td>
         <td>VideoFied Data Fee:</td>
-         <td><input type="number" name="videoFiedFee" placeholder="VideoFied Data Fee" /></td>
-        <td class="labourUniteRate" data-index="0">R 50.00</td>
-         <td class="equipmentUnitRate" data-index="0">R 0.00</td>
+        <td><input type="number" name="videoFiedFee" /></td>
+        <td>50.00</td>
+        <td>0.00</td>
       </tr>
-<tr>
-  <td>EBM</td>
-  <td>
-    <label for="cameras">CCTV Offsite Event Based Monitoring</label>
-  </td>
-  <td>
-    <select id="cameras" name="cameras" required>
-      <option value="" disabled selected>Select a Camera rate</option>
-      <% ebmCameras.forEach(type => { %>
-        <option 
-          value="<%= type.cameras %>" 
-          data-labour = "<%= type.cctvOffEventMonitorLabour %>" 
-          data-equip = "<%= type.cctvOffEventMonitorEquip %>">
-          <%= type.cameras %>
-        </option>
-      <% }); %>
-    </select>
-  </td>
-  <td><input type="text" id="cctvOffEventMonitorLabour" name="cctvOffEventMonitorLabour" readonly /></td>
-  <td>0.00</td>
-</tr>
-<tr>
-  <td>SF</td>
-  <td>
-    <label for="noScarfaceCamera">Scarface - Facial Recognition - Live System</label>
-  </td>
-  <td>
-    <select id="noScarfaceCamera" name="noScarfaceCamera" required>
-      <option value="" disabled selected>Select a Scarface Camera</option>
-      <% scarfaceCameras.forEach(type => { %>
-        <option 
-  value="<%= type.noScarfaceCamera %>"
-  data-labour = "<%= type.scarfaceLiveSystemLabour %>"
-  data-equip = "<%= type.scarfaceLiveSystemEquip %>">
-  <%= type.noScarfaceCamera %>
-</option>
-      <% }); %>
-    </select>
-  </td>
-  <td><input type="text" id="scarfaceLiveSystemLabour" name="scarfaceLiveSystemLabour" readonly /></td>
-  <td>0.00</td>
-</tr>
       <tr>
-         <td>SF App</td>
+        <td>EBM</td>
+        <td>
+          <label for="cameras">CCTV Offsite Event Based Monitoring</label>
+        </td>
+        <td>
+          <select id="cameras" name="cameras" required>
+            <option value="" disabled selected>Select a Camera rate</option>
+            <% ebmCameras.forEach(type => { %>
+              <option 
+                value="<%= type.cameras %>" 
+                data-labour="<%= type.cctvOffEventMonitorLabour %>" 
+                data-equip="<%= type.cctvOffEventMonitorEquip %>">
+                <%= type.cameras %>
+              </option>
+            <% }); %>
+          </select>
+        </td>
+        <td><input type="text" id="cctvOffEventMonitorLabourDisplay" readonly /></td>
+        <td><input /></td>
+      </tr>
+      <input type="hidden" id="cctvOffEventMonitorLabour" name="cctvOffEventMonitorLabour" />
+      <input type="hidden" id="cctvOffEventMonitorEquip" name="cctvOffEventMonitorEquip" />
+      <tr>
+        <td>SF</td>
+        <td>
+          <label for="noScarfaceCamera">Scarface - Facial Recognition - Live System</label>
+        </td>
+        <td>
+          <select id="noScarfaceCamera" name="noScarfaceCamera" required>
+            <option value="" disabled selected>Select a Scarface Camera</option>
+            <% scarfaceCameras.forEach(type => { %>
+              <option 
+                value="<%= type.noScarfaceCamera %>" 
+                data-labour="<%= type.scarfaceLiveSystemLabour %>" 
+                data-equip="<%= type.scarfaceLiveSystemEquip %>">
+                <%= type.noScarfaceCamera %>
+              </option>
+            <% }); %>
+          </select>
+        </td>
+        <td><input type="text" id="scarfaceLiveSystemLabourDisplay" readonly /></td>
+        <td><input type="text" id="scarfaceLiveSystemEquipDisplay" readonly /></td>
+      </tr>
+      <input type="hidden" id="scarfaceLiveSystemLabour" name="scarfaceLiveSystemLabour" />
+      <input type="hidden" id="scarfaceLiveSystemEquip" name="scarfaceLiveSystemEquip" />
+
+      <tr>
+        <td>SF App</td>
         <td>Scarface - Facial Recognition - Mobile App:</td>
-        <td><input type="number" name="scarfaceMobile" placeholder="Scarface - Facial Recognition - Mobile App:" /></td>
-        <td class="labourUniteRate" data-index="0">R 4999.00</td>
-         <td class="equipmentUnitRate" data-index="0">R 0.00</td>
+        <td><input type="number" name="scarfaceMobile" /></td>
+        <td>4999.00</td>
+        <td>0.00</td>
       </tr>
     </tbody>
   </table>
   <table>
     <thead>
-      <th colspan="5" style="text-align: center;"> Link Up Fees</th>
+      <th colspan="5" style="text-align: center;">Link Up Fees</th>
     </thead>
     <tbody>
       <tr>
-         <td>EBM</td>
-        <td> CCTV Linkup Fee</td>
+        <td>EBM</td>
+        <td>CCTV Linkup Fee</td>
         <td>1</td>
-        <td><input type="text" id="cctvOffEventMonitorEquip" name="cctvOffEventMonitorEquip" readonly /></td>
+        <td><input type="text" id="cctvOffEventMonitorEquipDisplay" name="cctvOffEventMonitorEquipDisplay" readonly /></td>
         <td>0.00</td>
       </tr>
       <tr>
-         <td>NOC</td>
-         <td> NOC Linkup Fee</td>
+        <td>NOC</td>
+        <td>NOC Linkup Fee</td>
         <td>1</td>
-        <td>R 900.00</td>
-        <td>R 900.00</td>
+        <td>900.00</td>
+        <td>900.00</td>
       </tr>
     </tbody>
   </table>
-  <button type="submit">Submit Noc</button>
-    <a href="/noc/calculate?reference=<%= reference %>" class="btn btn-success ms-2">View NOC Rates</a>
+  <button type="submit" class="btn btn-primary">Submit NOC</button>
+  <a href="/noc/calculate?reference=<%= reference %>" class="btn btn-success ms-2">View NOC Rates</a>
 </form>
 <script src="/utils/nocCalculation.js"></script>
 <script src="/js/form.js"></script>

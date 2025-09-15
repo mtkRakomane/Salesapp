@@ -11,39 +11,48 @@ if (salePersonSelect) {
   });
 }
 const ebmCameraSelect = document.getElementById('cameras');
-const ratePerCameraInput = document.getElementById('cctvOffEventMonitorLabour');
-const linkFeeInput = document.getElementById('cctvOffEventMonitorEquip');
-
+const ebmLabourDisplay = document.getElementById('cctvOffEventMonitorLabourDisplay');
+const ebmEquipDisplay = document.getElementById('cctvOffEventMonitorEquipDisplay');
+const ebmLabourHidden = document.getElementById('cctvOffEventMonitorLabour');
+const ebmEquipHidden = document.getElementById('cctvOffEventMonitorEquip');
 if (ebmCameraSelect) {
   ebmCameraSelect.addEventListener('change', function () {
     const selectedOption = ebmCameraSelect.options[ebmCameraSelect.selectedIndex];
     if (!selectedOption.value) {
-      ratePerCameraInput.value = '';
-      linkFeeInput.value = '';
+      ebmLabourDisplay.value = '';
+      ebmEquipDisplay.value = '';
+      ebmLabourHidden.value = '';
+      ebmEquipHidden.value = '';
       return;
     }
     const rate = parseFloat(selectedOption.dataset.labour) || 0;
-    const linkFee = parseFloat(selectedOption.dataset.equip) || 0;
-    ratePerCameraInput.value = `R ${rate.toFixed(2)}`;
-    linkFeeInput.value = `R ${linkFee.toFixed(2)}`;
+    const equip = parseFloat(selectedOption.dataset.equip) || 0;
+    ebmLabourDisplay.value = `R ${rate.toFixed(2)}`;
+    ebmEquipDisplay.value = `R ${equip.toFixed(2)}`;
+    ebmLabourHidden.value = rate;
+    ebmEquipHidden.value = equip;
   });
 }
-const scarfaceRateSelect = document.getElementById('noScarfaceCamera');
-const monthlyRateInput = document.getElementById('scarfaceLiveSystemLabour');
-const monthlyEquipInput = document.getElementById('scarfaceLiveSystemEquip');
-if (scarfaceRateSelect) {
-  scarfaceRateSelect.addEventListener('change', function () {
-    const selectedOption = scarfaceRateSelect.options[scarfaceRateSelect.selectedIndex];
+const scarfaceSelect = document.getElementById('noScarfaceCamera');
+const scarfaceLabourDisplay = document.getElementById('scarfaceLiveSystemLabourDisplay');
+const scarfaceEquipDisplay = document.getElementById('scarfaceLiveSystemEquipDisplay');
+const scarfaceLabourHidden = document.getElementById('scarfaceLiveSystemLabour');
+const scarfaceEquipHidden = document.getElementById('scarfaceLiveSystemEquip');
+if (scarfaceSelect) {
+  scarfaceSelect.addEventListener('change', function () {
+    const selectedOption = scarfaceSelect.options[scarfaceSelect.selectedIndex];
     if (!selectedOption.value) {
-      monthlyRateInput.value = '';
-      monthlyEquipInput.value = '';
+      scarfaceLabourDisplay.value = '';
+      scarfaceEquipDisplay.value = '';
+      scarfaceLabourHidden.value = '';
+      scarfaceEquipHidden.value = '';
       return;
     }
-    const monthRate = parseFloat(selectedOption.dataset.labour) || 0;
-    const monthEquip = parseFloat(selectedOption.dataset.equip) || 0;
-    monthlyRateInput.value = `R ${monthRate.toFixed(2)}`;
-    monthlyEquipInput.value = `R ${monthEquip.toFixed(2)}`;
+    const rate = parseFloat(selectedOption.dataset.labour) || 0;
+    const equip = parseFloat(selectedOption.dataset.equip) || 0;
+    scarfaceLabourDisplay.value = `R ${rate.toFixed(2)}`;
+    scarfaceEquipDisplay.value = `R ${equip.toFixed(2)}`;
+    scarfaceLabourHidden.value = rate;
+    scarfaceEquipHidden.value = equip;
   });
 }
-
-
