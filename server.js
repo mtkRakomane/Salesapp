@@ -559,7 +559,7 @@ app.get('/print', async (req, res) => {
          c.jobDescription AS job_description,
          c.reference,
          n.alarmMonitoring, n.armedResponse, n.smsChange, n.smsActionable, n.communicationFee,
-         n.ajaxDataFee, n.videoFiedFee, n.scarfaceMobile, n.reference 
+         n.ajaxDataFee, n.videoFiedFee, n.scarfaceMobile, n.reference, n.cameras, n.noScarfaceCamera, n.cctvOffEventMonitorEquip
        FROM items i
        JOIN customer c ON i.reference = c.reference
        JOIN noc n on i.reference = n.reference
@@ -584,6 +584,9 @@ app.get('/print', async (req, res) => {
     groupedItems.videoFiedFee = itemsResult[0]?.videoFiedFee || '';
     groupedItems.scarfaceLivrSystem = itemsResult[0]?.scarfaceLivrSystem || '';
     groupedItems.scarfaceMobile = itemsResult[0]?.scarfaceMobile || '';
+    groupedItems.cameras = itemsResult[0]?.cameras || '';
+    groupedItems.noScarfaceCamera = itemsResult[0].noScarfaceCamera || '';
+    groupedItems.cctvOffEventMonitorEquip = itemsResult[0].cctvOffEventMonitorEquip || '';
     res.render('print', { groupedItems });
   } catch (error) {
     console.error('Error fetching print data:', error);
