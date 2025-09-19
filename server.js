@@ -802,17 +802,7 @@ app.post('/sales/updateSales', (req, res) => {
     }
   );
 });
-app.get("/nocRates/:reference", (req, res) => {
-  const reference = req.params.reference;
-  const sql = "SELECT * FROM noc WHERE reference = ?";
-  db.query(sql, [reference], (err, results) => {
-    if (err) return res.status(500).send("Database error");
-    if (results.length === 0) return res.status(404).send("No NOC rates found");
 
-    const nocRates = results[0]; 
-    res.render("nocRates", { nocRates, reference });
-  });
-});
 
 //Logout
 app.get('/logout', (req, res) => {
